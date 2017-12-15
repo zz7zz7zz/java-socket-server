@@ -31,9 +31,8 @@ public class SocketAcceptProcessor implements Runnable
     }
 
     public void run() {
-
+        ServerSocket mServerSocket = null;
         try {
-            ServerSocket mServerSocket;
             if(mServerInfo.port > 0 ){
                 if(mServerInfo.connect_backlog > 0 ){
                     if(!TextUtils.isEmpty(mServerInfo.host)){
@@ -48,14 +47,18 @@ public class SocketAcceptProcessor implements Runnable
                 mServerSocket = new ServerSocket();
             }
 
-            System.out.println("-------BioServerSocketRunnable-----A----"+ mServerSocket.getInetAddress() + " port " + mServerSocket.getLocalPort());
-
             while (true){
                 Socket mSocketClient = mServerSocket.accept();
                 if(null != mSocketClient){
+                	
+                    String mHost = mSocketClient.getInetAddress().getHostAddress();
+                    int    mPort = mSocketClient.getPort();
+                    
+                    System.out.println("-------SocketReadProcessor-----A----"+ mHost + " port " + mPort);
+                    
                     BioClient mClient = (BioClient) ClientsPool.get();
                     if(null != mClient){
-                        mClient.init(mSocketClient,mMessageProcessor);
+                        mClient.init(mHost,mPort,mSocketClient,mMessageProcessor);
                     }else{
                         System.out.println("-------BioServerSocketRunnable-----B----");
                     }
@@ -63,6 +66,14 @@ public class SocketAcceptProcessor implements Runnable
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }finally{
+        	if(null != mServerSocket){
+        		try {
+					mServerSocket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+        	}
         }
 
         System.out.println("-------BioServerSocketRunnable-----C----");

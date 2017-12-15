@@ -26,8 +26,8 @@ public final class NioClient extends BaseClient {
     }
     //--------------------------------------------------------------------------------------
 
-    public void init(SocketChannel socketChannel,BaseMessageProcessor mMessageProcessor){
-        super.init("",-1,mMessageProcessor);
+    public void init(String mHost, int mPort ,SocketChannel socketChannel,BaseMessageProcessor mMessageProcessor){
+        super.init(mHost,mPort,mMessageProcessor);
         this.mSocketChannel = socketChannel;
 
         this.mHost = socketChannel.socket().getInetAddress().getHostAddress();

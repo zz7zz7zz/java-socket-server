@@ -62,14 +62,19 @@ public final class SocketAcceptProcessor implements Runnable
                 }
             }
 
-            System.out.println("-------SocketAcceptProcessor-----A----"+ mServerSocket.getLocalAddress());
-
             while (true){
                 SocketChannel mSocketClient = mServerSocket.accept();
                 if(null != mSocketClient){
+                	
+                    String [] clientInfo = mSocketClient.getRemoteAddress().toString().replace("/", "").split(":");
+                    String mHost = clientInfo[0];
+                    int mPort = Integer.valueOf(clientInfo[1]);
+      
+                    System.out.println("-------SocketAcceptProcessor-----A----"+ mHost + " port " + mPort);
+                    
                     NioClient mClient = (NioClient) ClientsPool.get();
                     if(null != mClient){
-                        mClient.init(mSocketClient,mMessageProcessor);
+                        mClient.init(mHost,mPort,mSocketClient,mMessageProcessor);
                         mClientQueen.add(mClient);
                     }else{
                         System.out.println("-------SocketAcceptProcessor-----B----");

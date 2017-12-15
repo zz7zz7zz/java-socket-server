@@ -31,8 +31,8 @@ public final class BioClient extends BaseClient {
 
     //--------------------------------------------------------------------------------------
 
-    public void init(Socket socket,BaseMessageProcessor messageProcessor) throws IOException {
-        super.init("",-1,messageProcessor);
+    public void init(String mHost, int mPort ,Socket socket,BaseMessageProcessor messageProcessor) throws IOException {
+        super.init(mHost,mPort,messageProcessor);
 
         mSocket    = socket;
         mOutputStream = socket.getOutputStream();
