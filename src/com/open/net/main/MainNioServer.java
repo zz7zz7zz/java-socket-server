@@ -6,6 +6,8 @@ import com.open.net.server.impl.tcp.nio.NioServer;
 import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
+import com.open.net.server.structures.ServerLog;
+import com.open.net.server.structures.ServerLog.LogListener;
 import com.open.net.server.structures.message.Message;
 import com.open.util.log.Logger;
 
@@ -26,8 +28,11 @@ public final class MainNioServer {
         ServerConfig.initCmdConfig(mServerInfo,args);
         ServerConfig.initFileConfig(mServerInfo,"./conf/server.config");
         
+        ServerLog.getIns().setLogListener(mLogListener);
+        
         Logger.init("./conf/log.config");
         Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
+        
 
         GServer.init(mServerInfo, NioClient.class);
 
@@ -65,6 +70,13 @@ public final class MainNioServer {
             broadcast(mWriteBuffer.array(),0,response.length);
             mWriteBuffer.clear();
         }
-
     }
+    
+    public static LogListener mLogListener = new LogListener(){
+
+		@Override
+		public void onLog(String tag, String msg) {
+			Logger.v(LogAutor.ADMIN, tag, msg);
+		}
+    };
 }

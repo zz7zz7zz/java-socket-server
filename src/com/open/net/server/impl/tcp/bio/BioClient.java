@@ -2,6 +2,7 @@ package com.open.net.server.impl.tcp.bio;
 
 import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 
 import java.io.IOException;
@@ -17,6 +18,8 @@ import java.net.SocketException;
  */
 
 public final class BioClient extends BaseClient {
+	
+	public static String TAG = "BioClient";
 
     private Socket          mSocket =null;
     private OutputStream    mOutputStream =null;
@@ -245,8 +248,8 @@ public final class BioClient extends BaseClient {
         public void run() {
 
             onRead();
-
-            System.out.println("client onClose when onRead : " + BioClient.this.mClientId);
+            
+            ServerLog.getIns().log(TAG, "close client "+ BioClient.this.mClientId +" when read ");
 
             Long mMessageId = BioClient.this.pollWriteMessageId();
             while (null != mMessageId) {

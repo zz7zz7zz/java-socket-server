@@ -29,7 +29,7 @@ public class SocketRwProcessor implements Runnable{
 
     private DatagramChannel mDatagramChannel;
     private Selector mSelector = null;
-    private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(256*1024);
+    private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(65507);
 
 
     public SocketRwProcessor(ServerConfig mServerInfo, BaseMessageProcessor mMessageProcessor) {

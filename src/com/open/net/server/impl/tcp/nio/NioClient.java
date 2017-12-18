@@ -18,8 +18,8 @@ public final class NioClient extends BaseClient {
 
     public SocketChannel mSocketChannel = null;
 
-    private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(256*1024);
-    private ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(256*1024);
+    private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(16*1024);
+    private ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(16*1024);
 
     public NioClient() {
         reset();

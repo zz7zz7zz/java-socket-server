@@ -5,6 +5,7 @@ import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.pools.ClientsPool;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.utils.TextUtils;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ import java.net.Socket;
 
 public class SocketAcceptProcessor implements Runnable
 {
+	public static String TAG = "SocketAcceptProcessor";
+	
     public ServerConfig mServerInfo;
     public ServerLock mServerLock;
     public BaseMessageProcessor mMessageProcessor;
@@ -50,17 +53,16 @@ public class SocketAcceptProcessor implements Runnable
             while (true){
                 Socket mSocketClient = mServerSocket.accept();
                 if(null != mSocketClient){
-                	
                     String mHost = mSocketClient.getInetAddress().getHostAddress();
                     int    mPort = mSocketClient.getPort();
-                    
-                    System.out.println("-------SocketReadProcessor-----A----"+ mHost + " port " + mPort);
                     
                     BioClient mClient = (BioClient) ClientsPool.get();
                     if(null != mClient){
                         mClient.init(mHost,mPort,mSocketClient,mMessageProcessor);
+                        
+                        ServerLog.getIns().log(TAG, "accept client "+ mClient.mClientId +" Host "+ mHost + " port " + mPort );
                     }else{
-                        System.out.println("-------BioServerSocketRunnable-----B----");
+                        ServerLog.getIns().log(TAG, "accept client null Host "+ mHost + " port " + mPort );
                     }
                 }
             }
@@ -76,8 +78,8 @@ public class SocketAcceptProcessor implements Runnable
         	}
         }
 
-        System.out.println("-------BioServerSocketRunnable-----C----");
-
+        ServerLog.getIns().log(TAG, "server exit");
+        
         mServerLock.notifytEnding();
 
     }

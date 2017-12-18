@@ -17,7 +17,7 @@ import java.nio.channels.DatagramChannel;
 public class UdpNioClient extends BaseClient {
 
     private DatagramChannel mSocketChannel;
-    private ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(256*1024);
+    private ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(65507);
 
     public void init(String mHost, int mPort , BaseMessageProcessor messageProcessor, DatagramChannel socketChannel){
         super.init(mHost,mPort,messageProcessor);
