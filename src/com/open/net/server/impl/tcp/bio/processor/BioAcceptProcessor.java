@@ -59,10 +59,8 @@ public class BioAcceptProcessor implements Runnable
                     BioClient mClient = (BioClient) ClientsPool.get();
                     if(null != mClient){
                         mClient.init(mHost,mPort,mSocketClient,mMessageProcessor);
-                        
-                        ServerLog.getIns().log(TAG, "accept client "+ mClient.mClientId +" Host "+ mHost + " port " + mPort );
                     }else{
-                        ServerLog.getIns().log(TAG, "accept client null Host "+ mHost + " port " + mPort );
+                        ServerLog.getIns().log(TAG, "accept client success but ClientsPool.get() null Host "+ mHost + " port " + mPort );
                     }
                 }
             }

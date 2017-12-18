@@ -55,9 +55,8 @@ public class UdpBioReadProcessor implements Runnable
                     mClient = (UdpBioClient) ClientsPool.get();
                     if(null != mClient){
                         mClient.init(mHost,mPort,mMessageProcessor,mSocket,mWriteDatagramPacket,mReadDatagramPacket);
-                        ServerLog.getIns().log(TAG, "accept client "+ mClient.mClientId +" Host "+ mHost + " port " + mPort );
                     }else{
-                    		ServerLog.getIns().log(TAG, "accept client null Host "+ mHost + " port " + mPort );
+                    		ServerLog.getIns().log(TAG, "accept client success but ClientsPool.get() null Host "+ mHost + " port " + mPort );
                     }
                 }else{
                     mClient = (UdpBioClient)client;

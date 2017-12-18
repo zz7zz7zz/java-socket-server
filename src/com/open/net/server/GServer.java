@@ -2,6 +2,7 @@ package com.open.net.server;
 
 import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.ServerConfig;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.MessageBuffer;
 import com.open.net.server.structures.pools.ClientsPool;
 import com.open.net.server.structures.pools.MessagePool;
@@ -16,7 +17,7 @@ import java.util.HashMap;
  */
 
 public final class GServer {
-    
+	public static String TAG = "GServer";
     //服务器信息
     public static ServerConfig mServerInfo;
 
@@ -43,11 +44,15 @@ public final class GServer {
         if(null != mClient){
             mClientsMap.put(mClient.mClientId,mClient);
             mIpPortClientsMap.put(KeyUtil.getKey(mClient.mHost,mClient.mPort),mClient.mClientId);
+            
+            ServerLog.getIns().log(TAG, "accept enter "+ mClient.mClientId +" Host "+ mClient.mHost + " port " + mClient.mPort );
         }
     }
 
     public static final void unregister(BaseClient mClient){
         if(null != mClient){
+            ServerLog.getIns().log(TAG, "accept exit  "+ mClient.mClientId +" Host "+ mClient.mHost + " port " + mClient.mPort );
+            
             mClientsMap.remove(mClient.mClientId);
             mIpPortClientsMap.remove(KeyUtil.getKey(mClient.mHost,mClient.mPort));
             ClientsPool.put(mClient);
