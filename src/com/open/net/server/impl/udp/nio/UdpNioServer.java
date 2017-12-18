@@ -1,6 +1,6 @@
 package com.open.net.server.impl.udp.nio;
 
-import com.open.net.server.impl.udp.nio.processor.SocketRwProcessor;
+import com.open.net.server.impl.udp.nio.processor.UdpNioReadWriteProcessor;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
@@ -16,11 +16,11 @@ import java.io.IOException;
 public class UdpNioServer {
 
     private ServerLock mServerLock;
-    private SocketRwProcessor mSocketWRProcessor;
+    private UdpNioReadWriteProcessor mSocketWRProcessor;
 
     public UdpNioServer(ServerConfig mServerInfo , BaseMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
-        this.mSocketWRProcessor     = new SocketRwProcessor(mServerInfo,mMessageProcessor);
+        this.mSocketWRProcessor     = new UdpNioReadWriteProcessor(mServerInfo,mMessageProcessor);
     }
 
     public void start(){

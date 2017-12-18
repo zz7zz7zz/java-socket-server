@@ -3,8 +3,8 @@ package com.open.net.server.impl.tcp.nio;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
-import com.open.net.server.impl.tcp.nio.processor.SocketAcceptProcessor;
-import com.open.net.server.impl.tcp.nio.processor.SocketRwProcessor;
+import com.open.net.server.impl.tcp.nio.processor.NioAcceptProcessor;
+import com.open.net.server.impl.tcp.nio.processor.NioReadWriteProcessor;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -18,14 +18,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public final class NioServer {
 
     private ServerLock mServerLock;
-    private SocketAcceptProcessor               mSocketAcceptProcessor;
-    private SocketRwProcessor mSocketWRProcessor;
+    private NioAcceptProcessor               mSocketAcceptProcessor;
+    private NioReadWriteProcessor mSocketWRProcessor;
     private ConcurrentLinkedQueue<NioClient>    mClientQueen  = new ConcurrentLinkedQueue<>();
 
     public NioServer(ServerConfig mServerInfo, BaseMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
-        this.mSocketAcceptProcessor = new SocketAcceptProcessor(mServerInfo,mServerLock,mClientQueen,mMessageProcessor);
-        this.mSocketWRProcessor     = new SocketRwProcessor(mClientQueen,mMessageProcessor);
+        this.mSocketAcceptProcessor = new NioAcceptProcessor(mServerInfo,mServerLock,mClientQueen,mMessageProcessor);
+        this.mSocketWRProcessor     = new NioReadWriteProcessor(mClientQueen,mMessageProcessor);
     }
 
     public void start(){

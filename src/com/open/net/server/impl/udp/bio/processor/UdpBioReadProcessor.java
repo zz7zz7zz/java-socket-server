@@ -19,9 +19,9 @@ import java.net.DatagramSocket;
  * description  :  客户连接处理类
  */
 
-public class SocketReadProcessor implements Runnable
+public class UdpBioReadProcessor implements Runnable
 {
-	public static String TAG = "SocketAcceptProcessor";
+	public static String TAG = "UdpBioReadProcessor";
 	
     public ServerConfig mServerInfo;
     public ServerLock mServerLock;
@@ -30,7 +30,7 @@ public class SocketReadProcessor implements Runnable
     public byte[] mWriteBuff  = new byte[65507];
     public byte[] mReadBuff  = new byte[65507];
 
-    public SocketReadProcessor(ServerConfig mServerInfo, ServerLock mLock, BaseMessageProcessor mMessageProcessor) {
+    public UdpBioReadProcessor(ServerConfig mServerInfo, ServerLock mLock, BaseMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mServerLock = mLock;
         this.mMessageProcessor = mMessageProcessor;

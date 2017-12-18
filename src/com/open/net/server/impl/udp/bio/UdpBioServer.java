@@ -1,7 +1,7 @@
 package com.open.net.server.impl.udp.bio;
 
-import com.open.net.server.impl.udp.bio.processor.SocketReadProcessor;
-import com.open.net.server.impl.udp.bio.processor.SocketWriteProcessor;
+import com.open.net.server.impl.udp.bio.processor.UdpBioReadProcessor;
+import com.open.net.server.impl.udp.bio.processor.UdpBioWriteProcessor;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
@@ -17,13 +17,13 @@ import java.io.IOException;
 public class UdpBioServer {
 
     private ServerLock mServerLock;
-    private SocketReadProcessor mSocketReadProcessor;
-    private SocketWriteProcessor mSocketWRProcessor;
+    private UdpBioReadProcessor mSocketReadProcessor;
+    private UdpBioWriteProcessor mSocketWRProcessor;
 
     public UdpBioServer(ServerConfig mServerInfo ,BaseMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
-        this.mSocketReadProcessor   = new SocketReadProcessor(mServerInfo,mServerLock,mMessageProcessor);
-        this.mSocketWRProcessor     = new SocketWriteProcessor(mMessageProcessor);
+        this.mSocketReadProcessor   = new UdpBioReadProcessor(mServerInfo,mServerLock,mMessageProcessor);
+        this.mSocketWRProcessor     = new UdpBioWriteProcessor(mMessageProcessor);
     }
 
     public void start(){

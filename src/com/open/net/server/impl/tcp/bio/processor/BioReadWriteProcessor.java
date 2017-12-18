@@ -1,4 +1,4 @@
-package com.open.net.server.impl.udp.bio.processor;
+package com.open.net.server.impl.tcp.bio.processor;
 
 import com.open.net.server.GServer;
 import com.open.net.server.structures.BaseClient;
@@ -13,17 +13,17 @@ import java.util.Map;
 
 /**
  * author       :   long
- * created on   :   2017/12/6
+ * created on   :   2017/11/30
  * description  :   数据读写处理类
  */
 
-public class SocketWriteProcessor implements Runnable{
+public class BioReadWriteProcessor implements Runnable{
 
-	public static String TAG = "SocketRwProcessor";
+	public static String TAG = "BioReadWriteProcessor";
 	
-    public BaseMessageProcessor mMessageProcessor;
+    private BaseMessageProcessor mMessageProcessor;
 
-    public SocketWriteProcessor(BaseMessageProcessor mMessageProcessor) {
+    public BioReadWriteProcessor(BaseMessageProcessor mMessageProcessor) {
         this.mMessageProcessor = mMessageProcessor;
     }
 

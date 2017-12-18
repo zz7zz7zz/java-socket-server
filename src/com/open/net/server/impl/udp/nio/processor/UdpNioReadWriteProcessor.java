@@ -23,9 +23,9 @@ import java.util.Iterator;
  * description  :   数据读写处理类
  */
 
-public class SocketRwProcessor implements Runnable{
+public class UdpNioReadWriteProcessor implements Runnable{
 
-	public static String TAG = "SocketRwProcessor";
+	public static String TAG = "UdpNioReadWriteProcessor";
 	
     public ServerConfig mServerInfo;
     public BaseMessageProcessor mMessageProcessor;
@@ -35,7 +35,7 @@ public class SocketRwProcessor implements Runnable{
     private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(65507);
 
 
-    public SocketRwProcessor(ServerConfig mServerInfo, BaseMessageProcessor mMessageProcessor) {
+    public UdpNioReadWriteProcessor(ServerConfig mServerInfo, BaseMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mMessageProcessor = mMessageProcessor;
     }
