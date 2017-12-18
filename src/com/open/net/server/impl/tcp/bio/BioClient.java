@@ -52,59 +52,56 @@ public final class BioClient extends BaseClient {
 
     public synchronized void onClose(){
         super.onClose();
+        
         try {
-                try {
-                    if(null!= mSocket) {
-                        mSocket.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }finally{
-                    mSocket =null;
-                }
-
-                try {
-                    if(null!= mOutputStream) {
-                        mOutputStream.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }finally{
-                    mOutputStream =null;
-                }
-
-                try {
-                    if(null!= mInputStream) {
-                        mInputStream.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }finally{
-                    mInputStream =null;
-                }
-
-//                try {
-//                    if(null!= mWriteThread && mWriteThread.isAlive())
-//                    {
-//                        mWriteThread.interrupt();
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }finally{
-//                    mWriteThread =null;
-//                }
-
-                try {
-                    if(null!= mReadThread && mReadThread.isAlive()) {
-                        mReadThread.interrupt();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }finally{
-                    mReadThread =null;
-                }
+            if(null!= mSocket) {
+                mSocket.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            mSocket =null;
+        }
+
+        try {
+            if(null!= mOutputStream) {
+                mOutputStream.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            mOutputStream =null;
+        }
+
+        try {
+            if(null!= mInputStream) {
+                mInputStream.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            mInputStream =null;
+        }
+
+//        try {
+//            if(null!= mWriteThread && mWriteThread.isAlive())
+//            {
+//                mWriteThread.interrupt();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }finally{
+//            mWriteThread =null;
+//        }
+
+        try {
+            if(null!= mReadThread && mReadThread.isAlive()) {
+                mReadThread.interrupt();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            mReadThread =null;
         }
     }
 

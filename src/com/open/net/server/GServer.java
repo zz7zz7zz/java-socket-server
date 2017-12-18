@@ -45,13 +45,13 @@ public final class GServer {
             mClientsMap.put(mClient.mClientId,mClient);
             mIpPortClientsMap.put(KeyUtil.getKey(mClient.mHost,mClient.mPort),mClient.mClientId);
             
-            ServerLog.getIns().log(TAG, "accept enter "+ mClient.mClientId +" Host "+ mClient.mHost + " port " + mClient.mPort );
+            ServerLog.getIns().log(TAG, "client enter "+ mClient.mClientId +" Host "+ mClient.mHost + " port " + mClient.mPort );
         }
     }
 
     public static final void unregister(BaseClient mClient){
         if(null != mClient){
-            ServerLog.getIns().log(TAG, "accept exit  "+ mClient.mClientId +" Host "+ mClient.mHost + " port " + mClient.mPort );
+            ServerLog.getIns().log(TAG, "client exit  "+ mClient.mClientId +" Host "+ mClient.mHost + " port " + mClient.mPort );
             
             mClientsMap.remove(mClient.mClientId);
             mIpPortClientsMap.remove(KeyUtil.getKey(mClient.mHost,mClient.mPort));
