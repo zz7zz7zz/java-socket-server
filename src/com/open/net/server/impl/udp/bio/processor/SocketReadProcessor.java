@@ -24,8 +24,8 @@ public class SocketReadProcessor implements Runnable
     public ServerLock mServerLock;
     public BaseMessageProcessor mMessageProcessor;
 
-    public byte[] mWriteBuff  = new byte[65500];
-    public byte[] mReadBuff  = new byte[65500];
+    public byte[] mWriteBuff  = new byte[65507];
+    public byte[] mReadBuff  = new byte[65507];
 
     public SocketReadProcessor(ServerConfig mServerInfo, ServerLock mLock, BaseMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
@@ -38,7 +38,7 @@ public class SocketReadProcessor implements Runnable
         try {
             DatagramSocket mSocket = new DatagramSocket(mServerInfo.port);
             DatagramPacket mReadDatagramPacket = new DatagramPacket(mReadBuff, mReadBuff.length);//创建发送方的数据报信息
-            DatagramPacket mWriteDatagramPacket  = new DatagramPacket(mReadBuff, mReadBuff.length);//创建发送方的数据报信息
+            DatagramPacket mWriteDatagramPacket  = new DatagramPacket(mWriteBuff, mWriteBuff.length);//创建发送方的数据报信息
 
             while (true){
                 mSocket.receive(mReadDatagramPacket);
