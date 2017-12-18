@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * description  :   数据读写处理类
  */
 
-public final class SocketRwProcessor implements Runnable {
+public final class NioReadWriteProcessor implements Runnable {
 
 	public static String TAG = "SocketRwProcessor";
 	
@@ -33,7 +33,7 @@ public final class SocketRwProcessor implements Runnable {
     private Selector            mReadSelector;
     private Selector            mWriteSelector;
 
-    public SocketRwProcessor(ConcurrentLinkedQueue<NioClient> mAcceptClientQueen, BaseMessageProcessor mMessageProcessor) throws IOException {
+    public NioReadWriteProcessor(ConcurrentLinkedQueue<NioClient> mAcceptClientQueen, BaseMessageProcessor mMessageProcessor) throws IOException {
         this.mAcceptClientQueen = mAcceptClientQueen;
         this.mMessageProcessor  = mMessageProcessor;
         this.mReadSelector      = Selector.open();

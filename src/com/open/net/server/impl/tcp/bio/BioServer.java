@@ -1,7 +1,7 @@
 package com.open.net.server.impl.tcp.bio;
 
-import com.open.net.server.impl.tcp.bio.processor.SocketAcceptProcessor;
-import com.open.net.server.impl.tcp.bio.processor.SocketRwProcessor;
+import com.open.net.server.impl.tcp.bio.processor.BioAcceptProcessor;
+import com.open.net.server.impl.tcp.bio.processor.BioReadWriteProcessor;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
@@ -17,13 +17,13 @@ import java.io.IOException;
 public class BioServer {
 
     private ServerLock mServerLock;
-    private SocketAcceptProcessor mSocketAcceptProcessor;
-    private SocketRwProcessor mSocketWrProcessor;
+    private BioAcceptProcessor mSocketAcceptProcessor;
+    private BioReadWriteProcessor mSocketWrProcessor;
 
     public BioServer(ServerConfig mServerInfo, BaseMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
-        this.mSocketAcceptProcessor = new SocketAcceptProcessor(mServerInfo,mServerLock,mMessageProcessor);
-        this.mSocketWrProcessor     = new SocketRwProcessor(mMessageProcessor);
+        this.mSocketAcceptProcessor = new BioAcceptProcessor(mServerInfo,mServerLock,mMessageProcessor);
+        this.mSocketWrProcessor     = new BioReadWriteProcessor(mMessageProcessor);
     }
 
     public void start(){

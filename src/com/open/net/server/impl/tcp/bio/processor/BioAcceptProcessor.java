@@ -19,15 +19,15 @@ import java.net.Socket;
  * description  :  客户连接处理类
  */
 
-public class SocketAcceptProcessor implements Runnable
+public class BioAcceptProcessor implements Runnable
 {
-	public static String TAG = "SocketAcceptProcessor";
+	public static String TAG = "BioAcceptProcessor";
 	
     public ServerConfig mServerInfo;
     public ServerLock mServerLock;
     public BaseMessageProcessor mMessageProcessor;
 
-    public SocketAcceptProcessor(ServerConfig mServerInfo, ServerLock mLock, BaseMessageProcessor mMessageProcessor) {
+    public BioAcceptProcessor(ServerConfig mServerInfo, ServerLock mLock, BaseMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mServerLock = mLock;
         this.mMessageProcessor = mMessageProcessor;

@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * description  :  客户连接处理类
  */
 
-public final class SocketAcceptProcessor implements Runnable
+public final class NioAcceptProcessor implements Runnable
 {
 	public static String TAG = "SocketAcceptProcessor";
 	
@@ -29,7 +29,7 @@ public final class SocketAcceptProcessor implements Runnable
     private ConcurrentLinkedQueue<NioClient> mClientQueen;
     public BaseMessageProcessor mMessageProcessor;
 
-    public SocketAcceptProcessor(ServerConfig mServerInfo, ServerLock mServerLock, ConcurrentLinkedQueue<NioClient> mClientQueen,BaseMessageProcessor mMessageProcessor) {
+    public NioAcceptProcessor(ServerConfig mServerInfo, ServerLock mServerLock, ConcurrentLinkedQueue<NioClient> mClientQueen,BaseMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mServerLock = mServerLock;
         this.mClientQueen = mClientQueen;
