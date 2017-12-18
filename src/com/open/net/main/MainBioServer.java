@@ -6,6 +6,8 @@ import com.open.net.server.impl.tcp.bio.BioServer;
 import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
+import com.open.net.server.structures.ServerLog;
+import com.open.net.server.structures.ServerLog.LogListener;
 import com.open.net.server.structures.message.Message;
 import com.open.util.log.Logger;
 
@@ -26,7 +28,10 @@ public class MainBioServer {
         ServerConfig.initCmdConfig(mServerInfo,args);
         ServerConfig.initFileConfig(mServerInfo,"./conf/server.config");
         
+        ServerLog.getIns().setLogListener(mLogListener);
+        
         Logger.init("./conf/log.config");
+        
         Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
 
         GServer.init(mServerInfo, BioClient.class);
@@ -47,15 +52,14 @@ public class MainBioServer {
 
         public void onReceiveMessage(BaseClient client, Message msg){
 
-            Logger.v(LogAutor.ADMIN, "MainBioServer", "--onReceiveMessage()--"+new String(msg.data,msg.offset,msg.length));
-            
-            String data ="BioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
+        	Logger.v(LogAutor.ADMIN, "MainBioServer", "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
+            String data ="MainBioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
                     + " dst_reuse_type " + msg.dst_reuse_type
                     + " block_index " +msg.block_index
                     + " offset " +msg.offset;
+            Logger.v(LogAutor.ADMIN, "MainBioServer", "--onReceiveMessage()--reply "+data);
+            
             byte[] response = data.getBytes();
-            System.out.println(data);
-
 
             mWriteBuffer.clear();
             mWriteBuffer.put(response,0,response.length);
@@ -66,4 +70,12 @@ public class MainBioServer {
         }
     }
 
+    public static LogListener mLogListener = new LogListener(){
+
+		@Override
+		public void onLog(String tag, String msg) {
+			Logger.v(LogAutor.ADMIN, tag, msg);
+		}
+    };
+    
 }

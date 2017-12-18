@@ -4,6 +4,7 @@ import com.open.net.server.GServer;
 import com.open.net.server.impl.tcp.nio.NioClient;
 import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 import com.open.net.server.structures.pools.MessagePool;
 
@@ -24,6 +25,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public final class SocketRwProcessor implements Runnable {
 
+	public static String TAG = "SocketRwProcessor";
+	
     private ConcurrentLinkedQueue<NioClient> mAcceptClientQueen;
     private BaseMessageProcessor mMessageProcessor;
 
@@ -100,7 +103,7 @@ public final class SocketRwProcessor implements Runnable {
     private void readFromClients(SelectionKey key) {
         NioClient mClient = (NioClient) key.attachment();
         if(!mClient.onRead()){
-            System.out.println("client onClose when onRead : " + mClient.mClientId);
+            ServerLog.getIns().log(TAG, "close client "+ mClient.mClientId +" when read ");  
             try {
                 key.attach(null);
                 key.cancel();
@@ -176,7 +179,9 @@ public final class SocketRwProcessor implements Runnable {
             if(msg.mReceivers.isEmpty()){
                 iter.remove();
                 MessagePool.put(msg);
-                System.out.println("clearUnreachableMessages --------------a " + msg.msgId);
+
+                ServerLog.getIns().log(TAG, "clearUnreachableMessages A " + msg.msgId);
+                
             }else{
                 Iterator<BaseClient> it = msg.mReceivers.iterator();
                 while (it.hasNext()) {
@@ -189,7 +194,9 @@ public final class SocketRwProcessor implements Runnable {
                 if(msg.mReceivers.isEmpty()) {
                     iter.remove();
                     MessagePool.put(msg);
-                    System.out.println("clearUnreachableMessages --------------b " + msg.msgId);
+                    
+                    ServerLog.getIns().log(TAG, "clearUnreachableMessages B " + msg.msgId);
+                    
                 }
             }
         }

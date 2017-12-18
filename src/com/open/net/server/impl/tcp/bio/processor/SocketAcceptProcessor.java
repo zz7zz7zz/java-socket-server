@@ -79,7 +79,6 @@ public class SocketAcceptProcessor implements Runnable
         }
 
         ServerLog.getIns().log(TAG, "server exit");
-        
         mServerLock.notifytEnding();
 
     }

@@ -31,6 +31,7 @@ public final class MainNioServer {
         ServerLog.getIns().setLogListener(mLogListener);
         
         Logger.init("./conf/log.config");
+        
         Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
         
 
@@ -53,15 +54,14 @@ public final class MainNioServer {
 
         public void onReceiveMessage(BaseClient client, Message msg){
 
-            Logger.v(LogAutor.ADMIN, "MainNioServer", "--onReceiveMessage()--"+new String(msg.data,msg.offset,msg.length));
-            
+            Logger.v(LogAutor.ADMIN, "MainNioServer", "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
             String data ="NioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
                     + " dst_reuse_type " + msg.dst_reuse_type
                     + " block_index " +msg.block_index
                     + " offset " +msg.offset;
+            Logger.v(LogAutor.ADMIN, "MainNioServer", "--onReceiveMessage()--reply "+data);
+            
             byte[] response = data.getBytes();
-            System.out.println(data);
-
 
             mWriteBuffer.clear();
             mWriteBuffer.put(response,0,response.length);

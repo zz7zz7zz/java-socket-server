@@ -4,6 +4,7 @@ import com.open.net.server.impl.tcp.nio.NioClient;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.pools.ClientsPool;
 import com.open.net.server.utils.TextUtils;
 
@@ -21,6 +22,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public final class SocketAcceptProcessor implements Runnable
 {
+	public static String TAG = "SocketAcceptProcessor";
+	
     private ServerConfig mServerInfo;
     private ServerLock mServerLock;
     private ConcurrentLinkedQueue<NioClient> mClientQueen;
@@ -69,15 +72,14 @@ public final class SocketAcceptProcessor implements Runnable
                     String [] clientInfo = mSocketClient.getRemoteAddress().toString().replace("/", "").split(":");
                     String mHost = clientInfo[0];
                     int mPort = Integer.valueOf(clientInfo[1]);
-      
-                    System.out.println("-------SocketAcceptProcessor-----A----"+ mHost + " port " + mPort);
                     
                     NioClient mClient = (NioClient) ClientsPool.get();
                     if(null != mClient){
                         mClient.init(mHost,mPort,mSocketClient,mMessageProcessor);
                         mClientQueen.add(mClient);
+                        ServerLog.getIns().log(TAG, "accept client "+ mClient.mClientId +" Host "+ mHost + " port " + mPort );
                     }else{
-                        System.out.println("-------SocketAcceptProcessor-----B----");
+                    		ServerLog.getIns().log(TAG, "accept client null Host "+ mHost + " port " + mPort );
                     }
                 }
             }
@@ -85,8 +87,7 @@ public final class SocketAcceptProcessor implements Runnable
             e.printStackTrace();
         }
 
-        System.out.println("-------SocketAcceptProcessor-----C----");
-
+        ServerLog.getIns().log(TAG, "server exit");
         mServerLock.notifytEnding();
     }
 }
