@@ -3,6 +3,7 @@ package com.open.net.server.impl.udp.bio.processor;
 import com.open.net.server.GServer;
 import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 import com.open.net.server.structures.pools.MessagePool;
 
@@ -18,6 +19,8 @@ import java.util.Map;
 
 public class SocketWriteProcessor implements Runnable{
 
+	public static String TAG = "SocketRwProcessor";
+	
     public BaseMessageProcessor mMessageProcessor;
 
     public SocketWriteProcessor(BaseMessageProcessor mMessageProcessor) {
@@ -65,7 +68,9 @@ public class SocketWriteProcessor implements Runnable{
             if(msg.mReceivers.isEmpty()){
                 iter.remove();
                 MessagePool.put(msg);
-                System.out.println("clearUnreachableMessages --------------a " + msg.msgId);
+                
+                ServerLog.getIns().log(TAG, "clearUnreachableMessages A " + msg.msgId);
+                
             }else{
                 Iterator<BaseClient> it = msg.mReceivers.iterator();
                 while (it.hasNext()) {
@@ -78,7 +83,9 @@ public class SocketWriteProcessor implements Runnable{
                 if(msg.mReceivers.isEmpty()) {
                     iter.remove();
                     MessagePool.put(msg);
-                    System.out.println("clearUnreachableMessages --------------b " + msg.msgId);
+                    
+                    ServerLog.getIns().log(TAG, "clearUnreachableMessages B " + msg.msgId);
+                    
                 }
             }
         }

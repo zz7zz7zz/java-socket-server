@@ -5,6 +5,7 @@ import com.open.net.server.impl.udp.nio.UdpNioClient;
 import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.pools.ClientsPool;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ import java.util.Iterator;
 
 public class SocketRwProcessor implements Runnable{
 
+	public static String TAG = "SocketRwProcessor";
+	
     public ServerConfig mServerInfo;
     public BaseMessageProcessor mMessageProcessor;
 
@@ -70,16 +73,15 @@ public class SocketRwProcessor implements Runnable{
                                 String mHost = clientInfo[0];
                                 int mPort = Integer.valueOf(clientInfo[1]);
 
-                                System.out.println("-------SocketReadProcessor-----A----"+ mHost + " port " + mPort);
-
                                 UdpNioClient mClient;
                                 BaseClient client = GServer.getClient(mHost,mPort);
                                 if(null == client){
                                     mClient = (UdpNioClient) ClientsPool.get();
                                     if(null != mClient){
                                         mClient.init(mHost,mPort,mMessageProcessor,mDatagramChannel);
+                                        ServerLog.getIns().log(TAG, "accept client "+ mClient.mClientId +" Host "+ mHost + " port " + mPort );
                                     }else{
-                                        System.out.println("-------BioServerSocketRunnable-----B----");
+                                    	   ServerLog.getIns().log(TAG, "accept client null Host "+ mHost + " port " + mPort );
                                     }
                                 }else{
                                     mClient = (UdpNioClient)client;

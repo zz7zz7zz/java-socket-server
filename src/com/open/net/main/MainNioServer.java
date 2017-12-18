@@ -28,22 +28,18 @@ public final class MainNioServer {
         ServerConfig.initCmdConfig(mServerInfo,args);
         ServerConfig.initFileConfig(mServerInfo,"./conf/server.config");
         
-        ServerLog.getIns().setLogListener(mLogListener);
+        GServer.init(mServerInfo, NioClient.class);
         
+        ServerLog.getIns().setLogListener(mLogListener);
         Logger.init("./conf/log.config");
         
         Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
-        
-
-        GServer.init(mServerInfo, NioClient.class);
-
         try {
             NioServer mNioServer = new NioServer(mServerInfo,new MeMessageProcessor());
             mNioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        
+        } 
         Logger.v(LogAutor.ADMIN, "MainNioServer", "-------work------end---------");
     }
 

@@ -6,6 +6,8 @@ import com.open.net.server.impl.udp.bio.UdpBioServer;
 import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
+import com.open.net.server.structures.ServerLog;
+import com.open.net.server.structures.ServerLog.LogListener;
 import com.open.net.server.structures.message.Message;
 import com.open.util.log.Logger;
 
@@ -26,18 +28,18 @@ public class MainUdpBioServer {
         ServerConfig.initCmdConfig(mServerInfo,args);
         ServerConfig.initFileConfig(mServerInfo,"./conf/server.config");
         
-        Logger.init("./conf/log.config");
-        Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
-
         GServer.init(mServerInfo, UdpBioClient.class);
-
+        
+        ServerLog.getIns().setLogListener(mLogListener);
+        Logger.init("./conf/log.config");
+        
+        Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
         try {
             UdpBioServer mBioServer = new UdpBioServer(mServerInfo,new MeMessageProcessor());
             mBioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Logger.v(LogAutor.ADMIN, "MainUdpBioServer", "-------work------end---------");
     }
 
@@ -47,14 +49,14 @@ public class MainUdpBioServer {
 
         public void onReceiveMessage(BaseClient client, Message msg){
         	
-            Logger.v(LogAutor.ADMIN, "MainUdpBioServer", "--onReceiveMessage()--"+new String(msg.data,msg.offset,msg.length));
-
-            String data ="MainUdpBioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
+            Logger.v(LogAutor.ADMIN, "MainUdpNioServer", "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
+            String data ="MainUdpNioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
                     + " dst_reuse_type " + msg.dst_reuse_type
                     + " block_index " +msg.block_index
                     + " offset " +msg.offset;
+            Logger.v(LogAutor.ADMIN, "MainUdpNioServer", "--onReceiveMessage()--reply "+data);
+            
             byte[] response = data.getBytes();
-            System.out.println(data);
 
 
             mWriteBuffer.clear();
@@ -66,4 +68,12 @@ public class MainUdpBioServer {
         }
     }
 
+    public static LogListener mLogListener = new LogListener(){
+
+		@Override
+		public void onLog(String tag, String msg) {
+			Logger.v(LogAutor.ADMIN, tag, msg);
+		}
+    };
+    
 }

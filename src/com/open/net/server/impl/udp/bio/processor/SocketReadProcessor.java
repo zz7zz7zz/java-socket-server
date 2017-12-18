@@ -6,6 +6,7 @@ import com.open.net.server.structures.BaseClient;
 import com.open.net.server.structures.BaseMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.pools.ClientsPool;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ import java.net.DatagramSocket;
 
 public class SocketReadProcessor implements Runnable
 {
+	public static String TAG = "SocketAcceptProcessor";
+	
     public ServerConfig mServerInfo;
     public ServerLock mServerLock;
     public BaseMessageProcessor mMessageProcessor;
@@ -46,16 +49,15 @@ public class SocketReadProcessor implements Runnable
                 String mHost = mReadDatagramPacket.getAddress().getHostAddress();
                 int    mPort = mReadDatagramPacket.getPort();
 
-                System.out.println("-------SocketReadProcessor-----A----"+ mHost + " port " + mPort);
-
                 UdpBioClient mClient = null;
                 BaseClient client = GServer.getClient(mHost,mPort);
                 if(null == client){
                     mClient = (UdpBioClient) ClientsPool.get();
                     if(null != mClient){
                         mClient.init(mHost,mPort,mMessageProcessor,mSocket,mWriteDatagramPacket,mReadDatagramPacket);
+                        ServerLog.getIns().log(TAG, "accept client "+ mClient.mClientId +" Host "+ mHost + " port " + mPort );
                     }else{
-                        System.out.println("-------BioServerSocketRunnable-----B----");
+                    		ServerLog.getIns().log(TAG, "accept client null Host "+ mHost + " port " + mPort );
                     }
                 }else{
                     mClient = (UdpBioClient)client;
@@ -71,8 +73,7 @@ public class SocketReadProcessor implements Runnable
             e.printStackTrace();
         }
 
-        System.out.println("-------SocketReadProcessor-----C----");
-
+        ServerLog.getIns().log(TAG, "server exit");
         mServerLock.notifytEnding();
 
     }

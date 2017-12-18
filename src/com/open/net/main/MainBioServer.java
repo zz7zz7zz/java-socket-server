@@ -28,21 +28,18 @@ public class MainBioServer {
         ServerConfig.initCmdConfig(mServerInfo,args);
         ServerConfig.initFileConfig(mServerInfo,"./conf/server.config");
         
-        ServerLog.getIns().setLogListener(mLogListener);
+        GServer.init(mServerInfo, BioClient.class);
         
+        ServerLog.getIns().setLogListener(mLogListener);
         Logger.init("./conf/log.config");
         
         Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
-
-        GServer.init(mServerInfo, BioClient.class);
-
         try {
             BioServer mBioServer = new BioServer(mServerInfo,new MeMessageProcessor());
             mBioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------end---------");
     }
 
