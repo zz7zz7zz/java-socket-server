@@ -18,23 +18,23 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public final class NioServer {
 
     private ServerLock mServerLock;
-    private NioAcceptProcessor               mSocketAcceptProcessor;
-    private NioReadWriteProcessor mSocketWRProcessor;
+    private NioAcceptProcessor    mNioAcceptProcessor;
+    private NioReadWriteProcessor mNioReadWriteProcessor;
     private ConcurrentLinkedQueue<NioClient>    mClientQueen  = new ConcurrentLinkedQueue<>();
 
     public NioServer(ServerConfig mServerInfo, AbstractMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
-        this.mSocketAcceptProcessor = new NioAcceptProcessor(mServerInfo,mServerLock,mClientQueen,mMessageProcessor);
-        this.mSocketWRProcessor     = new NioReadWriteProcessor(mClientQueen,mMessageProcessor);
+        this.mNioAcceptProcessor = new NioAcceptProcessor(mServerInfo,mServerLock,mClientQueen,mMessageProcessor);
+        this.mNioReadWriteProcessor     = new NioReadWriteProcessor(mClientQueen,mMessageProcessor);
     }
 
     public void start(){
 
-        Thread mAcceptProcessorThread   = new Thread(this.mSocketAcceptProcessor);
-        Thread mRwProcessorThread       = new Thread(this.mSocketWRProcessor);
+        Thread mNioAcceptProcessorThread   = new Thread(this.mNioAcceptProcessor);
+        Thread mNioReadWriteProcessorThread       = new Thread(this.mNioReadWriteProcessor);
 
-        mAcceptProcessorThread.start();
-        mRwProcessorThread.start();
+        mNioAcceptProcessorThread.start();
+        mNioReadWriteProcessorThread.start();
 
         mServerLock.waitEnding();
     }
