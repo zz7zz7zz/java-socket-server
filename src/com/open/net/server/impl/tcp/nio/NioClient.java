@@ -35,13 +35,16 @@ public final class NioClient extends BaseClient {
     }
 
     public void onClose() {
-    		super.onClose();
         try {
-            mSocketChannel.socket().close();
-            mSocketChannel.close();
+        	if(null != mSocketChannel){
+                mSocketChannel.socket().close();
+                mSocketChannel.close();
+                mSocketChannel = null;
+        	}
         } catch (Exception e) {
             e.printStackTrace();
         }
+		super.onClose();
     }
 
     public void reset(){

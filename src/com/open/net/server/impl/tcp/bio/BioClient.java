@@ -51,58 +51,54 @@ public final class BioClient extends BaseClient {
     }
 
     public synchronized void onClose(){
-        super.onClose();
-        
         try {
             if(null!= mSocket) {
                 mSocket.close();
+                mSocket =null;
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            mSocket =null;
         }
 
         try {
             if(null!= mOutputStream) {
                 mOutputStream.close();
+                mOutputStream =null;
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            mOutputStream =null;
         }
-
+        
         try {
             if(null!= mInputStream) {
                 mInputStream.close();
+                mInputStream =null;
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            mInputStream =null;
         }
 
 //        try {
-//            if(null!= mWriteThread && mWriteThread.isAlive())
-//            {
+//            if(null!= mWriteThread && mWriteThread.isAlive()){
 //                mWriteThread.interrupt();
+//      		  mWriteThread =null;
 //            }
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }finally{
-//            mWriteThread =null;
+
 //        }
 
         try {
             if(null!= mReadThread && mReadThread.isAlive()) {
                 mReadThread.interrupt();
+                mReadThread =null;
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            mReadThread =null;
         }
+        
+        super.onClose();
     }
 
     public void reset(){

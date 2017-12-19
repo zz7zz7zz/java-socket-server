@@ -34,17 +34,16 @@ public class UdpBioClient extends BaseClient {
 
     @Override
     public synchronized void onClose() {
-        super.onClose();
-
         try {
             if(null!= mReadThread && mReadThread.isAlive()) {
                 mReadThread.interrupt();
+                mReadThread =null;
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            mReadThread =null;
         }
+        
+        super.onClose();
     }
 
     @Override
