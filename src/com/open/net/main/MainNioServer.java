@@ -3,8 +3,8 @@ package com.open.net.main;
 import com.open.net.server.GServer;
 import com.open.net.server.impl.tcp.nio.NioClient;
 import com.open.net.server.impl.tcp.nio.NioServer;
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.ServerLog.LogListener;
@@ -42,7 +42,7 @@ public final class MainNioServer {
         //4.连接初始化
         Logger.v("-------Server------start---------");
         try {
-            NioServer mNioServer = new NioServer(mServerInfo,new MeMessageProcessor());
+            NioServer mNioServer = new NioServer(mServerInfo,mMessageProcessor);
             mNioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,13 +51,11 @@ public final class MainNioServer {
     }
 
     //-------------------------------------------------------------------------------------------
-    public static final String TAG = "MainNioServer";
-    
-    public static class MeMessageProcessor extends BaseMessageProcessor {
+    public static AbstractMessageProcessor mMessageProcessor = new AbstractMessageProcessor() {
 
         private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(256*1024);
 
-        protected void onReceiveMessage(BaseClient client, Message msg){
+        protected void onReceiveMessage(AbstractClient client, Message msg){
 
             Logger.v("--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
             String data ="NioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
@@ -75,7 +73,7 @@ public final class MainNioServer {
             broadcast(mWriteBuffer.array(),0,response.length);
             mWriteBuffer.clear();
         }
-    }
+    };
     
     public static LogListener mLogListener = new LogListener(){
 

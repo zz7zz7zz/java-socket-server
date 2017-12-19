@@ -1,6 +1,6 @@
 package com.open.net.server.structures.message;
 
-import com.open.net.server.structures.BaseClient;
+import com.open.net.server.structures.AbstractClient;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +26,7 @@ public final class Message {
     public int length;//有效长度
 
     //接受这个消息的客户端对象，一个消息有可能有多个接收对象，比如广播/多播，只有当消息对象为0的时候才清空和回收这个消息
-    public Set<BaseClient> mReceivers = new HashSet();
+    public Set<AbstractClient> mReceivers = new HashSet();
 
     public Message() {
         reset();

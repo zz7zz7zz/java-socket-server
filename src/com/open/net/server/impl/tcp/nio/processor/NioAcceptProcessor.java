@@ -1,7 +1,7 @@
 package com.open.net.server.impl.tcp.nio.processor;
 
 import com.open.net.server.impl.tcp.nio.NioClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
 import com.open.net.server.structures.ServerLog;
@@ -27,9 +27,9 @@ public final class NioAcceptProcessor implements Runnable
     private ServerConfig mServerInfo;
     private ServerLock mServerLock;
     private ConcurrentLinkedQueue<NioClient> mClientQueen;
-    public BaseMessageProcessor mMessageProcessor;
+    public AbstractMessageProcessor mMessageProcessor;
 
-    public NioAcceptProcessor(ServerConfig mServerInfo, ServerLock mServerLock, ConcurrentLinkedQueue<NioClient> mClientQueen,BaseMessageProcessor mMessageProcessor) {
+    public NioAcceptProcessor(ServerConfig mServerInfo, ServerLock mServerLock, ConcurrentLinkedQueue<NioClient> mClientQueen,AbstractMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mServerLock = mServerLock;
         this.mClientQueen = mClientQueen;

@@ -1,6 +1,6 @@
 package com.open.net.server.impl.tcp.nio;
 
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
 import com.open.net.server.impl.tcp.nio.processor.NioAcceptProcessor;
@@ -22,7 +22,7 @@ public final class NioServer {
     private NioReadWriteProcessor mSocketWRProcessor;
     private ConcurrentLinkedQueue<NioClient>    mClientQueen  = new ConcurrentLinkedQueue<>();
 
-    public NioServer(ServerConfig mServerInfo, BaseMessageProcessor mMessageProcessor) throws IOException {
+    public NioServer(ServerConfig mServerInfo, AbstractMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
         this.mSocketAcceptProcessor = new NioAcceptProcessor(mServerInfo,mServerLock,mClientQueen,mMessageProcessor);
         this.mSocketWRProcessor     = new NioReadWriteProcessor(mClientQueen,mMessageProcessor);

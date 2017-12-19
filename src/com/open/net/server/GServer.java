@@ -1,6 +1,6 @@
 package com.open.net.server;
 
-import com.open.net.server.structures.BaseClient;
+import com.open.net.server.structures.AbstractClient;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.MessageBuffer;
@@ -24,7 +24,7 @@ public final class GServer {
     public static ServerConfig mServerInfo;
 
     //已经连接的客户端信息
-    private static HashMap<Long,BaseClient> mClientsMap;
+    private static HashMap<Long,AbstractClient> mClientsMap;
     private static HashMap<String,Long> mIpPortClientsMap;
 
     public static final void init(ServerConfig mServerInfo,Class cls_client){
@@ -42,7 +42,7 @@ public final class GServer {
     }
 
     //----------------------------------------------------------------------
-    public static final void register(BaseClient mClient){
+    public static final void register(AbstractClient mClient){
         if(null != mClient){
             mClientsMap.put(mClient.mClientId,mClient);
             mIpPortClientsMap.put(KeyUtil.getKey(mClient.mHost,mClient.mPort),mClient.mClientId);
@@ -51,7 +51,7 @@ public final class GServer {
         }
     }
 
-    public static final void unregister(BaseClient mClient){
+    public static final void unregister(AbstractClient mClient){
         if(null != mClient){
             ServerLog.getIns().log(TAG, "client "+ mClient.mClientId +" exit  Host "+ mClient.mHost + " port " + mClient.mPort );
             
@@ -61,7 +61,7 @@ public final class GServer {
         }
     }
 
-    public static final BaseClient getClient(String mHost, int mPort){
+    public static final AbstractClient getClient(String mHost, int mPort){
         Long socketId = mIpPortClientsMap.get(KeyUtil.getKey(mHost,mPort));
         if(null != socketId){
             return mClientsMap.get(socketId);
@@ -69,7 +69,7 @@ public final class GServer {
         return null;
     }
 
-    public static boolean isExistClient(BaseClient mClient){
+    public static boolean isExistClient(AbstractClient mClient){
         return mClient == mClientsMap.get(mClient.mClientId);
     }
 
@@ -85,7 +85,7 @@ public final class GServer {
         return mClientsMap.size();
     }
 
-    public static HashMap<Long,BaseClient> getClients(){
+    public static HashMap<Long,AbstractClient> getClients(){
         return mClientsMap;
     }
 }

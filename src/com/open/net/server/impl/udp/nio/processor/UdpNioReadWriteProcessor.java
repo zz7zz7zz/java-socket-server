@@ -2,8 +2,8 @@ package com.open.net.server.impl.udp.nio.processor;
 
 import com.open.net.server.GServer;
 import com.open.net.server.impl.udp.nio.UdpNioClient;
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.pools.ClientsPool;
@@ -28,14 +28,14 @@ public class UdpNioReadWriteProcessor implements Runnable{
 	public static String TAG = "UdpNioReadWriteProcessor";
 	
     public ServerConfig mServerInfo;
-    public BaseMessageProcessor mMessageProcessor;
+    public AbstractMessageProcessor mMessageProcessor;
 
     private DatagramChannel mDatagramChannel;
     private Selector mSelector = null;
     private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(65507);
 
 
-    public UdpNioReadWriteProcessor(ServerConfig mServerInfo, BaseMessageProcessor mMessageProcessor) {
+    public UdpNioReadWriteProcessor(ServerConfig mServerInfo, AbstractMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mMessageProcessor = mMessageProcessor;
     }
@@ -74,7 +74,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
                                 int mPort = Integer.valueOf(clientInfo[1]);
 
                                 UdpNioClient mClient;
-                                BaseClient client = GServer.getClient(mHost,mPort);
+                                AbstractClient client = GServer.getClient(mHost,mPort);
                                 if(null == client){
                                     mClient = (UdpNioClient) ClientsPool.get();
                                     if(null != mClient){
@@ -95,7 +95,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
 
                         }else if (key.isWritable()) {
 
-                            for (BaseClient mClient: mMessageProcessor.mWriteMessageQueen.mWriteClientSet) {
+                            for (AbstractClient mClient: mMessageProcessor.mWriteMessageQueen.mWriteClientSet) {
                                 if(null != mClient){
                                     mClient.onWrite();
                                 }

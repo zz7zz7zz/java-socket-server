@@ -3,8 +3,8 @@ package com.open.net.main;
 import com.open.net.server.GServer;
 import com.open.net.server.impl.tcp.bio.BioClient;
 import com.open.net.server.impl.tcp.bio.BioServer;
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.ServerLog.LogListener;
@@ -42,7 +42,7 @@ public class MainBioServer {
         //4.连接初始化
         Logger.v("-------Server------start---------");
         try {
-            BioServer mBioServer = new BioServer(mServerInfo,new MeMessageProcessor());
+            BioServer mBioServer = new BioServer(mServerInfo,mMessageProcessor);
             mBioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,13 +51,11 @@ public class MainBioServer {
     }
 
     //-------------------------------------------------------------------------------------------
-    public static final String TAG = "MainBioServer";
-    
-    public static class MeMessageProcessor extends BaseMessageProcessor {
+    public static AbstractMessageProcessor mMessageProcessor = new AbstractMessageProcessor() {
 
         private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(256*1024);
 
-        protected void onReceiveMessage(BaseClient client, Message msg){
+        protected void onReceiveMessage(AbstractClient client, Message msg){
 
         	Logger.v("--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
             String data ="MainBioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
@@ -75,7 +73,7 @@ public class MainBioServer {
             broadcast(mWriteBuffer.array(),0,response.length);
             mWriteBuffer.clear();
         }
-    }
+    };
 
     public static LogListener mLogListener = new LogListener(){
 

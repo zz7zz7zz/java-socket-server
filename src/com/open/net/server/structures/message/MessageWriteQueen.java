@@ -1,6 +1,6 @@
 package com.open.net.server.structures.message;
 
-import com.open.net.server.structures.BaseClient;
+import com.open.net.server.structures.AbstractClient;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,14 +17,14 @@ public class MessageWriteQueen {
     private MessageBuffer   mWriteMessageBuffer = new MessageBuffer();
     public HashMap<Long,Message> mMessageMap = new HashMap<>(1024);//真正的消息队列
 
-    public Set<BaseClient> mWriteClientSet = new HashSet<>();//有需要发送消息的客户端
+    public Set<AbstractClient> mWriteClientSet = new HashSet<>();//有需要发送消息的客户端
 
     public Message build(byte[] src , int offset , int length){
         Message msg = mWriteMessageBuffer.build(src,offset,length);
         return msg;
     }
 
-    public void put(BaseClient client,Message msg){
+    public void put(AbstractClient client,Message msg){
         //1.消息进入消息池
         //2.每个客户端存入消息引用
         //3.每个消息添加要发送的对象
@@ -38,7 +38,7 @@ public class MessageWriteQueen {
         mWriteClientSet.add(client);
     }
 
-    public void remove(BaseClient mClient,Message msg){
+    public void remove(AbstractClient mClient,Message msg){
 
         mClient.removeWriteMessageId(msg.msgId);
 
@@ -50,7 +50,7 @@ public class MessageWriteQueen {
         }
     }
 
-    public void remove(BaseClient mClient,long msgId){
+    public void remove(AbstractClient mClient,long msgId){
         Message msg = mMessageMap.get(msgId);
         if(null != msg){
             remove(mClient,msg);

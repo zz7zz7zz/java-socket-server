@@ -1,7 +1,7 @@
 package com.open.net.server.impl.tcp.nio;
 
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.message.Message;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.nio.channels.SocketChannel;
  * description  :   客户端对象
  */
 
-public final class NioClient extends BaseClient {
+public final class NioClient extends AbstractClient {
 
     public SocketChannel mSocketChannel = null;
 
@@ -26,7 +26,7 @@ public final class NioClient extends BaseClient {
     }
     //--------------------------------------------------------------------------------------
 
-    public void init(String mHost, int mPort ,SocketChannel socketChannel,BaseMessageProcessor mMessageProcessor){
+    public void init(String mHost, int mPort ,SocketChannel socketChannel,AbstractMessageProcessor mMessageProcessor){
         super.init(mHost,mPort,mMessageProcessor);
         this.mSocketChannel = socketChannel;
 

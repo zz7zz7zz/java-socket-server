@@ -1,7 +1,7 @@
 package com.open.net.server.impl.udp.nio;
 
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.message.Message;
 
 import java.net.InetSocketAddress;
@@ -14,12 +14,12 @@ import java.nio.channels.DatagramChannel;
  * description  :   客户端对象
  */
 
-public class UdpNioClient extends BaseClient {
+public class UdpNioClient extends AbstractClient {
 
     private DatagramChannel mSocketChannel;
     private ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(65507);
 
-    public void init(String mHost, int mPort , BaseMessageProcessor messageProcessor, DatagramChannel socketChannel){
+    public void init(String mHost, int mPort , AbstractMessageProcessor messageProcessor, DatagramChannel socketChannel){
         super.init(mHost,mPort,messageProcessor);
 
         this.mSocketChannel = socketChannel;

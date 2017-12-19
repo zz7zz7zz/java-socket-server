@@ -1,7 +1,7 @@
 package com.open.net.server.impl.tcp.bio.processor;
 
 import com.open.net.server.impl.tcp.bio.BioClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.pools.ClientsPool;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
@@ -25,9 +25,9 @@ public class BioAcceptProcessor implements Runnable
 	
     public ServerConfig mServerInfo;
     public ServerLock mServerLock;
-    public BaseMessageProcessor mMessageProcessor;
+    public AbstractMessageProcessor mMessageProcessor;
 
-    public BioAcceptProcessor(ServerConfig mServerInfo, ServerLock mLock, BaseMessageProcessor mMessageProcessor) {
+    public BioAcceptProcessor(ServerConfig mServerInfo, ServerLock mLock, AbstractMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mServerLock = mLock;
         this.mMessageProcessor = mMessageProcessor;
@@ -62,6 +62,8 @@ public class BioAcceptProcessor implements Runnable
                     }else{
                         ServerLog.getIns().log(TAG, "accept client success but ClientsPool.get() null Host "+ mHost + " port " + mPort );
                     }
+                }else{
+                	ServerLog.getIns().log(TAG, "accept client null");
                 }
             }
         } catch (IOException e) {

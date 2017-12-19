@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * description  :   客户连接对象
  */
 
-public abstract class BaseClient {
+public abstract class AbstractClient {
 
     private static long G_AUTO_INCREAMEN_CLIENT_ID = 0;
 
@@ -20,10 +20,10 @@ public abstract class BaseClient {
     public Object   mAttachment;
     protected ConcurrentLinkedQueue<Long> mReadMessageIds = new ConcurrentLinkedQueue();
     protected ConcurrentLinkedQueue<Long> mWriteMessageIds = new ConcurrentLinkedQueue();
-    protected BaseMessageProcessor mMessageProcessor;
+    protected AbstractMessageProcessor mMessageProcessor;
 
     //--------------------------------------------------------------------------------------
-    public void init(String mHost, int mPort ,BaseMessageProcessor mMessageProcessor) {
+    public void init(String mHost, int mPort ,AbstractMessageProcessor mMessageProcessor) {
         G_AUTO_INCREAMEN_CLIENT_ID++;
         mClientId = G_AUTO_INCREAMEN_CLIENT_ID;
         this.mHost = mHost;

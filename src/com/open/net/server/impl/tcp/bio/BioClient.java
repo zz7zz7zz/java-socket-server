@@ -1,7 +1,7 @@
 package com.open.net.server.impl.tcp.bio;
 
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 
@@ -17,7 +17,7 @@ import java.net.SocketException;
  * description  :   客户端对象
  */
 
-public final class BioClient extends BaseClient {
+public final class BioClient extends AbstractClient {
 	
 	public static String TAG = "BioClient";
 
@@ -36,7 +36,7 @@ public final class BioClient extends BaseClient {
 
     //--------------------------------------------------------------------------------------
 
-    public void init(String mHost, int mPort ,Socket socket,BaseMessageProcessor messageProcessor) throws IOException {
+    public void init(String mHost, int mPort ,Socket socket,AbstractMessageProcessor messageProcessor) throws IOException {
         super.init(mHost,mPort,messageProcessor);
 
         mSocket    		= socket;

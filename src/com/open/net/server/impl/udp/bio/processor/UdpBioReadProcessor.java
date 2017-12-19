@@ -2,8 +2,8 @@ package com.open.net.server.impl.udp.bio.processor;
 
 import com.open.net.server.GServer;
 import com.open.net.server.impl.udp.bio.UdpBioClient;
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
 import com.open.net.server.structures.ServerLog;
@@ -25,12 +25,12 @@ public class UdpBioReadProcessor implements Runnable
 	
     public ServerConfig mServerInfo;
     public ServerLock mServerLock;
-    public BaseMessageProcessor mMessageProcessor;
+    public AbstractMessageProcessor mMessageProcessor;
 
     public byte[] mWriteBuff  = new byte[65507];
     public byte[] mReadBuff  = new byte[65507];
 
-    public UdpBioReadProcessor(ServerConfig mServerInfo, ServerLock mLock, BaseMessageProcessor mMessageProcessor) {
+    public UdpBioReadProcessor(ServerConfig mServerInfo, ServerLock mLock, AbstractMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mServerLock = mLock;
         this.mMessageProcessor = mMessageProcessor;
@@ -50,7 +50,7 @@ public class UdpBioReadProcessor implements Runnable
                 int    mPort = mReadDatagramPacket.getPort();
 
                 UdpBioClient mClient = null;
-                BaseClient client = GServer.getClient(mHost,mPort);
+                AbstractClient client = GServer.getClient(mHost,mPort);
                 if(null == client){
                     mClient = (UdpBioClient) ClientsPool.get();
                     if(null != mClient){

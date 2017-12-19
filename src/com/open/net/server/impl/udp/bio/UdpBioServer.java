@@ -2,7 +2,7 @@ package com.open.net.server.impl.udp.bio;
 
 import com.open.net.server.impl.udp.bio.processor.UdpBioReadProcessor;
 import com.open.net.server.impl.udp.bio.processor.UdpBioWriteProcessor;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
 
@@ -20,7 +20,7 @@ public class UdpBioServer {
     private UdpBioReadProcessor mSocketReadProcessor;
     private UdpBioWriteProcessor mSocketWRProcessor;
 
-    public UdpBioServer(ServerConfig mServerInfo ,BaseMessageProcessor mMessageProcessor) throws IOException {
+    public UdpBioServer(ServerConfig mServerInfo ,AbstractMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
         this.mSocketReadProcessor   = new UdpBioReadProcessor(mServerInfo,mServerLock,mMessageProcessor);
         this.mSocketWRProcessor     = new UdpBioWriteProcessor(mMessageProcessor);

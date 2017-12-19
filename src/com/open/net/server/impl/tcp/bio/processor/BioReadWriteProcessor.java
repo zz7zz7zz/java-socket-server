@@ -1,8 +1,8 @@
 package com.open.net.server.impl.tcp.bio.processor;
 
 import com.open.net.server.GServer;
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 import com.open.net.server.structures.pools.MessagePool;
@@ -21,9 +21,9 @@ public class BioReadWriteProcessor implements Runnable{
 
 	public static String TAG = "BioReadWriteProcessor";
 	
-    private BaseMessageProcessor mMessageProcessor;
+    private AbstractMessageProcessor mMessageProcessor;
 
-    public BioReadWriteProcessor(BaseMessageProcessor mMessageProcessor) {
+    public BioReadWriteProcessor(AbstractMessageProcessor mMessageProcessor) {
         this.mMessageProcessor = mMessageProcessor;
     }
 
@@ -51,7 +51,7 @@ public class BioReadWriteProcessor implements Runnable{
 
     //-------------------------------------------------------------------------------------------
     private void writeToClients() throws IOException {
-        for (BaseClient mClient: mMessageProcessor.mWriteMessageQueen.mWriteClientSet) {
+        for (AbstractClient mClient: mMessageProcessor.mWriteMessageQueen.mWriteClientSet) {
             if(!mClient.onWrite()){
                 mClient.onClose();
             }
@@ -72,9 +72,9 @@ public class BioReadWriteProcessor implements Runnable{
                 ServerLog.getIns().log(TAG, "clearUnreachableMessages A " + msg.msgId);
                 
             }else{
-                Iterator<BaseClient> it = msg.mReceivers.iterator();
+                Iterator<AbstractClient> it = msg.mReceivers.iterator();
                 while (it.hasNext()) {
-                    BaseClient mClient = it.next();
+                    AbstractClient mClient = it.next();
                     if(!GServer.isExistClient(mClient)){
                         it.remove();
                     }

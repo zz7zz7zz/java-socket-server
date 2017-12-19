@@ -2,7 +2,7 @@ package com.open.net.server.impl.tcp.bio;
 
 import com.open.net.server.impl.tcp.bio.processor.BioAcceptProcessor;
 import com.open.net.server.impl.tcp.bio.processor.BioReadWriteProcessor;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
 
@@ -17,22 +17,22 @@ import java.io.IOException;
 public class BioServer {
 
     private ServerLock mServerLock;
-    private BioAcceptProcessor mSocketAcceptProcessor;
-    private BioReadWriteProcessor mSocketWrProcessor;
+    private BioAcceptProcessor mBioAcceptProcessor;
+    private BioReadWriteProcessor mBioReadWriteProcessor;
 
-    public BioServer(ServerConfig mServerInfo, BaseMessageProcessor mMessageProcessor) throws IOException {
+    public BioServer(ServerConfig mServerInfo, AbstractMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
-        this.mSocketAcceptProcessor = new BioAcceptProcessor(mServerInfo,mServerLock,mMessageProcessor);
-        this.mSocketWrProcessor     = new BioReadWriteProcessor(mMessageProcessor);
+        this.mBioAcceptProcessor = new BioAcceptProcessor(mServerInfo,mServerLock,mMessageProcessor);
+        this.mBioReadWriteProcessor = new BioReadWriteProcessor(mMessageProcessor);
     }
 
     public void start(){
 
-        Thread mAcceptProcessorThread   = new Thread(this.mSocketAcceptProcessor);
-        Thread mRwProcessorThread       = new Thread(this.mSocketWrProcessor);
+        Thread mBioAcceptProcessorThread   = new Thread(this.mBioAcceptProcessor);
+        Thread mBioReadWriteProcessorThread       = new Thread(this.mBioReadWriteProcessor);
 
-        mAcceptProcessorThread.start();
-        mRwProcessorThread.start();
+        mBioAcceptProcessorThread.start();
+        mBioReadWriteProcessorThread.start();
 
         mServerLock.waitEnding();
     }

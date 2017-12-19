@@ -2,8 +2,8 @@ package com.open.net.server.impl.tcp.nio.processor;
 
 import com.open.net.server.GServer;
 import com.open.net.server.impl.tcp.nio.NioClient;
-import com.open.net.server.structures.BaseClient;
-import com.open.net.server.structures.BaseMessageProcessor;
+import com.open.net.server.structures.AbstractClient;
+import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 import com.open.net.server.structures.pools.MessagePool;
@@ -28,12 +28,12 @@ public final class NioReadWriteProcessor implements Runnable {
 	public static String TAG = "NioReadWriteProcessor";
 	
     private ConcurrentLinkedQueue<NioClient> mAcceptClientQueen;
-    private BaseMessageProcessor mMessageProcessor;
+    private AbstractMessageProcessor mMessageProcessor;
 
     private Selector            mReadSelector;
     private Selector            mWriteSelector;
 
-    public NioReadWriteProcessor(ConcurrentLinkedQueue<NioClient> mAcceptClientQueen, BaseMessageProcessor mMessageProcessor) throws IOException {
+    public NioReadWriteProcessor(ConcurrentLinkedQueue<NioClient> mAcceptClientQueen, AbstractMessageProcessor mMessageProcessor) throws IOException {
         this.mAcceptClientQueen = mAcceptClientQueen;
         this.mMessageProcessor  = mMessageProcessor;
         this.mReadSelector      = Selector.open();
@@ -123,7 +123,7 @@ public final class NioReadWriteProcessor implements Runnable {
     }
 
     private void registerWriteOpt() throws ClosedChannelException {
-        for (BaseClient mClient: mMessageProcessor.mWriteMessageQueen.mWriteClientSet) {
+        for (AbstractClient mClient: mMessageProcessor.mWriteMessageQueen.mWriteClientSet) {
             if(null != mClient){
                 ((NioClient)mClient).mSocketChannel.register(this.mWriteSelector, SelectionKey.OP_WRITE,mClient);
             }
@@ -183,9 +183,9 @@ public final class NioReadWriteProcessor implements Runnable {
                 ServerLog.getIns().log(TAG, "clearUnreachableMessages A " + msg.msgId);
                 
             }else{
-                Iterator<BaseClient> it = msg.mReceivers.iterator();
+                Iterator<AbstractClient> it = msg.mReceivers.iterator();
                 while (it.hasNext()) {
-                    BaseClient mClient = it.next();
+                    AbstractClient mClient = it.next();
                     if(!GServer.isExistClient(mClient)){
                         it.remove();
                     }

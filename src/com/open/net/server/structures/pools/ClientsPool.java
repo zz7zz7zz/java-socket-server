@@ -1,6 +1,6 @@
 package com.open.net.server.structures.pools;
 
-import com.open.net.server.structures.BaseClient;
+import com.open.net.server.structures.AbstractClient;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,14 +14,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public final class ClientsPool {
 
     private static Class mClientCls;
-    private static ConcurrentLinkedQueue<BaseClient> mQueen;
+    private static ConcurrentLinkedQueue<AbstractClient> mQueen;
 
     //初始化
     public static final void init(int connect_max_count, Class cls){
         try {
             mQueen = new ConcurrentLinkedQueue<>();
             mClientCls = cls;
-            Constructor<BaseClient> mConstructor = mClientCls.getConstructor();
+            Constructor<AbstractClient> mConstructor = mClientCls.getConstructor();
             for (int i = 0; i< connect_max_count; i++){
                 mQueen.add(mConstructor.newInstance());
             }
@@ -31,11 +31,11 @@ public final class ClientsPool {
     }
 
     //取
-    public static final BaseClient get(){
-        BaseClient ret= mQueen.poll();
+    public static final AbstractClient get(){
+        AbstractClient ret= mQueen.poll();
         if(null == ret){
             try {
-                Constructor<BaseClient> mConstructor = mClientCls.getConstructor();
+                Constructor<AbstractClient> mConstructor = mClientCls.getConstructor();
                 ret = mConstructor.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -45,7 +45,7 @@ public final class ClientsPool {
     }
 
     //回收
-    public static final void put(BaseClient obj){
+    public static final void put(AbstractClient obj){
         if(null != obj){
             obj.reset();
             mQueen.add(obj);

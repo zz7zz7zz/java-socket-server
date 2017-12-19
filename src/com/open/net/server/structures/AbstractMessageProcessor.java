@@ -11,22 +11,22 @@ import com.open.net.server.structures.message.MessageWriteQueen;
  * description  :   信息处理类
  */
 
-public abstract class BaseMessageProcessor {
+public abstract class AbstractMessageProcessor {
 
     public MessageReadQueen  mReadMessageQueen   = new MessageReadQueen();
     public MessageWriteQueen mWriteMessageQueen  = new MessageWriteQueen();
 
     //-------------------------------------------------------------------------------------------
     //单播
-    private final void unicast(BaseClient client, Message msg){
+    private final void unicast(AbstractClient client, Message msg){
         if(null != client){
             mWriteMessageQueen.put(client,msg);
         }
     }
 
     //多播(组播)
-    private final void multicast(BaseClient[] clients, Message msg){
-        for (BaseClient client:clients) {
+    private final void multicast(AbstractClient[] clients, Message msg){
+        for (AbstractClient client:clients) {
             if(null != client){
                 mWriteMessageQueen.put(client,msg);
             }
@@ -35,7 +35,7 @@ public abstract class BaseMessageProcessor {
 
     //广播
     private final void broadcast(Message msg){
-        for (BaseClient client: GServer.getClients().values()) {
+        for (AbstractClient client: GServer.getClients().values()) {
             if(null != client){
                 mWriteMessageQueen.put(client,msg);
             }
@@ -43,7 +43,7 @@ public abstract class BaseMessageProcessor {
     }
     //-------------------------------------------------------------------------------------------
     //单播
-    public void unicast(BaseClient client, byte[] src , int offset , int length){
+    public void unicast(AbstractClient client, byte[] src , int offset , int length){
         if(null != client){
             Message msg = mWriteMessageQueen.build(src,offset,length);
             unicast(client,msg);
@@ -51,7 +51,7 @@ public abstract class BaseMessageProcessor {
     }
 
     //多播(组播)
-    public void multicast(BaseClient []clients, byte[] src , int offset , int length){
+    public void multicast(AbstractClient []clients, byte[] src , int offset , int length){
         if(null != clients && clients.length > 0){
             Message msg = mWriteMessageQueen.build(src,offset,length);
             multicast(clients,msg);
@@ -65,12 +65,12 @@ public abstract class BaseMessageProcessor {
     }
     //-------------------------------------------------------------------------------------------
 
-    public final void onReceiveData(BaseClient client, byte[] src , int offset , int length) {
+    public final void onReceiveData(AbstractClient client, byte[] src , int offset , int length) {
         Message msg = mReadMessageQueen.build(src,offset,length);
         mReadMessageQueen.put(client,msg);
     }
 
-    public final void onReceiveDataCompleted(BaseClient mClient){
+    public final void onReceiveDataCompleted(AbstractClient mClient){
         Long msgId = mClient.pollReadMessageId();
         while (null != msgId){
             Message msg = mReadMessageQueen.mMessageMap.get(msgId);
@@ -86,7 +86,7 @@ public abstract class BaseMessageProcessor {
         }
     }
     //-------------------------------------------------------------------------------------------
-    protected abstract void onReceiveMessage(BaseClient client, Message msg);
+    protected abstract void onReceiveMessage(AbstractClient client, Message msg);
 
 
 }

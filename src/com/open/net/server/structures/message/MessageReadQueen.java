@@ -1,6 +1,6 @@
 package com.open.net.server.structures.message;
 
-import com.open.net.server.structures.BaseClient;
+import com.open.net.server.structures.AbstractClient;
 
 import java.util.HashMap;
 
@@ -20,12 +20,12 @@ public final class MessageReadQueen {
         return msg;
     }
 
-    public void put(BaseClient client, Message msg){
+    public void put(AbstractClient client, Message msg){
         mMessageMap.put(msg.msgId,msg);
         client.addReadMessageId(msg.msgId);
     }
 
-    public void remove(BaseClient mClient, Message msg){
+    public void remove(AbstractClient mClient, Message msg){
         mMessageMap.remove(msg.msgId);
         mClient.removeReadMessageId(msg.msgId);
 
