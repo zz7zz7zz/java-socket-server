@@ -55,7 +55,7 @@ public class BioReadWriteProcessor implements Runnable{
     private void clearUnreachableMessages(){
         Iterator<Entry<Long, Message>> iter = mMessageProcessor.mWriteMessageQueen.mMessageMap.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry<Long,Message> entry = (Entry<Long, Message>) iter.next();
+            Map.Entry<Long,Message> entry = iter.next();
             Message msg = entry.getValue();
             if(msg.mReceivers.isEmpty()){
                 iter.remove();

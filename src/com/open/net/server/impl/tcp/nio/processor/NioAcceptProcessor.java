@@ -78,8 +78,10 @@ public final class NioAcceptProcessor implements Runnable
                         mClient.init(mHost,mPort,mSocketClient,mMessageProcessor);
                         mClientQueen.add(mClient);
                     }else{
-                    		ServerLog.getIns().log(TAG, "accept client success but ClientsPool.get() null Host "+ mHost + " port " + mPort );
+                    	ServerLog.getIns().log(TAG, "accept client success but ClientsPool.get() null Host "+ mHost + " port " + mPort );
                     }
+                }else{
+                	ServerLog.getIns().log(TAG, "accept client null");
                 }
             }
         } catch (IOException e) {

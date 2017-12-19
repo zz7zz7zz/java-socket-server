@@ -14,6 +14,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -80,26 +81,21 @@ public final class NioReadWriteProcessor implements Runnable {
         if(readReady > 0){
             Set<SelectionKey> selectedKeys = this.mReadSelector.selectedKeys();
             Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
-
             while(keyIterator.hasNext()) {
                 SelectionKey key = keyIterator.next();
                 keyIterator.remove();
-//System.out.println(" isValid " + key.isValid() +" isAcceptable " + key.isAcceptable() + " isConnectable " + key.isConnectable()+ " isWritable " + key.isWritable() + " isReadable " + key.isReadable() );
                 if(!key.isValid()){
                     continue;
                 }
-
                 readFromClients(key);
             }
-
             selectedKeys.clear();
         }
     }
 
     private void readFromClients(SelectionKey key) {
         NioClient mClient = (NioClient) key.attachment();
-        if(!mClient.onRead()){
-            ServerLog.getIns().log(TAG, "client "+ mClient.mClientId +" close when read ");  
+        if(!mClient.onRead()){ 
             try {
                 key.attach(null);
                 key.cancel();
@@ -107,8 +103,6 @@ public final class NioReadWriteProcessor implements Runnable {
             }catch (Exception e2){
                 e2.printStackTrace();
             }
-
-            mClient.onClose();
         }
     }
 
@@ -127,24 +121,18 @@ public final class NioReadWriteProcessor implements Runnable {
     }
 
     private void write() throws IOException {
-        // Select from the Selector.
         int writeReady = this.mWriteSelector.selectNow();
-
         if(writeReady > 0){
             Set<SelectionKey>      selectionKeys = this.mWriteSelector.selectedKeys();
             Iterator<SelectionKey> keyIterator   = selectionKeys.iterator();
-
             while(keyIterator.hasNext()){
                 SelectionKey key = keyIterator.next();
                 keyIterator.remove();
-
                 if(!key.isValid()){
                     continue;
                 }
-
                 write(key);
             }
-
             selectionKeys.clear();
         }
     }
@@ -161,22 +149,19 @@ public final class NioReadWriteProcessor implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mClient.onClose();
         }
     }
 
     //清除不可达的消息，比如用户关闭连接，此时将发送不出去
     private void clearUnreachableMessages(){
-        Iterator iter = mMessageProcessor.mWriteMessageQueen.mMessageMap.entrySet().iterator();
+        Iterator<Entry<Long, Message>> iter = mMessageProcessor.mWriteMessageQueen.mMessageMap.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry<Long,Message> entry = (Map.Entry) iter.next();
+            Map.Entry<Long,Message> entry = iter.next();
             Message msg = entry.getValue();
             if(msg.mReceivers.isEmpty()){
                 iter.remove();
                 MessagePool.put(msg);
-
                 ServerLog.getIns().log(TAG, "clearUnreachableMessages A " + msg.msgId);
-                
             }else{
                 Iterator<AbstractClient> it = msg.mReceivers.iterator();
                 while (it.hasNext()) {
@@ -189,9 +174,7 @@ public final class NioReadWriteProcessor implements Runnable {
                 if(msg.mReceivers.isEmpty()) {
                     iter.remove();
                     MessagePool.put(msg);
-                    
                     ServerLog.getIns().log(TAG, "clearUnreachableMessages B " + msg.msgId);
-                    
                 }
             }
         }

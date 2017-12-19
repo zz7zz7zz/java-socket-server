@@ -31,9 +31,6 @@ public final class NioClient extends AbstractClient {
     public void init(String mHost, int mPort ,SocketChannel socketChannel,AbstractMessageProcessor mMessageProcessor){
         super.init(mHost,mPort,mMessageProcessor);
         this.mSocketChannel = socketChannel;
-
-        this.mHost = socketChannel.socket().getInetAddress().getHostAddress();
-        this.mPort = socketChannel.socket().getPort();
     }
 
     public void onClose() {        
@@ -59,7 +56,6 @@ public final class NioClient extends AbstractClient {
         boolean readRet = true;
         try{
             mReadByteBuffer.clear();
-            int readTotalLength = 0;
             int readReceiveLength = 0;
             while (true){
                 int readLength = mSocketChannel.read(mReadByteBuffer);//客户端关闭连接后，此处将抛出异常/或者返回-1
@@ -78,9 +74,7 @@ public final class NioClient extends AbstractClient {
                     readReceiveLength = 0;
                 }
 
-                if(readLength > 0){
-                    readTotalLength += readLength;
-                }else {
+                if(readLength <= 0){
                     break;
                 }
             }
@@ -90,6 +84,7 @@ public final class NioClient extends AbstractClient {
                 this.mMessageProcessor.onReceiveData(this, mReadByteBuffer.array(), 0 , mReadByteBuffer.remaining());
             }
             mReadByteBuffer.clear();
+            
         }catch (Exception e){
             e.printStackTrace();
             readRet = false;
@@ -121,28 +116,21 @@ public final class NioClient extends AbstractClient {
 
                 //如果消息块的大小超过缓存的最大值，则需要分段写入后才丢弃消息，不能在数据未完全写完的情况下将消息丢弃;avoid BufferOverflowException
                 if(mWriteByteBuffer.capacity() < msg.length){
-
                     int offset = 0;
                     int leftLength = msg.length;
-                    int writtenTotalLength;
 
                     while(true){
-
                         int putLength = leftLength > mWriteByteBuffer.capacity() ? mWriteByteBuffer.capacity() : leftLength;
                         mWriteByteBuffer.put(msg.data,offset,putLength);
                         mWriteByteBuffer.flip();
-                        offset      += putLength;
-                        leftLength  -= putLength;
-
-                        int writtenLength   = mSocketChannel.write(mWriteByteBuffer);//客户端关闭连接后，此处将抛出异常
-                        writtenTotalLength  = writtenLength;
-
-                        while(writtenLength > 0 && mWriteByteBuffer.hasRemaining()){
-                            writtenLength       = mSocketChannel.write(mWriteByteBuffer);
-                            writtenTotalLength += writtenLength;
+                        while(mWriteByteBuffer.hasRemaining()){
+                            mSocketChannel.write(mWriteByteBuffer);//客户端关闭连接后，此处将抛出异常
                         }
                         mWriteByteBuffer.clear();
-
+                        
+                        offset      += putLength;
+                        leftLength  -= putLength;
+                        
                         if(leftLength <=0){
                             break;
                         }
@@ -150,13 +138,8 @@ public final class NioClient extends AbstractClient {
                 }else{
                     mWriteByteBuffer.put(msg.data,msg.offset,msg.length);
                     mWriteByteBuffer.flip();
-
-                    int writtenLength      = mSocketChannel.write(mWriteByteBuffer);//客户端关闭连接后，此处将抛出异常
-                    int writtenTotalLength = writtenLength;
-
-                    while(writtenLength > 0 && mWriteByteBuffer.hasRemaining()){
-                        writtenLength       = mSocketChannel.write(mWriteByteBuffer);
-                        writtenTotalLength += writtenLength;
+                    while(mWriteByteBuffer.hasRemaining()){
+                        mSocketChannel.write(mWriteByteBuffer);//客户端关闭连接后，此处将抛出异常
                     }
                     mWriteByteBuffer.clear();
                 }
