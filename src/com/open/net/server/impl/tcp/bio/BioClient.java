@@ -21,10 +21,12 @@ public final class BioClient extends BaseClient {
 	
 	public static String TAG = "BioClient";
 
-    private Socket          mSocket =null;
-    private OutputStream    mOutputStream =null;
-    private InputStream     mInputStream =null;
-    private Thread          mReadThread =null;
+	private int MAX_READ_LEN = 8192;
+	
+    private Socket          mSocket 	  = null;
+    private OutputStream    mOutputStream = null;
+    private InputStream     mInputStream  = null;
+    private Thread          mReadThread   = null;
 //    private WriteRunnable mWriter   = null;
 //    private Thread mWriteThread      =null;
 
@@ -37,17 +39,14 @@ public final class BioClient extends BaseClient {
     public void init(String mHost, int mPort ,Socket socket,BaseMessageProcessor messageProcessor) throws IOException {
         super.init(mHost,mPort,messageProcessor);
 
-        mSocket    = socket;
-        mOutputStream = socket.getOutputStream();
-        mInputStream = socket.getInputStream();
-        mReadThread =new Thread(new ReadRunnable());
+        mSocket    		= socket;
+        mOutputStream 	= socket.getOutputStream();
+        mInputStream 	= socket.getInputStream();
+        mReadThread 	= new Thread(new ReadRunnable());
         mReadThread.start();
 //        mWriter = new WriteRunnable();
 //        mWriteThread =new Thread(mWriter);
 //        mWriteThread.start();
-
-        mHost = socket.getInetAddress().getHostAddress();
-        mPort = socket.getPort();
     }
 
     public synchronized void onClose(){
@@ -104,27 +103,23 @@ public final class BioClient extends BaseClient {
     public void reset(){
         super.reset();
         mSocket =null;
-        mMessageProcessor = null;
-
         mOutputStream =null;
         mInputStream =null;
+        mReadThread =null;
 //        mWriter         =null;
 //        mWriteThread     =null;
-        mReadThread =null;
     }
 
     @Override
     public boolean onRead() {
         boolean readRet = false;
         try {
-            int maximum_length = 8192;
-            byte[] bodyBytes=new byte[maximum_length];
+            byte[] byteBuff=new byte[MAX_READ_LEN];
             int numRead;
-            while((numRead= mInputStream.read(bodyBytes, 0, maximum_length))>0) {
+            while((numRead= mInputStream.read(byteBuff, 0, MAX_READ_LEN))>0) {
                 if(numRead > 0){
-                    if(null!= mMessageProcessor)
-                    {
-                        mMessageProcessor.onReceiveData(BioClient.this,bodyBytes,0,numRead);
+                    if(null!= mMessageProcessor){
+                        mMessageProcessor.onReceiveData(BioClient.this,byteBuff,0,numRead);
                         mMessageProcessor.onReceiveDataCompleted(BioClient.this);
                     }
                 }
@@ -140,7 +135,9 @@ public final class BioClient extends BaseClient {
             readRet = false;
         }
 
-        mMessageProcessor.onReceiveDataCompleted(this);
+        if(null!= mMessageProcessor){
+        	mMessageProcessor.onReceiveDataCompleted(this);
+        }
 
         //退出客户端的时候需要把要写给该客户端的数据清空
         if(!readRet){

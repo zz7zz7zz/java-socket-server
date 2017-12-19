@@ -43,6 +43,7 @@ public abstract class BaseClient {
         mAttachment = null;
         mReadMessageIds.clear();
         mWriteMessageIds.clear();
+        mMessageProcessor = null;
     }
     //--------------------------------------------------------------------------------------
 
