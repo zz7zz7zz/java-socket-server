@@ -2,6 +2,7 @@ package com.open.net.server.impl.udp.nio;
 
 import com.open.net.server.structures.AbstractClient;
 import com.open.net.server.structures.AbstractMessageProcessor;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 
 import java.net.InetSocketAddress;
@@ -16,8 +17,10 @@ import java.nio.channels.DatagramChannel;
 
 public class UdpNioClient extends AbstractClient {
 
+	public static String TAG = "UdpNioClient";
+	
     private DatagramChannel mSocketChannel;
-    private ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(65507);
+    private static ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(65507);
 
     public void init(String mHost, int mPort , AbstractMessageProcessor messageProcessor, DatagramChannel socketChannel){
         super.init(mHost,mPort,messageProcessor);
@@ -47,28 +50,19 @@ public class UdpNioClient extends AbstractClient {
 
                 //如果消息块的大小超过缓存的最大值，则需要分段写入后才丢弃消息，不能在数据未完全写完的情况下将消息丢弃;avoid BufferOverflowException
                 if(mWriteByteBuffer.capacity() < msg.length){
-
                     int offset = 0;
                     int leftLength = msg.length;
-                    int writtenTotalLength;
 
                     while(true){
-
                         int putLength = leftLength > mWriteByteBuffer.capacity() ? mWriteByteBuffer.capacity() : leftLength;
                         mWriteByteBuffer.put(msg.data,offset,putLength);
                         mWriteByteBuffer.flip();
+                        mSocketChannel.send(mWriteByteBuffer,new InetSocketAddress(mHost,mPort));
+                        mWriteByteBuffer.clear();
+                        
                         offset      += putLength;
                         leftLength  -= putLength;
-
-                        int writtenLength   = mSocketChannel.write(mWriteByteBuffer);//客户端关闭连接后，此处将抛出异常
-                        writtenTotalLength  = writtenLength;
-
-                        while(writtenLength > 0 && mWriteByteBuffer.hasRemaining()){
-                            writtenLength       = mSocketChannel.write(mWriteByteBuffer);
-                            writtenTotalLength += writtenLength;
-                        }
-                        mWriteByteBuffer.clear();
-
+                        
                         if(leftLength <=0){
                             break;
                         }
@@ -95,13 +89,14 @@ public class UdpNioClient extends AbstractClient {
             if(null != mMessageId){
                 mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
             }
-            mMessageId = pollWriteMessageId();
-            while (null != mMessageId) {
-                mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
-                mMessageId = pollWriteMessageId();
-            }
+            onSocketExit(1);
         }
 
         return writeRet;
+    }
+    
+    public void onSocketExit(int exit_code){
+        ServerLog.getIns().log(TAG, "client close  "+ mClientId +" when " + (exit_code == 1 ? "write" : "read "));
+        onClose();
     }
 }

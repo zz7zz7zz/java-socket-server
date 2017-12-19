@@ -97,9 +97,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
                         	
                             AbstractClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
                             while (null != mClient) {
-                            	if(!mClient.onWrite()){
-                                    mClient.onClose();
-                                }
+                            	mClient.onWrite();
                                 mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
                             } 
                             
