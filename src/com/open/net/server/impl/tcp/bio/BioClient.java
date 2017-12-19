@@ -50,14 +50,7 @@ public final class BioClient extends AbstractClient {
     }
 
     public synchronized void onClose(){
-    	
-    	//退出客户端的时候需要把要写给该客户端的数据清空
-        Long mMessageId = BioClient.this.pollWriteMessageId();
-        while (null != mMessageId) {
-            mMessageProcessor.mWriteMessageQueen.remove(BioClient.this, mMessageId);
-            mMessageId = BioClient.this.pollWriteMessageId();
-        }
-        
+
         //关闭输入出流
         try {
             if(null!= mSocket) {
@@ -148,6 +141,7 @@ public final class BioClient extends AbstractClient {
         	mMessageProcessor.onReceiveDataCompleted(this);
         }
         
+        onSocketExit(2);
         return readRet;
     }
 
@@ -188,7 +182,7 @@ public final class BioClient extends AbstractClient {
     }
 
     public void onSocketExit(int exit_code){
-        ServerLog.getIns().log(TAG, "client close  "+ BioClient.this.mClientId +" when " + (exit_code == 1 ? "write" : "read "));
+        ServerLog.getIns().log(TAG, "client close  "+ mClientId +" when " + (exit_code == 1 ? "write" : "read "));
         onClose();
     }
     
@@ -236,7 +230,6 @@ public final class BioClient extends AbstractClient {
     {
         public void run() {
             onRead();
-            onSocketExit(2);
         }
     }
 }

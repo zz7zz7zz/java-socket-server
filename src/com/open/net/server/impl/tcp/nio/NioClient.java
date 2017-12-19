@@ -2,9 +2,9 @@ package com.open.net.server.impl.tcp.nio;
 
 import com.open.net.server.structures.AbstractClient;
 import com.open.net.server.structures.AbstractMessageProcessor;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
@@ -16,6 +16,8 @@ import java.nio.channels.SocketChannel;
 
 public final class NioClient extends AbstractClient {
 
+	public static String TAG = "NioClient";
+	
     public SocketChannel mSocketChannel = null;
 
     private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(16*1024);
@@ -34,7 +36,7 @@ public final class NioClient extends AbstractClient {
         this.mPort = socketChannel.socket().getPort();
     }
 
-    public void onClose() {
+    public void onClose() {        
         try {
         	if(null != mSocketChannel){
                 mSocketChannel.socket().close();
@@ -95,13 +97,8 @@ public final class NioClient extends AbstractClient {
 
         mMessageProcessor.onReceiveDataCompleted(this);
 
-        //退出客户端的时候需要把要写给该客户端的数据清空
         if(!readRet){
-            Long mMessageId = pollWriteMessageId();
-            while (null != mMessageId) {
-                mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
-                mMessageId = pollWriteMessageId();
-            }
+        	onSocketExit(2);
         }
 
         return readRet;
@@ -174,18 +171,18 @@ public final class NioClient extends AbstractClient {
             writeRet = false;
         }
 
-        //退出客户端的时候需要把要写给该客户端的数据清空
         if(!writeRet){
             if(null != mMessageId){
                 mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
             }
-            mMessageId = pollWriteMessageId();
-            while (null != mMessageId) {
-                mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
-                mMessageId = pollWriteMessageId();
-            }
+            onSocketExit(1);
         }
 
         return writeRet;
+    }
+    
+    public void onSocketExit(int exit_code){
+        ServerLog.getIns().log(TAG, "client close  "+ mClientId +" when " + (exit_code == 1 ? "write" : "read "));
+        onClose();
     }
 }

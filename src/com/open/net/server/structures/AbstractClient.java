@@ -33,6 +33,14 @@ public abstract class AbstractClient {
     }
 
     public void onClose(){
+    	
+    	//退出客户端的时候需要把要写给该客户端的数据清空
+        Long mMessageId = pollWriteMessageId();
+        while (null != mMessageId) {
+            mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
+            mMessageId = pollWriteMessageId();
+        }
+        
         GServer.unregister(this);
     }
 
