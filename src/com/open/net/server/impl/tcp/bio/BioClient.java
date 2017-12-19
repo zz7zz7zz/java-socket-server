@@ -50,6 +50,15 @@ public final class BioClient extends AbstractClient {
     }
 
     public synchronized void onClose(){
+    	
+    	//退出客户端的时候需要把要写给该客户端的数据清空
+        Long mMessageId = BioClient.this.pollWriteMessageId();
+        while (null != mMessageId) {
+            mMessageProcessor.mWriteMessageQueen.remove(BioClient.this, mMessageId);
+            mMessageId = BioClient.this.pollWriteMessageId();
+        }
+        
+        //关闭输入出流
         try {
             if(null!= mSocket) {
                 mSocket.close();
@@ -138,16 +147,7 @@ public final class BioClient extends AbstractClient {
         if(null!= mMessageProcessor){
         	mMessageProcessor.onReceiveDataCompleted(this);
         }
-
-        //退出客户端的时候需要把要写给该客户端的数据清空
-        if(!readRet){
-            Long mMessageId = pollWriteMessageId();
-            while (null != mMessageId) {
-                mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
-                mMessageId = pollWriteMessageId();
-            }
-        }
-
+        
         return readRet;
     }
 
@@ -182,15 +182,16 @@ public final class BioClient extends AbstractClient {
             if(null != mMessageId){
                 mMessageProcessor.mWriteMessageQueen.remove(BioClient.this, mMessageId);
             }
-            mMessageId = BioClient.this.pollWriteMessageId();
-            while (null != mMessageId) {
-                mMessageProcessor.mWriteMessageQueen.remove(BioClient.this, mMessageId);
-                mMessageId = BioClient.this.pollWriteMessageId();
-            }
+            onSocketExit(1);
         }
         return writeRet;
     }
 
+    public void onSocketExit(int exit_code){
+        ServerLog.getIns().log(TAG, "client close  "+ BioClient.this.mClientId +" when " + (exit_code == 1 ? "write" : "read "));
+        onClose();
+    }
+    
 //    @Override
 //    public void addWriteMessageId(long id) {
 //        super.addWriteMessageId(id);
@@ -200,7 +201,6 @@ public final class BioClient extends AbstractClient {
 //    }
 
     //--------------------------------------------------------------------------------------
-
 //    private class WriteRunnable implements Runnable
 //    {
 //
@@ -226,28 +226,17 @@ public final class BioClient extends AbstractClient {
 //                }
 //            }catch (Exception e) {
 //                e.printStackTrace();
-//            }finally {
-//                System.out.println("client onClose when onWrite : " + BioClient.this.mClientId);
-//                onClose();
 //            }
+//            
+//            onSocketExit(1);
 //        }
 //    }
 
     private class ReadRunnable implements Runnable
     {
         public void run() {
-
             onRead();
-            
-            ServerLog.getIns().log(TAG, "client close  "+ BioClient.this.mClientId +" when read ");
-
-            Long mMessageId = BioClient.this.pollWriteMessageId();
-            while (null != mMessageId) {
-                mMessageProcessor.mWriteMessageQueen.remove(BioClient.this, mMessageId);
-                mMessageId = BioClient.this.pollWriteMessageId();
-            }
-
-            onClose();
+            onSocketExit(2);
         }
     }
 }
