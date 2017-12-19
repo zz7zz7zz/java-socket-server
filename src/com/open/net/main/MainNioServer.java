@@ -39,14 +39,14 @@ public final class MainNioServer {
         ServerLog.getIns().setLogListener(mLogListener);
         
         //4.连接初始化
-        Logger.v(TAG, "-------work------start---------");
+        Logger.v("-------work------start---------");
         try {
             NioServer mNioServer = new NioServer(mServerInfo,new MeMessageProcessor());
             mNioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         } 
-        Logger.v(TAG, "-------work------end---------");
+        Logger.v("-------work------end---------");
     }
 
     //-------------------------------------------------------------------------------------------
@@ -58,12 +58,12 @@ public final class MainNioServer {
 
         protected void onReceiveMessage(BaseClient client, Message msg){
 
-            Logger.v(TAG, "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
+            Logger.v("--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
             String data ="NioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
                     + " dst_reuse_type " + msg.dst_reuse_type
                     + " block_index " +msg.block_index
                     + " offset " +msg.offset;
-            Logger.v(TAG, "--onReceiveMessage()--reply "+data);
+            Logger.v("--onReceiveMessage()--reply "+data);
             
             byte[] response = data.getBytes();
 
@@ -80,7 +80,7 @@ public final class MainNioServer {
 
 		@Override
 		public void onLog(String tag, String msg) {
-			Logger.v(tag, msg);
+			Logger.v(msg);
 		}
     };
 }
