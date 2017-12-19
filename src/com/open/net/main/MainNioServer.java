@@ -33,29 +33,31 @@ public final class MainNioServer {
         ServerLog.getIns().setLogListener(mLogListener);
         Logger.init("./conf/log.config");
         
-        Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
+        Logger.v(TAG, "-------work------start---------");
         try {
             NioServer mNioServer = new NioServer(mServerInfo,new MeMessageProcessor());
             mNioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         } 
-        Logger.v(LogAutor.ADMIN, "MainNioServer", "-------work------end---------");
+        Logger.v(TAG, "-------work------end---------");
     }
 
-
+    //-------------------------------------------------------------------------------------------
+    public static final String TAG = "MainNioServer";
+    
     public static class MeMessageProcessor extends BaseMessageProcessor {
 
         private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(256*1024);
 
         public void onReceiveMessage(BaseClient client, Message msg){
 
-            Logger.v(LogAutor.ADMIN, "MainNioServer", "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
+            Logger.v(TAG, "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
             String data ="NioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
                     + " dst_reuse_type " + msg.dst_reuse_type
                     + " block_index " +msg.block_index
                     + " offset " +msg.offset;
-            Logger.v(LogAutor.ADMIN, "MainNioServer", "--onReceiveMessage()--reply "+data);
+            Logger.v(TAG, "--onReceiveMessage()--reply "+data);
             
             byte[] response = data.getBytes();
 
@@ -72,7 +74,7 @@ public final class MainNioServer {
 
 		@Override
 		public void onLog(String tag, String msg) {
-			Logger.v(LogAutor.ADMIN, tag, msg);
+			Logger.v(tag, msg);
 		}
     };
 }

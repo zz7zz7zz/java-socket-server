@@ -33,28 +33,31 @@ public class MainBioServer {
         ServerLog.getIns().setLogListener(mLogListener);
         Logger.init("./conf/log.config");
         
-        Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------start---------");
+        Logger.v(TAG, "-------work------start---------");
         try {
             BioServer mBioServer = new BioServer(mServerInfo,new MeMessageProcessor());
             mBioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Logger.v(LogAutor.ADMIN, "MainBioServer", "-------work------end---------");
+        Logger.v(TAG, "-------work------end---------");
     }
 
+    //-------------------------------------------------------------------------------------------
+    public static final String TAG = "MainBioServer";
+    
     public static class MeMessageProcessor extends BaseMessageProcessor {
 
         private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(256*1024);
 
         public void onReceiveMessage(BaseClient client, Message msg){
 
-        	Logger.v(LogAutor.ADMIN, "MainBioServer", "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
+        	Logger.v(TAG, "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
             String data ="MainBioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
                     + " dst_reuse_type " + msg.dst_reuse_type
                     + " block_index " +msg.block_index
                     + " offset " +msg.offset;
-            Logger.v(LogAutor.ADMIN, "MainBioServer", "--onReceiveMessage()--reply "+data);
+            Logger.v(TAG, "--onReceiveMessage()--reply "+data);
             
             byte[] response = data.getBytes();
 
@@ -71,7 +74,7 @@ public class MainBioServer {
 
 		@Override
 		public void onLog(String tag, String msg) {
-			Logger.v(LogAutor.ADMIN, tag, msg);
+			Logger.v(tag, msg);
 		}
     };
     
