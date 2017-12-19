@@ -37,6 +37,7 @@ public class MainUdpBioServer {
         Logger.addFilterTraceElement(ServerLog.class.getName());
         Logger.addFilterTraceElement(mLogListener.getClass().getName());
         ServerLog.getIns().setLogListener(mLogListener);
+        Logger.v(mServerInfo.toString());
         
         //4.连接初始化
         Logger.v("-------work------start---------");
