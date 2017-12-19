@@ -37,17 +37,17 @@ public final class MainNioServer {
         Logger.addFilterTraceElement(ServerLog.class.getName());
         Logger.addFilterTraceElement(mLogListener.getClass().getName());
         ServerLog.getIns().setLogListener(mLogListener);
-        Logger.v(mServerInfo.toString());
+        Logger.v("-------Server------"+ mServerInfo.toString());
         
         //4.连接初始化
-        Logger.v("-------work------start---------");
+        Logger.v("-------Server------start---------");
         try {
             NioServer mNioServer = new NioServer(mServerInfo,new MeMessageProcessor());
             mNioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         } 
-        Logger.v("-------work------end---------");
+        Logger.v("-------Server------end---------");
     }
 
     //-------------------------------------------------------------------------------------------

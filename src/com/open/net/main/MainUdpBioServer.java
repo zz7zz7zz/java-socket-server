@@ -37,17 +37,17 @@ public class MainUdpBioServer {
         Logger.addFilterTraceElement(ServerLog.class.getName());
         Logger.addFilterTraceElement(mLogListener.getClass().getName());
         ServerLog.getIns().setLogListener(mLogListener);
-        Logger.v(mServerInfo.toString());
+        Logger.v("-------Server------"+ mServerInfo.toString());
         
         //4.连接初始化
-        Logger.v("-------work------start---------");
+        Logger.v("-------Server------start---------");
         try {
             UdpBioServer mBioServer = new UdpBioServer(mServerInfo,new MeMessageProcessor());
             mBioServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Logger.v("-------work------end---------");
+        Logger.v("-------Server------end---------");
     }
 
     //-------------------------------------------------------------------------------------------
