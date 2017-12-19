@@ -89,7 +89,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
                                 mReadByteBuffer.flip();
                                 if(mReadByteBuffer.remaining() > 0){
                                     mMessageProcessor.onReceiveData(mClient, mReadByteBuffer.array(), 0 , mReadByteBuffer.remaining());
-                                    mMessageProcessor.onReceiveMessages(mClient);
+                                    mMessageProcessor.onReceiveDataCompleted(mClient);
                                 }
                                 mReadByteBuffer.clear();
 

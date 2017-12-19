@@ -56,7 +56,7 @@ public class MainUdpBioServer {
 
         private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(256*1024);
 
-        public void onReceiveMessage(BaseClient client, Message msg){
+        protected void onReceiveMessage(BaseClient client, Message msg){
         	
             Logger.v(TAG, "--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
             String data ="MainUdpNioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type

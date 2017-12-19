@@ -13,7 +13,7 @@ import com.open.net.server.structures.message.MessageWriteQueen;
 
 public abstract class BaseMessageProcessor {
 
-    public MessageReadQueen mReadMessageQueen   = new MessageReadQueen();
+    public MessageReadQueen  mReadMessageQueen   = new MessageReadQueen();
     public MessageWriteQueen mWriteMessageQueen  = new MessageWriteQueen();
 
     //-------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ public abstract class BaseMessageProcessor {
         mReadMessageQueen.put(client,msg);
     }
 
-    public final void onReceiveMessages(BaseClient mClient){
+    public final void onReceiveDataCompleted(BaseClient mClient){
         Long msgId = mClient.pollReadMessageId();
         while (null != msgId){
             Message msg = mReadMessageQueen.mMessageMap.get(msgId);
@@ -86,7 +86,7 @@ public abstract class BaseMessageProcessor {
         }
     }
     //-------------------------------------------------------------------------------------------
-    public abstract void onReceiveMessage(BaseClient client, Message msg);
+    protected abstract void onReceiveMessage(BaseClient client, Message msg);
 
 
 }

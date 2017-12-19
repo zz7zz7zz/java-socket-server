@@ -103,7 +103,7 @@ public final class NioReadWriteProcessor implements Runnable {
     private void readFromClients(SelectionKey key) {
         NioClient mClient = (NioClient) key.attachment();
         if(!mClient.onRead()){
-            ServerLog.getIns().log(TAG, "close client "+ mClient.mClientId +" when read ");  
+            ServerLog.getIns().log(TAG, "client "+ mClient.mClientId +" close when read ");  
             try {
                 key.attach(null);
                 key.cancel();

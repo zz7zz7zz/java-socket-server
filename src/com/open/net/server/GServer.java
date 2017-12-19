@@ -17,7 +17,9 @@ import java.util.HashMap;
  */
 
 public final class GServer {
+	
 	public static String TAG = "GServer";
+	
     //服务器信息
     public static ServerConfig mServerInfo;
 
@@ -45,13 +47,13 @@ public final class GServer {
             mClientsMap.put(mClient.mClientId,mClient);
             mIpPortClientsMap.put(KeyUtil.getKey(mClient.mHost,mClient.mPort),mClient.mClientId);
             
-            ServerLog.getIns().log(TAG, "client enter "+ mClient.mClientId +" Host "+ mClient.mHost + " port " + mClient.mPort );
+            ServerLog.getIns().log(TAG, "client "+ mClient.mClientId +" enter Host "+ mClient.mHost + " port " + mClient.mPort );
         }
     }
 
     public static final void unregister(BaseClient mClient){
         if(null != mClient){
-            ServerLog.getIns().log(TAG, "client exit  "+ mClient.mClientId +" Host "+ mClient.mHost + " port " + mClient.mPort );
+            ServerLog.getIns().log(TAG, "client "+ mClient.mClientId +" exit  Host "+ mClient.mHost + " port " + mClient.mPort );
             
             mClientsMap.remove(mClient.mClientId);
             mIpPortClientsMap.remove(KeyUtil.getKey(mClient.mHost,mClient.mPort));

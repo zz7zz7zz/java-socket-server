@@ -93,7 +93,7 @@ public final class NioClient extends BaseClient {
             readRet = false;
         }
 
-        mMessageProcessor.onReceiveMessages(this);
+        mMessageProcessor.onReceiveDataCompleted(this);
 
         //退出客户端的时候需要把要写给该客户端的数据清空
         if(!readRet){

@@ -125,7 +125,7 @@ public final class BioClient extends BaseClient {
                     if(null!= mMessageProcessor)
                     {
                         mMessageProcessor.onReceiveData(BioClient.this,bodyBytes,0,numRead);
-                        mMessageProcessor.onReceiveMessages(BioClient.this);
+                        mMessageProcessor.onReceiveDataCompleted(BioClient.this);
                     }
                 }
             }
@@ -140,7 +140,7 @@ public final class BioClient extends BaseClient {
             readRet = false;
         }
 
-        mMessageProcessor.onReceiveMessages(this);
+        mMessageProcessor.onReceiveDataCompleted(this);
 
         //退出客户端的时候需要把要写给该客户端的数据清空
         if(!readRet){

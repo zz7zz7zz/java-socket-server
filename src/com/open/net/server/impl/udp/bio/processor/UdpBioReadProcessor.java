@@ -64,7 +64,7 @@ public class UdpBioReadProcessor implements Runnable
 
                 if(null!= mMessageProcessor) {
                     mMessageProcessor.onReceiveData(mClient, mReadDatagramPacket.getData(),mReadDatagramPacket.getOffset(),mReadDatagramPacket.getLength());
-                    mMessageProcessor.onReceiveMessages(mClient);
+                    mMessageProcessor.onReceiveDataCompleted(mClient);
                 }
                 mReadDatagramPacket.setLength(mReadDatagramPacket.getData().length);
             }
