@@ -27,7 +27,7 @@ public final class GServer {
     private static HashMap<Long,AbstractClient> mClientsMap;
     private static HashMap<String,Long> mIpPortClientsMap;
 
-    public static final void init(ServerConfig mServerInfo,Class cls_client){
+    public static final void init(ServerConfig mServerInfo,Class<? extends AbstractClient> cls_client){
 
         GServer.mServerInfo = mServerInfo;
 

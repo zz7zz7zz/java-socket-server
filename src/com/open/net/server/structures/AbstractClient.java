@@ -18,8 +18,8 @@ public abstract class AbstractClient {
     public String   mHost = null;
     public int      mPort = -1;
     public Object   mAttachment;
-    protected ConcurrentLinkedQueue<Long> mReadMessageIds = new ConcurrentLinkedQueue();
-    protected ConcurrentLinkedQueue<Long> mWriteMessageIds = new ConcurrentLinkedQueue();
+    protected ConcurrentLinkedQueue<Long> mReadMessageIds = new ConcurrentLinkedQueue<Long>();
+    protected ConcurrentLinkedQueue<Long> mWriteMessageIds = new ConcurrentLinkedQueue<Long>();
     protected AbstractMessageProcessor mMessageProcessor;
 
     //--------------------------------------------------------------------------------------

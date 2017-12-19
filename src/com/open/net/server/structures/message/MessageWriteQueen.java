@@ -5,6 +5,7 @@ import com.open.net.server.structures.AbstractClient;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * author       :   long
@@ -17,7 +18,7 @@ public class MessageWriteQueen {
     private MessageBuffer   mWriteMessageBuffer = new MessageBuffer();
     public HashMap<Long,Message> mMessageMap = new HashMap<>(1024);//真正的消息队列
 
-    public Set<AbstractClient> mWriteClientSet = new HashSet<>();//有需要发送消息的客户端
+    public ConcurrentLinkedQueue<AbstractClient> mWriteClientQueen = new ConcurrentLinkedQueue<AbstractClient>();//有需要发送消息的客户端
 
     public Message build(byte[] src , int offset , int length){
         Message msg = mWriteMessageBuffer.build(src,offset,length);
@@ -35,7 +36,7 @@ public class MessageWriteQueen {
 
         msg.mReceivers.add(client);
 
-        mWriteClientSet.add(client);
+        mWriteClientQueen.add(client);
     }
 
     public void remove(AbstractClient mClient,Message msg){

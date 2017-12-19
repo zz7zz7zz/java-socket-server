@@ -94,13 +94,15 @@ public class UdpNioReadWriteProcessor implements Runnable{
                                 mReadByteBuffer.clear();
 
                         }else if (key.isWritable()) {
-
-                            for (AbstractClient mClient: mMessageProcessor.mWriteMessageQueen.mWriteClientSet) {
-                                if(null != mClient){
-                                    mClient.onWrite();
+                        	
+                            AbstractClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+                            while (null != mClient) {
+                            	if(!mClient.onWrite()){
+                                    mClient.onClose();
                                 }
-                            }
-                            mMessageProcessor.mWriteMessageQueen.mWriteClientSet.clear();
+                                mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+                            } 
+                            
                             key.interestOps(SelectionKey.OP_READ);
                         }
                     }
@@ -110,7 +112,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
                     break;
                 }
 
-                if(mMessageProcessor.mWriteMessageQueen.mWriteClientSet.size() > 0) {
+                if(!mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.isEmpty()) {
                     SelectionKey key= mDatagramChannel.keyFor(mSelector);
                     key.interestOps(SelectionKey.OP_WRITE);
                 }
