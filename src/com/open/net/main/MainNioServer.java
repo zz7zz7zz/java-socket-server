@@ -26,8 +26,8 @@ public final class MainNioServer {
     	
     	//1.配置初始化
         ServerConfig mServerInfo = new ServerConfig();
-        ServerConfig.initCmdConfig(mServerInfo,args);
-        ServerConfig.initFileConfig(mServerInfo,"./conf/server.config");
+        mServerInfo.initArgsConfig(args);
+        mServerInfo.initFileConfig("./conf/server.config");
         
         //2.数据初始化
         GServer.init(mServerInfo, NioClient.class);

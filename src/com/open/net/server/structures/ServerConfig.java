@@ -14,11 +14,12 @@ import java.util.HashMap;
 
 /**
   # name  : server name 服务器名字
-  # msgId    : server idsss
+  # id    : server id   服务器id
   # host  : host 主机ip
   # port  : port 端口
-  # mc : max conect count 最大的连接数
-  # bl : connect_backlog 客户连接请求队列的长度
+  
+  # connect_max_count : 最大的连接数
+  # connect_backlog   : 客户连接请求队列的长度
          管理客户连接请求的任务是由操作系统来完成的。
          操作系统把这些连接请求存储在一个先进先出的队列中。
          许多操作系统限定了队列的最大长度，一般为50。
@@ -34,6 +35,7 @@ import java.util.HashMap;
 
 public class ServerConfig {
 
+    //基本信息
     public String name = "";
     public int    id   = -1;
     public String host = "";
@@ -44,8 +46,6 @@ public class ServerConfig {
     public int connect_backlog = 50;
 
     //缓存配置
-    public int  pool_client_size;
-
     public int pool_capacity_small;
     public int pool_capacity_middle;
     public int pool_capacity_large;
@@ -55,9 +55,9 @@ public class ServerConfig {
     public int pool_size_large;
 
     public int pool_max_size_temporary_cache;
-
+    
     //解析命令行参数
-    public static void initCmdConfig(ServerConfig mServerConfig ,String[] args) {
+    public final void initArgsConfig(String[] args) {
         Options options = new Options();
 
         Option mOption = new Option("n","name",true,"set the server name");
@@ -83,43 +83,43 @@ public class ServerConfig {
         } catch (ParseException e) {
             e.printStackTrace();
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp( "[Option] [VALUE] | ex : -n 'name' -i 9999 -h '192.168.0.1' -p 9999", options);
+            formatter.printHelp( "[Option] [VALUE] | ex : -n 'Access' -i 1 -h '192.168.0.1' -p 9999", options);
             System.exit(0);
         }
 
-        mServerConfig.name = cmd.getOptionValue("n");
-        mServerConfig.id   = Integer.valueOf(cmd.getOptionValue("i"));
-        mServerConfig.host = cmd.getOptionValue("h");
-        mServerConfig.port = Integer.valueOf(cmd.getOptionValue("p"));
+        initArgsConfig(cmd);
     }
-
+    
     //解析文件配置参数
-    public static void initFileConfig(ServerConfig mServerConfig, String config_path) {
-        HashMap<String,Object> ret = CfgParser.parseToMap(config_path);
-        if(null !=ret){
-            initFileConfig(mServerConfig,ret);
-        }
+    public final void initFileConfig(String config_path) {
+        HashMap<String,Object> map = CfgParser.parseToMap(config_path);
+        initFileConfig(map);
+    }
+    
+    //-------------------------------------------------------------------------------------------
+    protected void initArgsConfig(CommandLine cmd){
+        name = cmd.getOptionValue("n");
+        id   = Integer.valueOf(cmd.getOptionValue("i"));
+        host = cmd.getOptionValue("h");
+        port = Integer.valueOf(cmd.getOptionValue("p"));
+    }
+    
+    protected void initFileConfig(HashMap<String,Object> map){
+    	if(null !=map){
+            connect_max_count 		= CfgParser.getInt(map,"connect","connect_max_count");
+            connect_backlog 		= CfgParser.getInt(map,"connect","connect_backlog");
+
+            pool_capacity_small 	= CfgParser.getInt(map,"pool","pool_capacity_small");
+            pool_capacity_middle 	= CfgParser.getInt(map,"pool","pool_capacity_middle");
+            pool_capacity_large 	= CfgParser.getInt(map,"pool","pool_capacity_large");
+
+            pool_size_small 		= CfgParser.getInt(map,"pool","pool_size_small");
+            pool_size_middle 		= CfgParser.getInt(map,"pool","pool_size_middle");
+            pool_size_large 		= CfgParser.getInt(map,"pool","pool_size_large");
+
+            pool_max_size_temporary_cache = CfgParser.getInt(map,"pool","pool_max_size_temporary_cache");
+       }
     }
 
-
-    private static void initFileConfig(ServerConfig mServerConfig, HashMap<String,Object> map){
-
-        mServerConfig.name = CfgParser.getString(map,"server","name");
-
-        mServerConfig.connect_max_count = CfgParser.getInt(map,"connect","connect_max_count");
-        mServerConfig.connect_backlog = CfgParser.getInt(map,"connect","connect_backlog");
-
-        mServerConfig.pool_client_size = CfgParser.getInt(map,"pool","pool_client_size");
-
-        mServerConfig.pool_capacity_small = CfgParser.getInt(map,"pool","pool_capacity_small");
-        mServerConfig.pool_capacity_middle = CfgParser.getInt(map,"pool","pool_capacity_middle");
-        mServerConfig.pool_capacity_large = CfgParser.getInt(map,"pool","pool_capacity_large");
-
-        mServerConfig.pool_size_small = CfgParser.getInt(map,"pool","pool_size_small");
-        mServerConfig.pool_size_middle = CfgParser.getInt(map,"pool","pool_size_middle");
-        mServerConfig.pool_size_large = CfgParser.getInt(map,"pool","pool_size_large");
-
-        mServerConfig.pool_max_size_temporary_cache = CfgParser.getInt(map,"pool","pool_max_size_temporary_cache");
-
-    }
+    //-------------------------------------------------------------------------------------------
 }

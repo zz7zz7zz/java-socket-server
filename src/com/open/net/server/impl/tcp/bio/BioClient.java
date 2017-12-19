@@ -242,7 +242,7 @@ public final class BioClient extends BaseClient {
 
             onRead();
             
-            ServerLog.getIns().log(TAG, "close client "+ BioClient.this.mClientId +" when read ");
+            ServerLog.getIns().log(TAG, "client close  "+ BioClient.this.mClientId +" when read ");
 
             Long mMessageId = BioClient.this.pollWriteMessageId();
             while (null != mMessageId) {
