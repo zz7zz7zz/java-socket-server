@@ -13,15 +13,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public final class ClientsPool {
 
-    private static Class mClientCls;
+    private static Class<? extends AbstractClient> mClientCls;
     private static ConcurrentLinkedQueue<AbstractClient> mQueen;
 
     //初始化
-    public static final void init(int connect_max_count, Class cls){
+    public static final void init(int connect_max_count, Class<? extends AbstractClient> cls){
         try {
             mQueen = new ConcurrentLinkedQueue<>();
             mClientCls = cls;
-            Constructor<AbstractClient> mConstructor = mClientCls.getConstructor();
+            Constructor<AbstractClient> mConstructor = (Constructor<AbstractClient>) mClientCls.getConstructor();
             for (int i = 0; i< connect_max_count; i++){
                 mQueen.add(mConstructor.newInstance());
             }
@@ -35,7 +35,7 @@ public final class ClientsPool {
         AbstractClient ret= mQueen.poll();
         if(null == ret){
             try {
-                Constructor<AbstractClient> mConstructor = mClientCls.getConstructor();
+                Constructor<AbstractClient> mConstructor = (Constructor<AbstractClient>) mClientCls.getConstructor();
                 ret = mConstructor.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();

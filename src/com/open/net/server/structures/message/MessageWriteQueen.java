@@ -3,8 +3,6 @@ package com.open.net.server.structures.message;
 import com.open.net.server.structures.AbstractClient;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**

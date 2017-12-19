@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public final class MessagePool {
 
-    public static ConcurrentLinkedQueue<Message> mQueen = new ConcurrentLinkedQueue();
+    public static ConcurrentLinkedQueue<Message> mQueen = new ConcurrentLinkedQueue<Message>();
 
     //初始化
     public static final void init(int msg_max_size){
