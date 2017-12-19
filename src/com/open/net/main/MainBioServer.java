@@ -23,16 +23,21 @@ import java.nio.ByteBuffer;
 public class MainBioServer {
 
     public static void main_start(String [] args){
-
+    	
+    	//1.配置初始化
         ServerConfig mServerInfo = new ServerConfig();
         ServerConfig.initCmdConfig(mServerInfo,args);
         ServerConfig.initFileConfig(mServerInfo,"./conf/server.config");
         
+        //2.数据初始化
         GServer.init(mServerInfo, BioClient.class);
         
-        ServerLog.getIns().setLogListener(mLogListener);
+        //3.日志初始化
         Logger.init("./conf/log.config");
+        Logger.addFilterTraceElement(LogListener.class.getName());
+        ServerLog.getIns().setLogListener(mLogListener);
         
+        //4.连接初始化
         Logger.v(TAG, "-------work------start---------");
         try {
             BioServer mBioServer = new BioServer(mServerInfo,new MeMessageProcessor());
