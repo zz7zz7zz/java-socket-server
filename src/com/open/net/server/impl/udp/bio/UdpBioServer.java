@@ -9,30 +9,30 @@ import com.open.net.server.structures.ServerLock;
 import java.io.IOException;
 
 /**
- * author       :   Administrator
+ * author       :   long
  * created on   :   2017/12/6
- * description  :
+ * description  :   服务器对象
  */
 
 public class UdpBioServer {
 
     private ServerLock mServerLock;
-    private UdpBioReadProcessor mSocketReadProcessor;
-    private UdpBioWriteProcessor mSocketWRProcessor;
+    private UdpBioReadProcessor mUdpBioReadProcessor;
+    private UdpBioWriteProcessor mUdpBioWriteProcessor;
 
     public UdpBioServer(ServerConfig mServerInfo ,AbstractMessageProcessor mMessageProcessor) throws IOException {
         this.mServerLock = new ServerLock();
-        this.mSocketReadProcessor   = new UdpBioReadProcessor(mServerInfo,mServerLock,mMessageProcessor);
-        this.mSocketWRProcessor     = new UdpBioWriteProcessor(mMessageProcessor);
+        this.mUdpBioReadProcessor   = new UdpBioReadProcessor(mServerInfo,mServerLock,mMessageProcessor);
+        this.mUdpBioWriteProcessor     = new UdpBioWriteProcessor(mMessageProcessor);
     }
 
     public void start(){
 
-        Thread mRwProcessorThread       = new Thread(this.mSocketWRProcessor);
-        Thread mRProcessorThread       = new Thread(this.mSocketReadProcessor);
+        Thread mUdpBioWriteProcessorThread       = new Thread(this.mUdpBioWriteProcessor);
+        Thread mUdpBioReadProcessorThread       = new Thread(this.mUdpBioReadProcessor);
 
-        mRwProcessorThread.start();
-        mRProcessorThread.start();
+        mUdpBioWriteProcessorThread.start();
+        mUdpBioReadProcessorThread.start();
 
         mServerLock.waitEnding();
     }

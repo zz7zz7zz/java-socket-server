@@ -2,6 +2,7 @@ package com.open.net.server.impl.udp.bio;
 
 import com.open.net.server.structures.AbstractClient;
 import com.open.net.server.structures.AbstractMessageProcessor;
+import com.open.net.server.structures.ServerLog;
 import com.open.net.server.structures.message.Message;
 
 import java.io.IOException;
@@ -18,6 +19,8 @@ import java.net.SocketException;
 
 public class UdpBioClient extends AbstractClient {
 
+	public static String TAG = "UdpBioClient";
+	
     private Thread          mReadThread =null;
     //-------------------------------------------------------------------------------------------
     private DatagramSocket mSocket;
@@ -42,7 +45,8 @@ public class UdpBioClient extends AbstractClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+        mWriteDatagramPacket = null;
+        mReadDatagramPacket  = null;
         super.onClose();
     }
 
@@ -83,12 +87,13 @@ public class UdpBioClient extends AbstractClient {
             if(null != mMessageId){
                 mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
             }
-            mMessageId = pollWriteMessageId();
-            while (null != mMessageId) {
-                mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
-                mMessageId = pollWriteMessageId();
-            }
+            onSocketExit(1);
         }
         return writeRet;
+    }
+    
+    public void onSocketExit(int exit_code){
+        ServerLog.getIns().log(TAG, "client close  "+ mClientId +" when " + (exit_code == 1 ? "write" : "read "));
+        onClose();
     }
 }
