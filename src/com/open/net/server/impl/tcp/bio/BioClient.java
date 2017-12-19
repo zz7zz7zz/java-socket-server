@@ -21,7 +21,7 @@ public final class BioClient extends AbstractClient {
 	
 	public static String TAG = "BioClient";
 
-	private int MAX_READ_LEN = 8192;
+	private static int MAX_READ_LEN = 8192;
 	
     private Socket          mSocket 	  = null;
     private OutputStream    mOutputStream = null;

@@ -17,11 +17,12 @@ import java.nio.channels.SocketChannel;
 public final class NioClient extends AbstractClient {
 
 	public static String TAG = "NioClient";
-	
-    public SocketChannel mSocketChannel = null;
 
-    private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(16*1024);
-    private ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(16*1024);
+	private static int MAX_READ_LEN = 16*1024;
+    private static ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(MAX_READ_LEN);
+    private static ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(MAX_READ_LEN);
+    
+    public SocketChannel mSocketChannel = null;
 
     public NioClient() {
         reset();
