@@ -34,7 +34,8 @@ public class MainUdpNioServer {
         
         //3.日志初始化
         Logger.init("./conf/log.config");
-        Logger.addFilterTraceElement(LogListener.class.getName());
+        Logger.addFilterTraceElement(ServerLog.class.getName());
+        Logger.addFilterTraceElement(mLogListener.getClass().getName());
         ServerLog.getIns().setLogListener(mLogListener);
         
         //4.连接初始化
