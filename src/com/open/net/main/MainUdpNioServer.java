@@ -53,7 +53,7 @@ public class MainUdpNioServer {
     //-------------------------------------------------------------------------------------------
     public static AbstractMessageProcessor mMessageProcessor = new AbstractMessageProcessor() {
 
-        private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(256*1024);
+        private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(128*1024);
 
         protected void onReceiveMessage(AbstractClient client, Message msg){
         	
