@@ -56,6 +56,8 @@ public final class NioReadWriteProcessor implements Runnable {
 
                 clearUnreachableMessages();
 
+                mMessageProcessor.onTimeTick();
+                
                 Thread.sleep(5);
                 
             } catch (Exception e) {

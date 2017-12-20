@@ -54,7 +54,9 @@ public class MainBioServer {
     public static AbstractMessageProcessor mMessageProcessor = new AbstractMessageProcessor() {
 
         private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(128*1024);
-
+        private long oldTime = System.currentTimeMillis();
+        private long nowTime  = oldTime;
+        
         protected void onReceiveMessage(AbstractClient client, Message msg){
 
         	Logger.v("--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
@@ -73,6 +75,15 @@ public class MainBioServer {
             broadcast(mWriteBuffer.array(),0,response.length);
             mWriteBuffer.clear();
         }
+
+		@Override
+		public void onTimeTick() {
+			nowTime = System.currentTimeMillis();
+			if(nowTime - oldTime > 1000){
+				oldTime = nowTime;
+				
+			}
+		}
     };
 
     public static LogListener mLogListener = new LogListener(){

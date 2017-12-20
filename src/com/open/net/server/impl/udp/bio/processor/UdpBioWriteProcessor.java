@@ -36,6 +36,8 @@ public class UdpBioWriteProcessor implements Runnable{
 
                 clearUnreachableMessages();
 
+                mMessageProcessor.onTimeTick();
+                
                 Thread.sleep(5);
                 
             } catch (Exception e) {

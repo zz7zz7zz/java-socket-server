@@ -35,6 +35,8 @@ public class BioReadWriteProcessor implements Runnable{
                 writeToClients();
                 clearUnreachableMessages();
                 
+                mMessageProcessor.onTimeTick();
+                
                 Thread.sleep(5);
             } catch (Exception e) {
                 e.printStackTrace();

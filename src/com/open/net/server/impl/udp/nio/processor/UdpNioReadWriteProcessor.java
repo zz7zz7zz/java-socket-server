@@ -54,7 +54,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
             boolean isExit = false;
             while(!isExit) {
 
-                int readKeys = mSelector.select();
+                int readKeys = mSelector.select(5);
                 if(readKeys > 0){
                     Iterator<SelectionKey> selectedKeys = mSelector.selectedKeys().iterator();
                     while (selectedKeys.hasNext()) {
@@ -114,6 +114,8 @@ public class UdpNioReadWriteProcessor implements Runnable{
                     SelectionKey key= mDatagramChannel.keyFor(mSelector);
                     key.interestOps(SelectionKey.OP_WRITE);
                 }
+                
+                mMessageProcessor.onTimeTick();
             }
 
         } catch (IOException e) {

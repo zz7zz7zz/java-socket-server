@@ -54,11 +54,13 @@ public class MainUdpBioServer {
     public static AbstractMessageProcessor mMessageProcessor = new AbstractMessageProcessor() {
 
         private ByteBuffer mWriteBuffer  = ByteBuffer.allocate(128*1024);
-
+        private long oldTime = System.currentTimeMillis();
+        private long nowTime  = oldTime;
+        
         protected void onReceiveMessage(AbstractClient client, Message msg){
         	
             Logger.v("--onReceiveMessage()- rece  "+new String(msg.data,msg.offset,msg.length));
-            String data ="MainUdpNioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
+            String data ="MainUdpBioServer--onReceiveMessage()--src_reuse_type "+msg.src_reuse_type
                     + " dst_reuse_type " + msg.dst_reuse_type
                     + " block_index " +msg.block_index
                     + " offset " +msg.offset;
@@ -74,6 +76,15 @@ public class MainUdpBioServer {
             broadcast(mWriteBuffer.array(),0,response.length);
             mWriteBuffer.clear();
         }
+
+		@Override
+		public void onTimeTick() {
+			nowTime = System.currentTimeMillis();
+			if(nowTime - oldTime > 1000){
+				oldTime = nowTime;
+				
+			}
+		}
     };
 
     public static LogListener mLogListener = new LogListener(){

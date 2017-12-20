@@ -88,5 +88,8 @@ public abstract class AbstractMessageProcessor {
     //-------------------------------------------------------------------------------------------
     protected abstract void onReceiveMessage(AbstractClient client, Message msg);
 
-
+    /*
+     * 时间流逝的回调，可用于判断客户端心跳超时，时间计数等
+     */
+    public abstract void onTimeTick();
 }
