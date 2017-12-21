@@ -84,6 +84,16 @@ public class MainUdpNioServer {
 				
 			}
 		}
+
+		@Override
+		public void onClientEnter(AbstractClient client) {
+			System.out.println("onClientEnter " + client.mClientId);
+		}
+
+		@Override
+		public void onClientExit(AbstractClient client) {
+			System.out.println("onClientExit " + client.mClientId);
+		}
     };
 
     public static LogListener mLogListener = new LogListener(){

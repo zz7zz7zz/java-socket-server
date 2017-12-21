@@ -29,6 +29,7 @@ public abstract class AbstractClient {
         this.mHost = mHost;
         this.mPort = mPort;
         this.mMessageProcessor = mMessageProcessor;
+        this.mMessageProcessor.onClientEnter(this);
         GServer.register(this);
     }
 
@@ -40,7 +41,7 @@ public abstract class AbstractClient {
             mMessageProcessor.mWriteMessageQueen.remove(this, mMessageId);
             mMessageId = pollWriteMessageId();
         }
-        
+        this.mMessageProcessor.onClientExit(this);
         GServer.unregister(this);
     }
 
