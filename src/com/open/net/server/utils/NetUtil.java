@@ -16,11 +16,12 @@ import java.util.Iterator;
 
 public final class NetUtil {
 
-	public final static void send_data_by_tcp_bio(String host,int port,byte[] data){
+	public final static void send_data_by_tcp_bio(String host,int port,int timeout,byte[] data){
 		Socket socket = null;
 		OutputStream os = null;
 		try {
-			socket =new Socket(host,port);
+			socket  =new Socket();
+            socket.connect(new InetSocketAddress(host, port), timeout);
 			os = socket.getOutputStream();
 			os.write(data);
 			os.flush();
@@ -46,7 +47,7 @@ public final class NetUtil {
 		}
 	}
 	
-	public final static void send_data_by_tcp_nio(String host,int port,byte[] data){
+	public final static void send_data_by_tcp_nio(String host,int port,int timeout,byte[] data){
 		Selector mSelector     = null;
 		SocketChannel mSocketChannel = null;
 
@@ -59,7 +60,7 @@ public final class NetUtil {
 			
 			//连接
 			boolean isConnectSuccess = false;
-			int connect_timeout = 10000;
+			int connect_timeout = timeout;
             int connectReady = 0;
             if(connect_timeout == -1){
                 connectReady = mSelector.select();
