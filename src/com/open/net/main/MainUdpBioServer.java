@@ -27,13 +27,13 @@ public class MainUdpBioServer {
     	//1.配置初始化
         ServerConfig mServerInfo = new ServerConfig();
         mServerInfo.initArgsConfig(args);
-        mServerInfo.initFileConfig("./conf/server.config");
+        mServerInfo.initFileConfig("./conf/lib.server.config");
         
         //2.数据初始化
         GServer.init(mServerInfo, UdpBioClient.class);
         
         //3.日志初始化
-        Logger.init("./conf/log.config");
+        Logger.init("./conf/lib.log.config");
         Logger.addFilterTraceElement(ServerLog.class.getName());
         Logger.addFilterTraceElement(mLogListener.getClass().getName());
         ServerLog.getIns().setLogListener(mLogListener);
