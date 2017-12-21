@@ -36,13 +36,12 @@ public class MainUdpBioServer {
         Logger.init("./conf/lib.log.config");
         Logger.addFilterTraceElement(ServerLog.class.getName());
         Logger.addFilterTraceElement(mLogListener.getClass().getName());
-        ServerLog.getIns().setLogListener(mLogListener);
         Logger.v("-------Server------"+ mServerInfo.toString());
         
         //4.连接初始化
         Logger.v("-------Server------start---------");
         try {
-            UdpBioServer mBioServer = new UdpBioServer(mServerInfo,mMessageProcessor);
+            UdpBioServer mBioServer = new UdpBioServer(mServerInfo,mMessageProcessor,mLogListener);
             mBioServer.start();
         } catch (IOException e) {
             e.printStackTrace();

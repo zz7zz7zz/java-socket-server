@@ -5,6 +5,8 @@ import com.open.net.server.impl.udp.bio.processor.UdpBioWriteProcessor;
 import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
+import com.open.net.server.structures.ServerLog;
+import com.open.net.server.structures.ServerLog.LogListener;
 
 import java.io.IOException;
 
@@ -20,10 +22,11 @@ public class UdpBioServer {
     private UdpBioReadProcessor mUdpBioReadProcessor;
     private UdpBioWriteProcessor mUdpBioWriteProcessor;
 
-    public UdpBioServer(ServerConfig mServerInfo ,AbstractMessageProcessor mMessageProcessor) throws IOException {
+    public UdpBioServer(ServerConfig mServerInfo ,AbstractMessageProcessor mMessageProcessor,LogListener mLogListener) throws IOException {
         this.mServerLock = new ServerLock();
         this.mUdpBioReadProcessor   = new UdpBioReadProcessor(mServerInfo,mServerLock,mMessageProcessor);
         this.mUdpBioWriteProcessor     = new UdpBioWriteProcessor(mMessageProcessor);
+        ServerLog.getIns().setLogListener(mLogListener);
     }
 
     public void start(){

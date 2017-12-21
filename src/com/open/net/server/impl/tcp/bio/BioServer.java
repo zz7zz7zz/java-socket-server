@@ -5,6 +5,8 @@ import com.open.net.server.impl.tcp.bio.processor.BioReadWriteProcessor;
 import com.open.net.server.structures.AbstractMessageProcessor;
 import com.open.net.server.structures.ServerConfig;
 import com.open.net.server.structures.ServerLock;
+import com.open.net.server.structures.ServerLog;
+import com.open.net.server.structures.ServerLog.LogListener;
 
 import java.io.IOException;
 
@@ -20,10 +22,11 @@ public class BioServer {
     private BioAcceptProcessor mBioAcceptProcessor;
     private BioReadWriteProcessor mBioReadWriteProcessor;
 
-    public BioServer(ServerConfig mServerInfo, AbstractMessageProcessor mMessageProcessor) throws IOException {
+    public BioServer(ServerConfig mServerInfo, AbstractMessageProcessor mMessageProcessor,LogListener mLogListener) throws IOException {
         this.mServerLock = new ServerLock();
         this.mBioAcceptProcessor = new BioAcceptProcessor(mServerInfo,mServerLock,mMessageProcessor);
         this.mBioReadWriteProcessor = new BioReadWriteProcessor(mMessageProcessor);
+        ServerLog.getIns().setLogListener(mLogListener);
     }
 
     public void start(){
