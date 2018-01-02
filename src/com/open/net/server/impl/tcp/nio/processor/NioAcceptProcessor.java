@@ -1,12 +1,12 @@
 package com.open.net.server.impl.tcp.nio.processor;
 
-import com.open.net.lib.utils.TextUtils;
 import com.open.net.server.impl.tcp.nio.NioClient;
 import com.open.net.server.object.AbstractMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.ClientsPool;
+import com.open.net.server.utils.TextUtils;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

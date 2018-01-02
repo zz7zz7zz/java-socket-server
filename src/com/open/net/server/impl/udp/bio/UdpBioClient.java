@@ -1,6 +1,6 @@
 package com.open.net.server.impl.udp.bio;
 
-import com.open.net.lib.message.Message;
+import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractClient;
 import com.open.net.server.object.AbstractMessageProcessor;
 import com.open.net.server.object.ServerLog;

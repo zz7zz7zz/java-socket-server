@@ -1,12 +1,12 @@
 package com.open.net.server;
 
-import com.open.net.lib.message.MessageBuffer;
-import com.open.net.lib.pools.MessagePool;
-import com.open.net.lib.utils.KeyUtil;
+import com.open.net.server.message.MessageBuffer;
 import com.open.net.server.object.AbstractClient;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.ClientsPool;
+import com.open.net.server.pools.MessagePool;
+import com.open.net.server.utils.KeyUtil;
 
 import java.util.HashMap;
 

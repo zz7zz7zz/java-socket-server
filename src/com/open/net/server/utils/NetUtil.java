@@ -1,4 +1,4 @@
-package com.open.net.lib.utils;
+package com.open.net.server.utils;
 
 import java.io.IOException;
 import java.io.OutputStream;

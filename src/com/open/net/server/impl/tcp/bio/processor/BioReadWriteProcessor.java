@@ -1,11 +1,11 @@
 package com.open.net.server.impl.tcp.bio.processor;
 
-import com.open.net.lib.message.Message;
-import com.open.net.lib.pools.MessagePool;
 import com.open.net.server.GServer;
+import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractClient;
 import com.open.net.server.object.AbstractMessageProcessor;
 import com.open.net.server.object.ServerLog;
+import com.open.net.server.pools.MessagePool;
 
 import java.util.Iterator;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.open.net.lib.utils;
+package com.open.net.server.utils;
 
 /**
  * author       :   long

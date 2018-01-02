@@ -1,4 +1,4 @@
-package com.open.net.lib.message;
+package com.open.net.server.message;
 
 import java.util.HashSet;
 import java.util.Set;

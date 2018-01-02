@@ -1,9 +1,9 @@
 package com.open.net.server.object;
 
-import com.open.net.lib.message.Message;
-import com.open.net.lib.message.MessageReadQueen;
-import com.open.net.lib.message.MessageWriteQueen;
 import com.open.net.server.GServer;
+import com.open.net.server.message.Message;
+import com.open.net.server.message.MessageReadQueen;
+import com.open.net.server.message.MessageWriteQueen;
 
 /**
  * author       :   long

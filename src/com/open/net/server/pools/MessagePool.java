@@ -1,8 +1,8 @@
-package com.open.net.lib.pools;
+package com.open.net.server.pools;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import com.open.net.lib.message.Message;
+import com.open.net.server.message.Message;
 
 /**
  * author       :   long

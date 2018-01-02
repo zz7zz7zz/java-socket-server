@@ -8,7 +8,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import com.open.net.lib.utils.CfgParser;
+import com.open.net.server.utils.CfgParser;
 
 import java.util.HashMap;
 
