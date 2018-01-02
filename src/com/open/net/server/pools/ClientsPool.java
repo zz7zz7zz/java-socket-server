@@ -1,9 +1,9 @@
-package com.open.net.server.structures.pools;
-
-import com.open.net.server.structures.AbstractClient;
+package com.open.net.server.pools;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.open.net.server.object.AbstractClient;
 
 /**
  * author       :   long

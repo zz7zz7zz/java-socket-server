@@ -1,9 +1,9 @@
-package com.open.net.server.structures.message;
-
-import com.open.net.server.structures.AbstractClient;
+package com.open.net.lib.message;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.open.net.server.object.AbstractClient;
 
 /**
  * author       :   long

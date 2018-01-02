@@ -1,9 +1,9 @@
-package com.open.net.server.structures.message;
-
-import com.open.net.server.structures.AbstractClient;
+package com.open.net.lib.message;
 
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.open.net.server.object.AbstractClient;
 
 /**
  * author       :   long

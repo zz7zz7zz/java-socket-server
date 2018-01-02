@@ -1,8 +1,8 @@
-package com.open.net.server.structures.pools;
-
-import com.open.net.server.structures.message.Message;
+package com.open.net.lib.pools;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.open.net.lib.message.Message;
 
 /**
  * author       :   long

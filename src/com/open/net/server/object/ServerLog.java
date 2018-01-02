@@ -1,6 +1,6 @@
-package com.open.net.server.structures;
+package com.open.net.server.object;
 
-public class ServerLog {
+public final class ServerLog {
 
 	private static ServerLog INS = new ServerLog();
 	private ServerLog(){}

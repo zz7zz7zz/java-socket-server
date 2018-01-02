@@ -2,11 +2,11 @@ package com.open.net.server.impl.udp.bio;
 
 import com.open.net.server.impl.udp.bio.processor.UdpBioReadProcessor;
 import com.open.net.server.impl.udp.bio.processor.UdpBioWriteProcessor;
-import com.open.net.server.structures.AbstractMessageProcessor;
-import com.open.net.server.structures.ServerConfig;
-import com.open.net.server.structures.ServerLock;
-import com.open.net.server.structures.ServerLog;
-import com.open.net.server.structures.ServerLog.LogListener;
+import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.ServerConfig;
+import com.open.net.server.object.ServerLock;
+import com.open.net.server.object.ServerLog;
+import com.open.net.server.object.ServerLog.LogListener;
 
 import java.io.IOException;
 

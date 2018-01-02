@@ -1,6 +1,4 @@
-package com.open.net.server.structures;
-
-import com.open.net.server.utils.CfgParser;
+package com.open.net.server.object;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -9,6 +7,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+
+import com.open.net.lib.utils.CfgParser;
 
 import java.util.HashMap;
 

@@ -1,9 +1,9 @@
-package com.open.net.server.structures.message;
+package com.open.net.lib.message;
 
-
-import com.open.net.server.structures.pools.MessagePool;
 
 import java.util.LinkedList;
+
+import com.open.net.lib.pools.MessagePool;
 
 /**
  * author       :   long

@@ -2,11 +2,11 @@ package com.open.net.server.impl.udp.nio.processor;
 
 import com.open.net.server.GServer;
 import com.open.net.server.impl.udp.nio.UdpNioClient;
-import com.open.net.server.structures.AbstractClient;
-import com.open.net.server.structures.AbstractMessageProcessor;
-import com.open.net.server.structures.ServerConfig;
-import com.open.net.server.structures.ServerLog;
-import com.open.net.server.structures.pools.ClientsPool;
+import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.ServerConfig;
+import com.open.net.server.object.ServerLog;
+import com.open.net.server.pools.ClientsPool;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

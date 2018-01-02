@@ -1,4 +1,4 @@
-package com.open.net.server.structures;
+package com.open.net.server.object;
 
 /**
  * author       :   long

@@ -1,11 +1,11 @@
 package com.open.net.server.impl.udp.bio.processor;
 
+import com.open.net.lib.message.Message;
+import com.open.net.lib.pools.MessagePool;
 import com.open.net.server.GServer;
-import com.open.net.server.structures.AbstractClient;
-import com.open.net.server.structures.AbstractMessageProcessor;
-import com.open.net.server.structures.ServerLog;
-import com.open.net.server.structures.message.Message;
-import com.open.net.server.structures.pools.MessagePool;
+import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.ServerLog;
 
 import java.util.Iterator;
 import java.util.Map;
