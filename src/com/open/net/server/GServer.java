@@ -35,10 +35,10 @@ public final class GServer {
         mIpPortClientsMap   = new HashMap<>(mServerInfo.connect_max_count);
 
         MessagePool.init(mServerInfo.pool_size_small + mServerInfo.pool_size_middle + mServerInfo.pool_size_large);
-        ClientsPool.init(mServerInfo.connect_max_count,cls_client);
         MessageBuffer.init( mServerInfo.pool_capacity_small,mServerInfo.pool_capacity_middle,mServerInfo.pool_capacity_large,
                             mServerInfo.pool_size_small,mServerInfo.pool_size_middle,mServerInfo.pool_size_large,
                             mServerInfo.pool_max_size_temporary_cache);
+        ClientsPool.init(mServerInfo.connect_max_count,cls_client);
     }
 
     //----------------------------------------------------------------------
