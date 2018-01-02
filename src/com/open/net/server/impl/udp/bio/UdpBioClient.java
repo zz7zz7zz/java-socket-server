@@ -93,7 +93,7 @@ public class UdpBioClient extends AbstractClient {
     }
     
     public void onSocketExit(int exit_code){
-        ServerLog.getIns().log(TAG, "client close  "+ mClientId +" when " + (exit_code == 1 ? "write" : "read "));
+    		ServerLog.getIns().log(TAG, String.format("client close id %d host %s port %d when %s", mClientId,mHost,mPort,(exit_code == 1 ? "write" : "read ")));
         onClose();
     }
 }
