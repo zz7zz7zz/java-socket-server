@@ -17,13 +17,17 @@ import java.util.Iterator;
 public final class NetUtil {
 
 	public final static void send_data_by_tcp_bio(String host,int port,int timeout,byte[] data){
+		send_data_by_tcp_bio(host, port, timeout, data, 0, data.length);
+	}
+	
+	public final static void send_data_by_tcp_bio(String host,int port,int timeout,byte[] data,int offset,int length){
 		Socket socket = null;
 		OutputStream os = null;
 		try {
 			socket  =new Socket();
             socket.connect(new InetSocketAddress(host, port), timeout);
 			os = socket.getOutputStream();
-			os.write(data);
+			os.write(data,offset,length);
 			os.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,6 +52,10 @@ public final class NetUtil {
 	}
 	
 	public final static void send_data_by_tcp_nio(String host,int port,int timeout,byte[] data){
+		send_data_by_tcp_nio(host, port, timeout, data, 0, data.length);
+	}
+	
+	public final static void send_data_by_tcp_nio(String host,int port,int timeout,byte[] data,int offset,int length){
 		Selector mSelector     = null;
 		SocketChannel mSocketChannel = null;
 
@@ -117,7 +125,7 @@ public final class NetUtil {
             }
             
             if(isConnectSuccess){
-            	 ByteBuffer mWriteByteBuffer = ByteBuffer.wrap(data);
+            	 ByteBuffer mWriteByteBuffer = ByteBuffer.wrap(data,offset,length);
     			 while(mWriteByteBuffer.hasRemaining()){
                      mSocketChannel.write(mWriteByteBuffer);
                  }
@@ -152,10 +160,14 @@ public final class NetUtil {
 	}
 	
 	public final static void send_data_by_udp_bio(String host,int port,byte[] data){
+		send_data_by_udp_bio(host, port, data,0,data.length);
+	}
+	
+	public final static void send_data_by_udp_bio(String host,int port,byte[] data,int offset,int length){
 		DatagramSocket socket = null;
 		try {
 			socket = new DatagramSocket();
-			socket.send(new DatagramPacket(data, data.length, InetAddress.getByName(host), port));
+			socket.send(new DatagramPacket(data, offset,length, InetAddress.getByName(host), port));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -166,10 +178,14 @@ public final class NetUtil {
 	}
 	
 	public final static void send_data_by_udp_nio(String host,int port,byte[] data){
+		send_data_by_udp_nio(host, port, data, 0, data.length);
+	}
+	
+	public final static void send_data_by_udp_nio(String host,int port,byte[] data,int offset,int length){
 		DatagramChannel  channel = null;
 		try {
 			channel = DatagramChannel.open();
-		    channel.send(ByteBuffer.wrap(data), new InetSocketAddress(host,port));  
+		    channel.send(ByteBuffer.wrap(data,offset,length), new InetSocketAddress(host,port));  
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally{
