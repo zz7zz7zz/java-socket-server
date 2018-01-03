@@ -24,9 +24,9 @@ public final class MessageBuffer {
     private static int capacity_large   = 1   * MB;
 
     //块数量
-    private static int size_small       = 1024;
-    private static int size_middle      = 128;
-    private static int size_large       = 8;
+    private static int size_small       = 128;
+    private static int size_middle      = 16;
+    private static int size_large       = 1;
 
     //buffer依赖的实际数组
     private byte[] buffer_small  ;
