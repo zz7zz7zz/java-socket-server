@@ -3,7 +3,7 @@ package com.open.net.server.message;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 
 /**
  * author       :   long
@@ -16,14 +16,14 @@ public class MessageWriteQueen {
     private MessageBuffer   mWriteMessageBuffer = new MessageBuffer();
     public HashMap<Long,Message> mMessageMap = new HashMap<>(1024);//真正的消息队列
 
-    public ConcurrentLinkedQueue<AbstractClient> mWriteClientQueen = new ConcurrentLinkedQueue<AbstractClient>();//有需要发送消息的客户端
+    public ConcurrentLinkedQueue<AbstractServerClient> mWriteClientQueen = new ConcurrentLinkedQueue<AbstractServerClient>();//有需要发送消息的客户端
 
     public Message build(byte[] src , int offset , int length){
         Message msg = mWriteMessageBuffer.build(src,offset,length);
         return msg;
     }
 
-    public void put(AbstractClient client,Message msg){
+    public void put(AbstractServerClient client,Message msg){
         //1.消息进入消息池
         //2.每个客户端存入消息引用
         //3.每个消息添加要发送的对象
@@ -37,7 +37,7 @@ public class MessageWriteQueen {
         mWriteClientQueen.add(client);
     }
 
-    public void remove(AbstractClient mClient,Message msg){
+    public void remove(AbstractServerClient mClient,Message msg){
 
         mClient.removeWriteMessageId(msg.msgId);
 
@@ -49,7 +49,7 @@ public class MessageWriteQueen {
         }
     }
 
-    public void remove(AbstractClient mClient,long msgId){
+    public void remove(AbstractServerClient mClient,long msgId){
         Message msg = mMessageMap.get(msgId);
         if(null != msg){
             remove(mClient,msg);

@@ -1,7 +1,7 @@
 package com.open.net.server.impl.udp.bio;
 
 import com.open.net.server.message.Message;
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 
@@ -17,7 +17,7 @@ import java.net.SocketException;
  * description  :   客户端对象
  */
 
-public class UdpBioClient extends AbstractClient {
+public class UdpBioClient extends AbstractServerClient {
 
 	public static String TAG = "UdpBioClient";
 	

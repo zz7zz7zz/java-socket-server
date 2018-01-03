@@ -3,7 +3,7 @@ package com.open.net.server.pools;
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 
 /**
  * author       :   long
@@ -13,15 +13,15 @@ import com.open.net.server.object.AbstractClient;
 
 public final class ClientsPool {
 
-    private static Class<? extends AbstractClient> mClientCls;
-    private static ConcurrentLinkedQueue<AbstractClient> mQueen;
+    private static Class<? extends AbstractServerClient> mClientCls;
+    private static ConcurrentLinkedQueue<AbstractServerClient> mQueen;
 
     //初始化
-    public static final void init(int connect_max_count, Class<? extends AbstractClient> cls){
+    public static final void init(int connect_max_count, Class<? extends AbstractServerClient> cls){
         try {
             mQueen = new ConcurrentLinkedQueue<>();
             mClientCls = cls;
-            Constructor<AbstractClient> mConstructor = (Constructor<AbstractClient>) mClientCls.getConstructor();
+            Constructor<AbstractServerClient> mConstructor = (Constructor<AbstractServerClient>) mClientCls.getConstructor();
             for (int i = 0; i< connect_max_count; i++){
                 mQueen.add(mConstructor.newInstance());
             }
@@ -31,11 +31,11 @@ public final class ClientsPool {
     }
 
     //取
-    public static final AbstractClient get(){
-        AbstractClient ret= mQueen.poll();
+    public static final AbstractServerClient get(){
+        AbstractServerClient ret= mQueen.poll();
         if(null == ret){
             try {
-                Constructor<AbstractClient> mConstructor = (Constructor<AbstractClient>) mClientCls.getConstructor();
+                Constructor<AbstractServerClient> mConstructor = (Constructor<AbstractServerClient>) mClientCls.getConstructor();
                 ret = mConstructor.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -45,7 +45,7 @@ public final class ClientsPool {
     }
 
     //回收
-    public static final void put(AbstractClient obj){
+    public static final void put(AbstractServerClient obj){
         if(null != obj){
             obj.reset();
             mQueen.add(obj);

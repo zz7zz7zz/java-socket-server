@@ -1,7 +1,7 @@
 package com.open.net.server;
 
 import com.open.net.server.message.MessageBuffer;
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.ClientsPool;
@@ -24,10 +24,10 @@ public final class GServer {
     public static ServerConfig mServerInfo;
 
     //已经连接的客户端信息
-    private static HashMap<Long,AbstractClient> mClientsMap;
+    private static HashMap<Long,AbstractServerClient> mClientsMap;
     private static HashMap<String,Long> mIpPortClientsMap;
 
-    public static final void init(ServerConfig mServerInfo,Class<? extends AbstractClient> cls_client){
+    public static final void init(ServerConfig mServerInfo,Class<? extends AbstractServerClient> cls_client){
 
         GServer.mServerInfo = mServerInfo;
 
@@ -42,7 +42,7 @@ public final class GServer {
     }
 
     //----------------------------------------------------------------------
-    public static final void register(AbstractClient mClient){
+    public static final void register(AbstractServerClient mClient){
         if(null != mClient){
             mClientsMap.put(mClient.mClientId,mClient);
             mIpPortClientsMap.put(KeyUtil.getKey(mClient.mHost,mClient.mPort),mClient.mClientId);
@@ -51,7 +51,7 @@ public final class GServer {
         }
     }
 
-    public static final void unregister(AbstractClient mClient){
+    public static final void unregister(AbstractServerClient mClient){
         if(null != mClient){
             ServerLog.getIns().log(TAG, "client "+ mClient.mClientId +" exit  Host "+ mClient.mHost + " port " + mClient.mPort );
             
@@ -61,7 +61,7 @@ public final class GServer {
         }
     }
 
-    public static final AbstractClient getClient(String mHost, int mPort){
+    public static final AbstractServerClient getClient(String mHost, int mPort){
         Long socketId = mIpPortClientsMap.get(KeyUtil.getKey(mHost,mPort));
         if(null != socketId){
             return mClientsMap.get(socketId);
@@ -69,7 +69,7 @@ public final class GServer {
         return null;
     }
 
-    public static boolean isExistClient(AbstractClient mClient){
+    public static boolean isExistClient(AbstractServerClient mClient){
         return mClient == mClientsMap.get(mClient.mClientId);
     }
 
@@ -85,7 +85,7 @@ public final class GServer {
         return mClientsMap.size();
     }
 
-    public static HashMap<Long,AbstractClient> getClients(){
+    public static HashMap<Long,AbstractServerClient> getClients(){
         return mClientsMap;
     }
 }

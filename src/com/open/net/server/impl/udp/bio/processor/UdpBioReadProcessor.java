@@ -2,7 +2,7 @@ package com.open.net.server.impl.udp.bio.processor;
 
 import com.open.net.server.GServer;
 import com.open.net.server.impl.udp.bio.UdpBioClient;
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
@@ -50,7 +50,7 @@ public class UdpBioReadProcessor implements Runnable
                 int    mPort = mReadDatagramPacket.getPort();
 
                 UdpBioClient mClient = null;
-                AbstractClient client = GServer.getClient(mHost,mPort);
+                AbstractServerClient client = GServer.getClient(mHost,mPort);
                 if(null == client){
                     mClient = (UdpBioClient) ClientsPool.get();
                     if(null != mClient){

@@ -2,7 +2,7 @@ package com.open.net.server.impl.udp.nio.processor;
 
 import com.open.net.server.GServer;
 import com.open.net.server.impl.udp.nio.UdpNioClient;
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLog;
@@ -74,7 +74,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
                                 int mPort = Integer.valueOf(clientInfo[1]);
 
                                 UdpNioClient mClient;
-                                AbstractClient client = GServer.getClient(mHost,mPort);
+                                AbstractServerClient client = GServer.getClient(mHost,mPort);
                                 if(null == client){
                                     mClient = (UdpNioClient) ClientsPool.get();
                                     if(null != mClient){
@@ -95,7 +95,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
 
                         }else if (key.isWritable()) {
                         	
-                            AbstractClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+                            AbstractServerClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
                             while (null != mClient) {
                             	mClient.onWrite();
                                 mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();

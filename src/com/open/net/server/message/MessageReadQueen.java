@@ -2,7 +2,7 @@ package com.open.net.server.message;
 
 import java.util.HashMap;
 
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 
 /**
  * author       :   long
@@ -20,12 +20,12 @@ public final class MessageReadQueen {
         return msg;
     }
 
-    public void put(AbstractClient client, Message msg){
+    public void put(AbstractServerClient client, Message msg){
         mMessageMap.put(msg.msgId,msg);
         client.addReadMessageId(msg.msgId);
     }
 
-    public void remove(AbstractClient mClient, Message msg){
+    public void remove(AbstractServerClient mClient, Message msg){
         mMessageMap.remove(msg.msgId);
         mClient.removeReadMessageId(msg.msgId);
 

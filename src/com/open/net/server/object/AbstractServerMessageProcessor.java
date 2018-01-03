@@ -18,15 +18,15 @@ public abstract class AbstractServerMessageProcessor {
 
     //-------------------------------------------------------------------------------------------
     //单播
-    private final void unicast(AbstractClient client, Message msg){
+    private final void unicast(AbstractServerClient client, Message msg){
         if(null != client){
             mWriteMessageQueen.put(client,msg);
         }
     }
 
     //多播(组播)
-    private final void multicast(AbstractClient[] clients, Message msg){
-        for (AbstractClient client:clients) {
+    private final void multicast(AbstractServerClient[] clients, Message msg){
+        for (AbstractServerClient client:clients) {
             if(null != client){
                 mWriteMessageQueen.put(client,msg);
             }
@@ -35,7 +35,7 @@ public abstract class AbstractServerMessageProcessor {
 
     //广播
     private final void broadcast(Message msg){
-        for (AbstractClient client: GServer.getClients().values()) {
+        for (AbstractServerClient client: GServer.getClients().values()) {
             if(null != client){
                 mWriteMessageQueen.put(client,msg);
             }
@@ -43,7 +43,7 @@ public abstract class AbstractServerMessageProcessor {
     }
     //-------------------------------------------------------------------------------------------
     //单播
-    public void unicast(AbstractClient client, byte[] src , int offset , int length){
+    public void unicast(AbstractServerClient client, byte[] src , int offset , int length){
         if(null != client){
             Message msg = mWriteMessageQueen.build(src,offset,length);
             unicast(client,msg);
@@ -51,7 +51,7 @@ public abstract class AbstractServerMessageProcessor {
     }
 
     //多播(组播)
-    public void multicast(AbstractClient []clients, byte[] src , int offset , int length){
+    public void multicast(AbstractServerClient []clients, byte[] src , int offset , int length){
         if(null != clients && clients.length > 0){
             Message msg = mWriteMessageQueen.build(src,offset,length);
             multicast(clients,msg);
@@ -65,12 +65,12 @@ public abstract class AbstractServerMessageProcessor {
     }
     //-------------------------------------------------------------------------------------------
 
-    public final void onReceiveData(AbstractClient client, byte[] src , int offset , int length) {
+    public final void onReceiveData(AbstractServerClient client, byte[] src , int offset , int length) {
         Message msg = mReadMessageQueen.build(src,offset,length);
         mReadMessageQueen.put(client,msg);
     }
 
-    public final void onReceiveDataCompleted(AbstractClient mClient){
+    public final void onReceiveDataCompleted(AbstractServerClient mClient){
         Long msgId = mClient.pollReadMessageId();
         while (null != msgId){
             Message msg = mReadMessageQueen.mMessageMap.get(msgId);
@@ -87,14 +87,14 @@ public abstract class AbstractServerMessageProcessor {
     }
     //-------------------------------------------------------------------------------------------
     //收到消息
-    protected abstract void onReceiveMessage(AbstractClient client, Message msg);
+    protected abstract void onReceiveMessage(AbstractServerClient client, Message msg);
 
     //时间回调，可用于判断客户端心跳超时，或者用于时间计数
     public abstract void onTimeTick();
     
     //收到新连接
-    public abstract void onClientEnter(AbstractClient client);
+    public abstract void onClientEnter(AbstractServerClient client);
     
     //连接退出
-    public abstract void onClientExit(AbstractClient client);
+    public abstract void onClientExit(AbstractServerClient client);
 }

@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * description  :   客户连接对象
  */
 
-public abstract class AbstractClient {
+public abstract class AbstractServerClient {
 
     private static long G_AUTO_INCREAMEN_CLIENT_ID = 0;
 

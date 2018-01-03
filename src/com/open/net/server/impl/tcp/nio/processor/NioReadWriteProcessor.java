@@ -3,7 +3,7 @@ package com.open.net.server.impl.tcp.nio.processor;
 import com.open.net.server.GServer;
 import com.open.net.server.impl.tcp.nio.NioClient;
 import com.open.net.server.message.Message;
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.MessagePool;
@@ -115,7 +115,7 @@ public final class NioReadWriteProcessor implements Runnable {
     }
 
     private void registerWriteOpt() throws ClosedChannelException {
-        AbstractClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+        AbstractServerClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
         while (null != mClient) {
         	((NioClient)mClient).mSocketChannel.register(this.mWriteSelector, SelectionKey.OP_WRITE,mClient);
             mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
@@ -165,9 +165,9 @@ public final class NioReadWriteProcessor implements Runnable {
                 MessagePool.put(msg);
                 ServerLog.getIns().log(TAG, "clearUnreachableMessages A " + msg.msgId);
             }else{
-                Iterator<AbstractClient> it = msg.mReceivers.iterator();
+                Iterator<AbstractServerClient> it = msg.mReceivers.iterator();
                 while (it.hasNext()) {
-                    AbstractClient mClient = it.next();
+                    AbstractServerClient mClient = it.next();
                     if(!GServer.isExistClient(mClient)){
                         it.remove();
                     }

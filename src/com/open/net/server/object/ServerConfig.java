@@ -36,6 +36,7 @@ import java.util.HashMap;
 public class ServerConfig {
 
     //基本信息
+	public int    server_type = -1;
     public String name = "";
     public int    id   = -1;
     public String host = "";
@@ -55,6 +56,14 @@ public class ServerConfig {
     public int pool_size_large;
 
     public int pool_max_size_temporary_cache;
+    
+    public final void initArgsConfig(ArgsConfig argsConfig){
+    	this.server_type = argsConfig.server_type;
+    	this.name 		 = argsConfig.name;
+    	this.id 		 = argsConfig.id;
+    	this.host 		 = argsConfig.host;
+    	this.port 		 = argsConfig.port;
+    }
     
     //解析命令行参数
     public final void initArgsConfig(String[] args) {

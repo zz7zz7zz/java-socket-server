@@ -1,7 +1,7 @@
 package com.open.net.server.impl.tcp.nio;
 
 import com.open.net.server.message.Message;
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 
@@ -14,7 +14,7 @@ import java.nio.channels.SocketChannel;
  * description  :   客户端对象
  */
 
-public final class NioClient extends AbstractClient {
+public final class NioClient extends AbstractServerClient {
 
 	public static String TAG = "NioClient";
 

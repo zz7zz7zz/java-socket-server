@@ -2,7 +2,7 @@ package com.open.net.server.impl.udp.bio.processor;
 
 import com.open.net.server.GServer;
 import com.open.net.server.message.Message;
-import com.open.net.server.object.AbstractClient;
+import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.MessagePool;
@@ -48,7 +48,7 @@ public class UdpBioWriteProcessor implements Runnable{
 
     //-------------------------------------------------------------------------------------------
     private void writeToClients() {
-        AbstractClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+        AbstractServerClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
         while (null != mClient) {
         	mClient.onWrite();
             mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
@@ -66,9 +66,9 @@ public class UdpBioWriteProcessor implements Runnable{
                 MessagePool.put(msg);
                 ServerLog.getIns().log(TAG, "clearUnreachableMessages A " + msg.msgId);
             }else{
-                Iterator<AbstractClient> it = msg.mReceivers.iterator();
+                Iterator<AbstractServerClient> it = msg.mReceivers.iterator();
                 while (it.hasNext()) {
-                    AbstractClient mClient = it.next();
+                    AbstractServerClient mClient = it.next();
                     if(!GServer.isExistClient(mClient)){
                         it.remove();
                     }
