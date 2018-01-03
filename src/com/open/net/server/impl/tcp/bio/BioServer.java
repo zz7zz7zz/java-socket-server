@@ -2,7 +2,7 @@ package com.open.net.server.impl.tcp.bio;
 
 import com.open.net.server.impl.tcp.bio.processor.BioAcceptProcessor;
 import com.open.net.server.impl.tcp.bio.processor.BioReadWriteProcessor;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
 import com.open.net.server.object.ServerLog;
@@ -22,7 +22,7 @@ public class BioServer {
     private BioAcceptProcessor mBioAcceptProcessor;
     private BioReadWriteProcessor mBioReadWriteProcessor;
 
-    public BioServer(ServerConfig mServerInfo, AbstractMessageProcessor mMessageProcessor,LogListener mLogListener) throws IOException {
+    public BioServer(ServerConfig mServerInfo, AbstractServerMessageProcessor mMessageProcessor,LogListener mLogListener) throws IOException {
         this.mServerLock = new ServerLock();
         this.mBioAcceptProcessor = new BioAcceptProcessor(mServerInfo,mServerLock,mMessageProcessor);
         this.mBioReadWriteProcessor = new BioReadWriteProcessor(mMessageProcessor);

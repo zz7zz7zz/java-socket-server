@@ -2,7 +2,7 @@ package com.open.net.server.impl.tcp.bio;
 
 import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public final class BioClient extends AbstractClient {
 
     //--------------------------------------------------------------------------------------
 
-    public void init(String mHost, int mPort ,Socket socket,AbstractMessageProcessor messageProcessor) throws IOException {
+    public void init(String mHost, int mPort ,Socket socket,AbstractServerMessageProcessor messageProcessor) throws IOException {
         super.init(mHost,mPort,messageProcessor);
 
         mSocket    		= socket;

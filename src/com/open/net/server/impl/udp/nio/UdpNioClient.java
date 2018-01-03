@@ -2,7 +2,7 @@ package com.open.net.server.impl.udp.nio;
 
 import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 
 import java.net.InetSocketAddress;
@@ -22,7 +22,7 @@ public class UdpNioClient extends AbstractClient {
     private DatagramChannel mSocketChannel;
     private static ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(65507);
 
-    public void init(String mHost, int mPort , AbstractMessageProcessor messageProcessor, DatagramChannel socketChannel){
+    public void init(String mHost, int mPort , AbstractServerMessageProcessor messageProcessor, DatagramChannel socketChannel){
         super.init(mHost,mPort,messageProcessor);
 
         this.mSocketChannel = socketChannel;

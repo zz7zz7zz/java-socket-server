@@ -3,7 +3,7 @@ package com.open.net.server.impl.udp.bio.processor;
 import com.open.net.server.GServer;
 import com.open.net.server.impl.udp.bio.UdpBioClient;
 import com.open.net.server.object.AbstractClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
 import com.open.net.server.object.ServerLog;
@@ -25,12 +25,12 @@ public class UdpBioReadProcessor implements Runnable
 	
     public ServerConfig mServerInfo;
     public ServerLock mServerLock;
-    public AbstractMessageProcessor mMessageProcessor;
+    public AbstractServerMessageProcessor mMessageProcessor;
 
     public byte[] mWriteBuff  = new byte[65507];
     public byte[] mReadBuff  = new byte[65507];
 
-    public UdpBioReadProcessor(ServerConfig mServerInfo, ServerLock mLock, AbstractMessageProcessor mMessageProcessor) {
+    public UdpBioReadProcessor(ServerConfig mServerInfo, ServerLock mLock, AbstractServerMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mServerLock = mLock;
         this.mMessageProcessor = mMessageProcessor;

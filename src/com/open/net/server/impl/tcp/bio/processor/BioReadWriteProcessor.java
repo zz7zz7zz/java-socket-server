@@ -3,7 +3,7 @@ package com.open.net.server.impl.tcp.bio.processor;
 import com.open.net.server.GServer;
 import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.MessagePool;
 
@@ -21,9 +21,9 @@ public class BioReadWriteProcessor implements Runnable{
 
 	public static String TAG = "BioReadWriteProcessor";
 	
-    private AbstractMessageProcessor mMessageProcessor;
+    private AbstractServerMessageProcessor mMessageProcessor;
 
-    public BioReadWriteProcessor(AbstractMessageProcessor mMessageProcessor) {
+    public BioReadWriteProcessor(AbstractServerMessageProcessor mMessageProcessor) {
         this.mMessageProcessor = mMessageProcessor;
     }
 

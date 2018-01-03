@@ -2,7 +2,7 @@ package com.open.net.server.impl.udp.bio;
 
 import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class UdpBioClient extends AbstractClient {
     private DatagramPacket mWriteDatagramPacket ;
     private DatagramPacket mReadDatagramPacket ;
 
-    public void init(String mHost, int mPort ,AbstractMessageProcessor messageProcessor, DatagramSocket mSocket, DatagramPacket mWriteDatagramPacket, DatagramPacket mReadDatagramPacket){
+    public void init(String mHost, int mPort ,AbstractServerMessageProcessor messageProcessor, DatagramSocket mSocket, DatagramPacket mWriteDatagramPacket, DatagramPacket mReadDatagramPacket){
         super.init(mHost,mPort,messageProcessor);
 
         this.mSocket = mSocket;

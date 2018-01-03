@@ -4,7 +4,7 @@ import com.open.net.server.GServer;
 import com.open.net.server.impl.tcp.nio.NioClient;
 import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.MessagePool;
 
@@ -29,12 +29,12 @@ public final class NioReadWriteProcessor implements Runnable {
 	public static String TAG = "NioReadWriteProcessor";
 	
     private ConcurrentLinkedQueue<NioClient> mAcceptClientQueen;
-    private AbstractMessageProcessor mMessageProcessor;
+    private AbstractServerMessageProcessor mMessageProcessor;
 
     private Selector            mReadSelector;
     private Selector            mWriteSelector;
 
-    public NioReadWriteProcessor(ConcurrentLinkedQueue<NioClient> mAcceptClientQueen, AbstractMessageProcessor mMessageProcessor) throws IOException {
+    public NioReadWriteProcessor(ConcurrentLinkedQueue<NioClient> mAcceptClientQueen, AbstractServerMessageProcessor mMessageProcessor) throws IOException {
         this.mAcceptClientQueen = mAcceptClientQueen;
         this.mMessageProcessor  = mMessageProcessor;
         this.mReadSelector      = Selector.open();

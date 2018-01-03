@@ -1,7 +1,7 @@
 package com.open.net.server.impl.udp.nio;
 
 import com.open.net.server.impl.udp.nio.processor.UdpNioReadWriteProcessor;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
 import com.open.net.server.object.ServerLog;
@@ -20,7 +20,7 @@ public class UdpNioServer {
     private ServerLock mServerLock;
     private UdpNioReadWriteProcessor mUdpNioReadWriteProcessor;
 
-    public UdpNioServer(ServerConfig mServerInfo , AbstractMessageProcessor mMessageProcessor,LogListener mLogListener) throws IOException {
+    public UdpNioServer(ServerConfig mServerInfo , AbstractServerMessageProcessor mMessageProcessor,LogListener mLogListener) throws IOException {
         this.mServerLock = new ServerLock();
         this.mUdpNioReadWriteProcessor     = new UdpNioReadWriteProcessor(mServerInfo,mMessageProcessor);
         ServerLog.getIns().setLogListener(mLogListener);

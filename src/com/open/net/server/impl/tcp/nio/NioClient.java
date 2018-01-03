@@ -2,7 +2,7 @@ package com.open.net.server.impl.tcp.nio;
 
 import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 
 import java.nio.ByteBuffer;
@@ -29,7 +29,7 @@ public final class NioClient extends AbstractClient {
     }
     //--------------------------------------------------------------------------------------
 
-    public void init(String mHost, int mPort ,SocketChannel socketChannel,AbstractMessageProcessor mMessageProcessor){
+    public void init(String mHost, int mPort ,SocketChannel socketChannel,AbstractServerMessageProcessor mMessageProcessor){
         super.init(mHost,mPort,mMessageProcessor);
         this.mSocketChannel = socketChannel;
     }

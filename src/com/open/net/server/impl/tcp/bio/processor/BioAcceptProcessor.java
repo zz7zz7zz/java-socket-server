@@ -1,7 +1,7 @@
 package com.open.net.server.impl.tcp.bio.processor;
 
 import com.open.net.server.impl.tcp.bio.BioClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
 import com.open.net.server.object.ServerLog;
@@ -25,9 +25,9 @@ public class BioAcceptProcessor implements Runnable
 	
     public ServerConfig mServerInfo;
     public ServerLock mServerLock;
-    public AbstractMessageProcessor mMessageProcessor;
+    public AbstractServerMessageProcessor mMessageProcessor;
 
-    public BioAcceptProcessor(ServerConfig mServerInfo, ServerLock mLock, AbstractMessageProcessor mMessageProcessor) {
+    public BioAcceptProcessor(ServerConfig mServerInfo, ServerLock mLock, AbstractServerMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mServerLock = mLock;
         this.mMessageProcessor = mMessageProcessor;

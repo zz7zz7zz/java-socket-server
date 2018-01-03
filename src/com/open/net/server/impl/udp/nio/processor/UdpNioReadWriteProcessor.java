@@ -3,7 +3,7 @@ package com.open.net.server.impl.udp.nio.processor;
 import com.open.net.server.GServer;
 import com.open.net.server.impl.udp.nio.UdpNioClient;
 import com.open.net.server.object.AbstractClient;
-import com.open.net.server.object.AbstractMessageProcessor;
+import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.ClientsPool;
@@ -28,14 +28,14 @@ public class UdpNioReadWriteProcessor implements Runnable{
 	public static String TAG = "UdpNioReadWriteProcessor";
 	
     public ServerConfig mServerInfo;
-    public AbstractMessageProcessor mMessageProcessor;
+    public AbstractServerMessageProcessor mMessageProcessor;
 
     private DatagramChannel mDatagramChannel;
     private Selector mSelector = null;
     private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(65507);
 
 
-    public UdpNioReadWriteProcessor(ServerConfig mServerInfo, AbstractMessageProcessor mMessageProcessor) {
+    public UdpNioReadWriteProcessor(ServerConfig mServerInfo, AbstractServerMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
         this.mMessageProcessor = mMessageProcessor;
     }

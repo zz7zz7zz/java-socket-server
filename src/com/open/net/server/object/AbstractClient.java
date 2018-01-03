@@ -20,10 +20,10 @@ public abstract class AbstractClient {
     public Object   mAttachment;
     protected ConcurrentLinkedQueue<Long> mReadMessageIds = new ConcurrentLinkedQueue<Long>();
     protected ConcurrentLinkedQueue<Long> mWriteMessageIds = new ConcurrentLinkedQueue<Long>();
-    protected AbstractMessageProcessor mMessageProcessor;
+    protected AbstractServerMessageProcessor mMessageProcessor;
 
     //--------------------------------------------------------------------------------------
-    public void init(String mHost, int mPort ,AbstractMessageProcessor mMessageProcessor) {
+    public void init(String mHost, int mPort ,AbstractServerMessageProcessor mMessageProcessor) {
         G_AUTO_INCREAMEN_CLIENT_ID++;
         mClientId = G_AUTO_INCREAMEN_CLIENT_ID;
         this.mHost = mHost;

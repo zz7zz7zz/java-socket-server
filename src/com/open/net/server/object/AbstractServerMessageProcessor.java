@@ -11,7 +11,7 @@ import com.open.net.server.message.MessageWriteQueen;
  * description  :   信息处理类
  */
 
-public abstract class AbstractMessageProcessor {
+public abstract class AbstractServerMessageProcessor {
 
     public MessageReadQueen  mReadMessageQueen   = new MessageReadQueen();
     public MessageWriteQueen mWriteMessageQueen  = new MessageWriteQueen();
