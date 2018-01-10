@@ -54,6 +54,11 @@ public abstract class AbstractServerClient {
         mWriteMessageIds.clear();
         mMessageProcessor = null;
     }
+    
+	public String toShortString(String tag) {
+		return "AbstractServerClient "+tag+" [mClientId=" + mClientId + ", mHost=" + mHost + ", mPort=" + mPort + "]";
+	}
+    
     //--------------------------------------------------------------------------------------
 
     public abstract boolean onRead();
