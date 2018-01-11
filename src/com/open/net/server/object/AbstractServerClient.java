@@ -1,6 +1,9 @@
 package com.open.net.server.object;
 
 import com.open.net.server.GServer;
+import com.open.net.server.message.Message;
+import com.open.net.server.message.MessageBuffer;
+import com.open.net.server.pools.MessagePool;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -18,6 +21,7 @@ public abstract class AbstractServerClient {
     public String   mHost = null;
     public int      mPort = -1;
     public Object   mAttachment;
+    public Message  mReceivingMsg;
     protected ConcurrentLinkedQueue<Long> mReadMessageIds = new ConcurrentLinkedQueue<Long>();
     protected ConcurrentLinkedQueue<Long> mWriteMessageIds = new ConcurrentLinkedQueue<Long>();
     protected AbstractServerMessageProcessor mMessageProcessor;
@@ -53,6 +57,9 @@ public abstract class AbstractServerClient {
         mReadMessageIds.clear();
         mWriteMessageIds.clear();
         mMessageProcessor = null;
+        
+        MessageBuffer.getInstance().release(mReceivingMsg);
+        mReceivingMsg = null;
     }
     
 	public String toShortString(String tag) {

@@ -13,7 +13,7 @@ import com.open.net.server.object.AbstractServerClient;
 
 public class MessageWriteQueen {
 
-    private MessageBuffer   mWriteMessageBuffer = new MessageBuffer();
+    private MessageBuffer   mWriteMessageBuffer = MessageBuffer.getInstance();
     public HashMap<Long,Message> mMessageMap = new HashMap<>(1024);//真正的消息队列
 
     public ConcurrentLinkedQueue<AbstractServerClient> mWriteClientQueen = new ConcurrentLinkedQueue<AbstractServerClient>();//有需要发送消息的客户端

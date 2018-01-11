@@ -12,7 +12,7 @@ import com.open.net.server.object.AbstractServerClient;
 
 public final class MessageReadQueen {
 
-    public MessageBuffer   mReadMessageBuffer  = new MessageBuffer();
+    public MessageBuffer   mReadMessageBuffer  = MessageBuffer.getInstance();
     public HashMap<Long,Message> mMessageMap = new HashMap<>(1024);//真正的消息队列
 
     public Message build(byte[] src , int offset , int length){
