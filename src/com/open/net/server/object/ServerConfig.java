@@ -57,6 +57,10 @@ public class ServerConfig {
 
     public int pool_max_size_temporary_cache;
     
+    //包大小配置
+    public int packet_max_length_tcp = 16384;
+    public int packet_max_length_udp = 65507;
+    
     public final void initArgsConfig(ArgsConfig argsConfig){
     	this.server_type = argsConfig.server_type;
     	this.name 		 = argsConfig.name;
@@ -127,6 +131,9 @@ public class ServerConfig {
             pool_size_large 		= CfgParser.getInt(map,"pool","pool_size_large");
 
             pool_max_size_temporary_cache = CfgParser.getInt(map,"pool","pool_max_size_temporary_cache");
+            
+            packet_max_length_tcp 	= CfgParser.getInt(map,"packet","packet_max_length_tcp");
+            packet_max_length_udp 	= CfgParser.getInt(map,"packet","packet_max_length_udp");
        }
     }
 
