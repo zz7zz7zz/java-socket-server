@@ -34,6 +34,9 @@ public class UdpBioServer {
         Thread mUdpBioWriteProcessorThread       = new Thread(this.mUdpBioWriteProcessor);
         Thread mUdpBioReadProcessorThread       = new Thread(this.mUdpBioReadProcessor);
 
+        mUdpBioWriteProcessorThread.setName("Udp-Bio-Write-Thread");
+        mUdpBioReadProcessorThread.setName("Udp-Bio-Read-Thread");
+        
         mUdpBioWriteProcessorThread.start();
         mUdpBioReadProcessorThread.start();
 

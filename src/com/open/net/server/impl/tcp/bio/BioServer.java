@@ -34,6 +34,9 @@ public class BioServer {
         Thread mBioAcceptProcessorThread   = new Thread(this.mBioAcceptProcessor);
         Thread mBioReadWriteProcessorThread       = new Thread(this.mBioReadWriteProcessor);
 
+        mBioAcceptProcessorThread.setName("Bio-Accept-Thread");
+        mBioReadWriteProcessorThread.setName("Bio-ReadWrite-Thread");
+        
         mBioAcceptProcessorThread.start();
         mBioReadWriteProcessorThread.start();
 

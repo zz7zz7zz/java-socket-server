@@ -31,6 +31,8 @@ public class UdpNioServer {
         Thread mUdpNioReadWriteProcessor       = new Thread(this.mUdpNioReadWriteProcessor);
         mUdpNioReadWriteProcessor.start();
 
+        mUdpNioReadWriteProcessor.setName("Udp-Nio-ReadWrite-Thread");
+        
         mServerLock.waitEnding();
     }
 

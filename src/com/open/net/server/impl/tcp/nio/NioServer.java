@@ -36,6 +36,9 @@ public final class NioServer {
         Thread mNioAcceptProcessorThread   = new Thread(this.mNioAcceptProcessor);
         Thread mNioReadWriteProcessorThread       = new Thread(this.mNioReadWriteProcessor);
 
+        mNioAcceptProcessorThread.setName("Nio-Accept-Thread");
+        mNioReadWriteProcessorThread.setName("Nio-ReadWrite-Thread");
+        
         mNioAcceptProcessorThread.start();
         mNioReadWriteProcessorThread.start();
 
