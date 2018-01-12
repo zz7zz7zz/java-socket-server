@@ -32,7 +32,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
 
     private DatagramChannel mDatagramChannel;
     private Selector mSelector = null;
-    private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(65507);
+    private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(AbstractServerClient.PACKET_MAX_LENGTH_UDP);
 
 
     public UdpNioReadWriteProcessor(ServerConfig mServerInfo, AbstractServerMessageProcessor mMessageProcessor) {

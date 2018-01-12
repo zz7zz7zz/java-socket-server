@@ -15,6 +15,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class AbstractServerClient {
 
+	//最大包体长度
+	public static int PACKET_MAX_LENGTH_TCP = 8192;//TCP 最大包体长度
+	public static int PACKET_MAX_LENGTH_UDP = 65507;//UDP 最大包体长度
+	
     private static long G_AUTO_INCREAMEN_CLIENT_ID = 0;
 
     public long     mClientId = 0;

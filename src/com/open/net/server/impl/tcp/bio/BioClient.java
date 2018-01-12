@@ -21,8 +21,6 @@ public final class BioClient extends AbstractServerClient {
 	
 	public static String TAG = "BioClient";
 
-	private static int MAX_READ_LEN = 8192;
-	
     private Socket          mSocket 	  = null;
     private OutputStream    mOutputStream = null;
     private InputStream     mInputStream  = null;
@@ -116,9 +114,9 @@ public final class BioClient extends AbstractServerClient {
     public boolean onRead() {
         boolean readRet = false;
         try {
-            byte[] byteBuff=new byte[MAX_READ_LEN];
+            byte[] byteBuff=new byte[PACKET_MAX_LENGTH_TCP];
             int numRead;
-            while((numRead= mInputStream.read(byteBuff, 0, MAX_READ_LEN))>0) {
+            while((numRead= mInputStream.read(byteBuff, 0, PACKET_MAX_LENGTH_TCP))>0) {
                 if(numRead > 0){
                     if(null!= mMessageProcessor){
                         mMessageProcessor.onReceiveData(BioClient.this,byteBuff,0,numRead);

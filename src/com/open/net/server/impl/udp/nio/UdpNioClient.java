@@ -20,7 +20,7 @@ public class UdpNioClient extends AbstractServerClient {
 	public static String TAG = "UdpNioClient";
 	
     private DatagramChannel mSocketChannel;
-    private static ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(65507);
+    private static ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(AbstractServerClient.PACKET_MAX_LENGTH_UDP);
 
     public void init(String mHost, int mPort , AbstractServerMessageProcessor messageProcessor, DatagramChannel socketChannel){
         super.init(mHost,mPort,messageProcessor);

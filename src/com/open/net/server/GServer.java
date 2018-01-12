@@ -34,6 +34,9 @@ public final class GServer {
         mClientsMap         = new HashMap<>(mServerInfo.connect_max_count);
         mIpPortClientsMap   = new HashMap<>(mServerInfo.connect_max_count);
 
+        AbstractServerClient.PACKET_MAX_LENGTH_TCP = mServerInfo.packet_max_length_tcp;
+        AbstractServerClient.PACKET_MAX_LENGTH_UDP = mServerInfo.packet_max_length_udp;
+        
         MessagePool.init(mServerInfo.pool_size_small + mServerInfo.pool_size_middle + mServerInfo.pool_size_large);
         MessageBuffer.init( mServerInfo.pool_capacity_small,mServerInfo.pool_capacity_middle,mServerInfo.pool_capacity_large,
                             mServerInfo.pool_size_small,mServerInfo.pool_size_middle,mServerInfo.pool_size_large,

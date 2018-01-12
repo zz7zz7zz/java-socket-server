@@ -18,9 +18,8 @@ public final class NioClient extends AbstractServerClient {
 
 	public static String TAG = "NioClient";
 
-	private static int MAX_READ_LEN = 16*1024;
-    private static ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(MAX_READ_LEN);
-    private static ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(MAX_READ_LEN);
+    private static ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(PACKET_MAX_LENGTH_TCP);
+    private static ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(PACKET_MAX_LENGTH_TCP);
     
     public SocketChannel mSocketChannel = null;
 

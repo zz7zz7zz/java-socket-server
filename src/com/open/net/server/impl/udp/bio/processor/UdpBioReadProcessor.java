@@ -27,8 +27,8 @@ public class UdpBioReadProcessor implements Runnable
     public ServerLock mServerLock;
     public AbstractServerMessageProcessor mMessageProcessor;
 
-    public byte[] mWriteBuff  = new byte[65507];
-    public byte[] mReadBuff  = new byte[65507];
+    public byte[] mWriteBuff  = new byte[AbstractServerClient.PACKET_MAX_LENGTH_UDP];
+    public byte[] mReadBuff  = new byte[AbstractServerClient.PACKET_MAX_LENGTH_UDP];
 
     public UdpBioReadProcessor(ServerConfig mServerInfo, ServerLock mLock, AbstractServerMessageProcessor mMessageProcessor) {
         this.mServerInfo = mServerInfo;
