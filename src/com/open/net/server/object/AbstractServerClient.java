@@ -3,7 +3,6 @@ package com.open.net.server.object;
 import com.open.net.server.GServer;
 import com.open.net.server.message.Message;
 import com.open.net.server.message.MessageBuffer;
-import com.open.net.server.pools.MessagePool;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 

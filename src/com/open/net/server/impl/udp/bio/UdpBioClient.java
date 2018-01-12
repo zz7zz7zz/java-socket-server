@@ -25,14 +25,14 @@ public class UdpBioClient extends AbstractServerClient {
     //-------------------------------------------------------------------------------------------
     private DatagramSocket mSocket;
     private DatagramPacket mWriteDatagramPacket ;
-    private DatagramPacket mReadDatagramPacket ;
+//    private DatagramPacket mReadDatagramPacket ;
 
     public void init(String mHost, int mPort ,AbstractServerMessageProcessor messageProcessor, DatagramSocket mSocket, DatagramPacket mWriteDatagramPacket, DatagramPacket mReadDatagramPacket){
         super.init(mHost,mPort,messageProcessor);
 
         this.mSocket = mSocket;
         this.mWriteDatagramPacket = mWriteDatagramPacket;
-        this.mReadDatagramPacket = mReadDatagramPacket;
+//        this.mReadDatagramPacket = mReadDatagramPacket;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class UdpBioClient extends AbstractServerClient {
             e.printStackTrace();
         }
         mWriteDatagramPacket = null;
-        mReadDatagramPacket  = null;
+//        mReadDatagramPacket  = null;
         super.onClose();
     }
 
