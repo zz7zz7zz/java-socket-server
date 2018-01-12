@@ -7,6 +7,7 @@ import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.ClientsPool;
+import com.open.net.server.utils.ExceptionUtil;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -119,7 +120,7 @@ public class UdpNioReadWriteProcessor implements Runnable{
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+        	ServerLog.getIns().log(TAG, ExceptionUtil.getStackTraceString(e));
         }
 
     }

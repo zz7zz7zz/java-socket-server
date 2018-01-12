@@ -8,6 +8,7 @@ import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.ClientsPool;
+import com.open.net.server.utils.ExceptionUtil;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -69,10 +70,9 @@ public class UdpBioReadProcessor implements Runnable
                 mReadDatagramPacket.setLength(mReadDatagramPacket.getData().length);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+        	ServerLog.getIns().log(TAG, ExceptionUtil.getStackTraceString(e));
         }
 
-        ServerLog.getIns().log(TAG, "server exit");
         mServerLock.notifytEnding();
 
     }

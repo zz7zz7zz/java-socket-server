@@ -6,6 +6,7 @@ import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.ClientsPool;
+import com.open.net.server.utils.ExceptionUtil;
 import com.open.net.server.utils.TextUtils;
 
 import java.io.IOException;
@@ -67,7 +68,7 @@ public class BioAcceptProcessor implements Runnable
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            ServerLog.getIns().log(TAG, ExceptionUtil.getStackTraceString(e));
         }finally{
         	if(null != mServerSocket){
         		try {
@@ -78,7 +79,6 @@ public class BioAcceptProcessor implements Runnable
         	}
         }
 
-        ServerLog.getIns().log(TAG, "server exit");
         mServerLock.notifytEnding();
 
     }

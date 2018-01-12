@@ -6,6 +6,7 @@ import com.open.net.server.object.ServerConfig;
 import com.open.net.server.object.ServerLock;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.ClientsPool;
+import com.open.net.server.utils.ExceptionUtil;
 import com.open.net.server.utils.TextUtils;
 
 import java.io.IOException;
@@ -85,10 +86,9 @@ public final class NioAcceptProcessor implements Runnable
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+        	ServerLog.getIns().log(TAG, ExceptionUtil.getStackTraceString(e));
         }
 
-        ServerLog.getIns().log(TAG, "server exit");
         mServerLock.notifytEnding();
     }
 }
