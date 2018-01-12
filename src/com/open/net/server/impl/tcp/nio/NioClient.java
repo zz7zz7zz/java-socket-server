@@ -18,6 +18,7 @@ public final class NioClient extends AbstractServerClient {
 
 	public static String TAG = "NioClient";
 
+	//因为Nio中所有的客户端注册Selector后，都是一个一个来读取，所以可以设置为全局属性
     private static ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(PACKET_MAX_LENGTH_TCP);
     private static ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(PACKET_MAX_LENGTH_TCP);
     
