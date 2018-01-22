@@ -115,6 +115,38 @@ public final class CfgParser {
         return false;
     }
 
+    public static byte getByte(final HashMap<String,Object> map , final String ... key){
+        String val = null;
+        HashMap<String,Object> vMap  = map;
+        for (int i = 0;i<key.length;i++){
+            Object obj = vMap.get(key[i]);
+            if(i < key.length -1){
+                if(null == obj || !(obj instanceof HashMap)){
+                    break;
+                }
+                vMap = (HashMap)obj;
+            }else if(obj instanceof String){
+                val = (String)obj;
+            }
+        }
+        if(!TextUtils.isEmpty(val)){
+            return Byte.valueOf(val);
+        }
+        return 0;
+    }
+    
+    public static byte[] getByteArray(final HashMap<String,Object> map , final String ... key){
+    	byte[] ret = null;
+    	String val[]     = getStringArray(map,key);
+        if(null != val){
+        	ret = new byte[val.length];
+            for (int i = 0; i < val.length; i++) {
+            	ret[i] = Byte.valueOf(val[i]);
+            }
+        }
+        return ret;
+    }
+    
     public static int getInt(final HashMap<String,Object> map , final String ... key){
         String val = null;
         HashMap<String,Object> vMap  = map;
@@ -135,6 +167,18 @@ public final class CfgParser {
         return 0;
     }
 
+    public static int[] getIntArray(final HashMap<String,Object> map , final String ... key){
+    	int[] ret = null;
+    	String val[]     = getStringArray(map,key);
+        if(null != val){
+        	ret = new int[val.length];
+            for (int i = 0; i < val.length; i++) {
+            	ret[i] = Integer.valueOf(val[i]);
+            }
+        }
+        return ret;
+    }
+    
     public static long getLong(final HashMap<String,Object> map , final String ... key){
         String val = null;
         HashMap<String,Object> vMap  = map;
@@ -155,6 +199,18 @@ public final class CfgParser {
         return 0;
     }
 
+    public static long[] getLongArray(final HashMap<String,Object> map , final String ... key){
+    	long[] ret = null;
+    	String val[]     = getStringArray(map,key);
+        if(null != val){
+        	ret = new long[val.length];
+            for (int i = 0; i < val.length; i++) {
+            	ret[i] = Long.valueOf(val[i]);
+            }
+        }
+        return ret;
+    }
+    
     public static float getFloat(final HashMap<String,Object> map , final String ... key){
         String val = null;
         HashMap<String,Object> vMap  = map;
