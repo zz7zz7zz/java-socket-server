@@ -25,7 +25,7 @@ public class ArgsConfig {
     //基本信息
 	public int    server_type = -1;
     public String name = "";
-    public int    id   = -1;
+    public short    id   = -1;
     public String host = "";
     public int    port = -1 ;
     
@@ -67,7 +67,7 @@ public class ArgsConfig {
     
     protected void initArgsConfig(CommandLine cmd){
         name = cmd.getOptionValue("n");
-        id   = Integer.valueOf(cmd.getOptionValue("i"));
+        id   = Short.valueOf(cmd.getOptionValue("i"));
         if(cmd.hasOption("h")){
         	host = cmd.getOptionValue("h");
         }
