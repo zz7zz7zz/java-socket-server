@@ -147,6 +147,38 @@ public final class CfgParser {
         return ret;
     }
     
+    public static short getShort(final HashMap<String,Object> map , final String ... key){
+        String val = null;
+        HashMap<String,Object> vMap  = map;
+        for (int i = 0;i<key.length;i++){
+            Object obj = vMap.get(key[i]);
+            if(i < key.length -1){
+                if(null == obj || !(obj instanceof HashMap)){
+                    break;
+                }
+                vMap = (HashMap)obj;
+            }else if(obj instanceof String){
+                val = (String)obj;
+            }
+        }
+        if(!TextUtils.isEmpty(val)){
+            return Short.valueOf(val);
+        }
+        return 0;
+    }
+    
+    public static Short[] getShortArray(final HashMap<String,Object> map , final String ... key){
+    	Short[] ret = null;
+    	String val[]     = getStringArray(map,key);
+        if(null != val){
+        	ret = new Short[val.length];
+            for (int i = 0; i < val.length; i++) {
+            	ret[i] = Short.valueOf(val[i]);
+            }
+        }
+        return ret;
+    }
+    
     public static int getInt(final HashMap<String,Object> map , final String ... key){
         String val = null;
         HashMap<String,Object> vMap  = map;
