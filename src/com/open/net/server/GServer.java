@@ -64,6 +64,10 @@ public final class GServer {
         }
     }
 
+    public static AbstractServerClient getClient(long mClientId){
+        return mClientsMap.get(mClientId);
+    }
+    
     public static final AbstractServerClient getClient(String mHost, int mPort){
         Long socketId = mIpPortClientsMap.get(KeyUtil.getKey(mHost,mPort));
         if(null != socketId){
