@@ -114,11 +114,18 @@ public final class NioReadWriteProcessor implements Runnable {
         write();
     }
 
-    private void registerWriteOpt() throws ClosedChannelException {
+    private void registerWriteOpt()  {
         AbstractServerClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
         while (null != mClient) {
-        	((NioClient)mClient).mSocketChannel.register(this.mWriteSelector, SelectionKey.OP_WRITE,mClient);
-            mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+        	try {
+				((NioClient)mClient).mSocketChannel.register(this.mWriteSelector, SelectionKey.OP_WRITE,mClient);
+	            mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+			} catch (ClosedChannelException e) {
+				e.printStackTrace();
+				
+				mClient.onClose();
+				ServerLog.getIns().log(TAG, "registerWriteOpt exception "+ mClient.mClientId + " StackTrace " + e.getStackTrace());
+			}
         } 
     }
 
