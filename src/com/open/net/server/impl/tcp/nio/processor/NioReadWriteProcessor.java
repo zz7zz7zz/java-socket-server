@@ -123,7 +123,7 @@ public final class NioReadWriteProcessor implements Runnable {
 	            mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
 			} catch (Exception e) {
 				e.printStackTrace();
-				ServerLog.getIns().log(TAG, "registerWriteOpt() Exception "+ mClient.mClientId + " StackTrace " + ExceptionUtil.getStackTraceString(e));
+				ServerLog.getIns().log(TAG, "registerWriteOpt() Exception "+ mClient.mClientId +" mAttachment " + (null != mClient.getAttachment() ? mClient.getAttachment().toString() : " null ") + " StackTrace " + ExceptionUtil.getStackTraceString(e));
 				mClient.onClose();
 			}
         } 
