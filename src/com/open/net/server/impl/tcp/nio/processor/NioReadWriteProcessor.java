@@ -10,7 +10,6 @@ import com.open.net.server.pools.MessagePool;
 import com.open.net.server.utils.ExceptionUtil;
 
 import java.io.IOException;
-import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.Iterator;
@@ -122,7 +121,7 @@ public final class NioReadWriteProcessor implements Runnable {
         	try {
 				((NioClient)mClient).mSocketChannel.register(this.mWriteSelector, SelectionKey.OP_WRITE,mClient);
 	            mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
-			} catch (ClosedChannelException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				ServerLog.getIns().log(TAG, "registerWriteOpt() Exception "+ mClient.mClientId + " StackTrace " + ExceptionUtil.getStackTraceString(e));
 				mClient.onClose();
