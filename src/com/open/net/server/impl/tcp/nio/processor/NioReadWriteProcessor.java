@@ -7,6 +7,7 @@ import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.MessagePool;
+import com.open.net.server.utils.ExceptionUtil;
 
 import java.io.IOException;
 import java.nio.channels.ClosedChannelException;
@@ -62,6 +63,7 @@ public final class NioReadWriteProcessor implements Runnable {
                 
             } catch (Exception e) {
                 e.printStackTrace();
+				ServerLog.getIns().log(TAG, "run() Exception"  + ExceptionUtil.getStackTraceString(e));
             }
         }
     }
@@ -122,9 +124,8 @@ public final class NioReadWriteProcessor implements Runnable {
 	            mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
 			} catch (ClosedChannelException e) {
 				e.printStackTrace();
-				
+				ServerLog.getIns().log(TAG, "registerWriteOpt() Exception "+ mClient.mClientId + " StackTrace " + ExceptionUtil.getStackTraceString(e));
 				mClient.onClose();
-				ServerLog.getIns().log(TAG, "registerWriteOpt exception "+ mClient.mClientId + " StackTrace " + e.getStackTrace());
 			}
         } 
     }
