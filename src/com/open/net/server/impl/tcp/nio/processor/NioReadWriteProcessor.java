@@ -116,14 +116,16 @@ public final class NioReadWriteProcessor implements Runnable {
     }
 
     private void registerWriteOpt()  {
-        AbstractServerClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+    	NioClient mClient = (NioClient) mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
         while (null != mClient) {
         	try {
-				((NioClient)mClient).mSocketChannel.register(this.mWriteSelector, SelectionKey.OP_WRITE,mClient);
-	            mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
+        		if(null != mClient.mSocketChannel){
+        			mClient.mSocketChannel.register(this.mWriteSelector, SelectionKey.OP_WRITE,mClient);
+        		}
+	            mClient = (NioClient) mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();
 			} catch (Exception e) {
 				e.printStackTrace();
-				ServerLog.getIns().log(TAG, "registerWriteOpt() Exception "+ mClient.mClientId +" mAttachment " + (null != mClient.getAttachment() ? mClient.getAttachment().toString() : " null ") + " StackTrace " + ExceptionUtil.getStackTraceString(e));
+				ServerLog.getIns().log(TAG, "registerWriteOpt() Exception socketId "+ mClient.mClientId +" mAttachment " + (null != mClient.getAttachment() ? mClient.getAttachment().toString() : " null ") + " StackTrace " + ExceptionUtil.getStackTraceString(e));
 				mClient.onClose();
 			}
         } 
