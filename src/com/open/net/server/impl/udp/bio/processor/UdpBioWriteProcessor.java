@@ -1,6 +1,5 @@
 package com.open.net.server.impl.udp.bio.processor;
 
-import com.open.net.define.IPoller;
 import com.open.net.server.GServer;
 import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractServerClient;
@@ -19,7 +18,7 @@ import java.util.Map.Entry;
  * description  :   数据读写处理类
  */
 
-public class UdpBioWriteProcessor implements Runnable,IPoller{
+public class UdpBioWriteProcessor implements Runnable{
 
 	public static String TAG = "UdpBioWriteProcessor";
 	
@@ -43,7 +42,6 @@ public class UdpBioWriteProcessor implements Runnable,IPoller{
         }
     }
 
-	@Override
 	public void onPoll() {
             writeToClients();
             clearUnreachableMessages();
