@@ -46,23 +46,11 @@ public final class NioReadWriteProcessor implements Runnable ,IPoller{
     public void run() {
 
         while(true){
-
             try {
-
-                acceptNewClients();
-
-                readFromClients();
-
-                writeToClients();
-
-                clearUnreachableMessages();
-
-                mMessageProcessor.onTimeTick();
-                
+            	onPoll();
                 Thread.sleep(5);
-                
             } catch (Exception e) {
-                e.printStackTrace();
+            	e.printStackTrace();
 				ServerLog.getIns().log(TAG, "run() Exception"  + ExceptionUtil.getStackTraceString(e));
             }
         }
@@ -73,11 +61,8 @@ public final class NioReadWriteProcessor implements Runnable ,IPoller{
         try {
 
             acceptNewClients();
-
             readFromClients();
-
             writeToClients();
-
             clearUnreachableMessages();
             
         } catch (Exception e) {

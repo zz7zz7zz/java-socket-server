@@ -115,8 +115,6 @@ public class UdpNioReadWriteProcessor implements Runnable{
                     SelectionKey key= mDatagramChannel.keyFor(mSelector);
                     key.interestOps(SelectionKey.OP_WRITE);
                 }
-                
-                mMessageProcessor.onTimeTick();
             }
 
         } catch (IOException e) {

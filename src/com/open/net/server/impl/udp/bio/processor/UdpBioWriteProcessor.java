@@ -1,11 +1,13 @@
 package com.open.net.server.impl.udp.bio.processor;
 
+import com.open.net.define.IPoller;
 import com.open.net.server.GServer;
 import com.open.net.server.message.Message;
 import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.MessagePool;
+import com.open.net.server.utils.ExceptionUtil;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -17,7 +19,7 @@ import java.util.Map.Entry;
  * description  :   数据读写处理类
  */
 
-public class UdpBioWriteProcessor implements Runnable{
+public class UdpBioWriteProcessor implements Runnable,IPoller{
 
 	public static String TAG = "UdpBioWriteProcessor";
 	
@@ -32,20 +34,21 @@ public class UdpBioWriteProcessor implements Runnable{
         while(true){
 
             try {
-                writeToClients();
-
-                clearUnreachableMessages();
-
-                mMessageProcessor.onTimeTick();
-                
+            	onPoll();
                 Thread.sleep(5);
-                
             } catch (Exception e) {
-                e.printStackTrace();
+            	e.printStackTrace();
+                ServerLog.getIns().log(TAG, "run() Exception"  + ExceptionUtil.getStackTraceString(e));
             }
         }
     }
 
+	@Override
+	public void onPoll() {
+            writeToClients();
+            clearUnreachableMessages();
+	}
+	
     //-------------------------------------------------------------------------------------------
     private void writeToClients() {
         AbstractServerClient mClient = mMessageProcessor.mWriteMessageQueen.mWriteClientQueen.poll();

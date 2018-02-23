@@ -88,9 +88,6 @@ public abstract class AbstractServerMessageProcessor {
     //-------------------------------------------------------------------------------------------
     //收到消息
     protected abstract void onReceiveMessage(AbstractServerClient client, Message msg);
-
-    //时间回调，可用于判断客户端心跳超时，或者用于时间计数
-    public abstract void onTimeTick();
     
     //收到新连接
     public abstract void onClientEnter(AbstractServerClient client);

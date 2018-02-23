@@ -7,6 +7,7 @@ import com.open.net.server.object.AbstractServerClient;
 import com.open.net.server.object.AbstractServerMessageProcessor;
 import com.open.net.server.object.ServerLog;
 import com.open.net.server.pools.MessagePool;
+import com.open.net.server.utils.ExceptionUtil;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -32,15 +33,11 @@ public class BioReadWriteProcessor implements Runnable,IPoller{
     public void run() {
         while(true){
             try {
-            	
-                writeToClients();
-                clearUnreachableMessages();
-                
-                mMessageProcessor.onTimeTick();
-                
+            	onPoll();
                 Thread.sleep(5);
             } catch (Exception e) {
-                e.printStackTrace();
+            	e.printStackTrace();
+                ServerLog.getIns().log(TAG, "run() Exception"  + ExceptionUtil.getStackTraceString(e));
             }
         }
     }
